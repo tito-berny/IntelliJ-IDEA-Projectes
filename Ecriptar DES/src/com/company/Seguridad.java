@@ -22,8 +22,8 @@ public class Seguridad {
 
     private SecretKey key;
     private Cipher cipher;
-    private String algoritmo= "DES";
-    private int keysize=56;
+    private String algoritmo= "AES";
+    private int keysize=16;
     /**
      * Crea la Llave para encriptar/desencriptar
      * @param String value
