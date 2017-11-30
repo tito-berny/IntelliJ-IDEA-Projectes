@@ -18,7 +18,7 @@ public class Main {
 
     private static SecretKey key;
     private static String algoritmo = "AES";
-    private static int keysize=128;
+    private static int keysize = 128;
 
     private static Scanner scn = new Scanner(System.in);
 
@@ -29,6 +29,7 @@ public class Main {
 
         // Programa
 
+        //Pedimos al usuario que introduzca el numero de la llave
         System.out.println("Dona'm el numero clau (0 - 99) :");
         do {
             try {
@@ -45,32 +46,34 @@ public class Main {
 
         } while (num);
 
+        //Generamos la llave
         SecretKey skey = passwordKeyGeneration(clau, keysize);
-         key = skey ;
+        key = skey ;
 
         System.out.println();
 
+        //Pedimos al usuario que introduzca el mensage a encriptar
         System.out.println("Dona'm el misatge a encriptar :");
         String misatge = scn.nextLine();
 
+        //Encriptamos el mensage con la llave
         String textencriptat = encriptar(misatge, skey);
 
         System.out.println();
+        //Mostramos el texto encriptado
         System.out.println("Contrasenya encriptada: "+textencriptat);
 
-        String textdesencriptat = desencriptar(textencriptat);
-
         System.out.println();
-        System.out.println("Contrasenya desencriptada: "+textdesencriptat);
 
-        byte [] textenbits = new byte[0];
+        //Pasamos el texto encriptado a un array de bytes
+        byte [] textEncriptatEnBytes = new byte[0];
         try {
-            textenbits = new BASE64Decoder().decodeBuffer(textdesencriptat);
+            textEncriptatEnBytes = new BASE64Decoder().decodeBuffer(textencriptat);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        guessPassword(textenbits);
-
+        //Pasamos el array de bytes a la funcion que busca la llave y desencripta el mensage
+        hackPassMisage(textEncriptatEnBytes);
 
     }
 
@@ -111,54 +114,30 @@ public class Main {
         return value;
     }
 
-    private static String desencriptar(String texto){
-        String str="";
-        try {
-            byte[] value = new BASE64Decoder().decodeBuffer(texto);
-            Cipher cipher = Cipher.getInstance( algoritmo );
-            cipher.init( Cipher.DECRYPT_MODE, key );
-            byte[] cipherbytes = cipher.doFinal( value );
-            str = new String( cipherbytes );
-        } catch (InvalidKeyException ex) {
-            System.err.println( ex.getMessage() );
-        } catch (IllegalBlockSizeException ex) {
-            System.err.println( ex.getMessage() );
-        } catch (BadPaddingException ex) {
-            System.err.println( ex.getMessage() );
-        } catch (IOException ex) {
-            System.err.println( ex.getMessage() );
-        } catch (NoSuchAlgorithmException ex) {
-            System.err.println( ex.getMessage() );
-        } catch (NoSuchPaddingException ex) {
-            System.err.println( ex.getMessage() );
-        }
-        return str;
-    }
-
-    public static void guessPassword(byte [] misatgeencriptat) {
+    private static void hackPassMisage(byte[] misatgeencriptat) {
 
         System.out.println("Cercant clau...");
 
-        //Es generen totes les possibles contrasenyes i es va provant
+        //Se generan todas las contaseñas
         for (int num = 0; num < 100; num++) {
             String pass = Integer.toString(num);
             while (pass.length() < 2) {
                 pass = "0" + pass;
             }
 
-            //Generació de la clau a partir de la possible contrasenya
+            //Se genera la llave a partir de la posible contraseña
             SecretKey sKey = null;
             try {
                 byte[] data = pass.getBytes("UTF-8");
                 MessageDigest md = MessageDigest.getInstance("SHA-256");
                 byte[] hash = md.digest(data);
                 byte[] key = Arrays.copyOf(hash, keysize / 8);
-                sKey = new SecretKeySpec(key, "algoritmo");
+                sKey = new SecretKeySpec(key, algoritmo);
             } catch (Exception ex) {
                 System.err.println("No s'ha pogut generar la clau:" + ex);
             }
 
-            //Desxifrat AES
+            //Si la llave no es null entra e intenta descifrar el mensage con esa llave
             if (sKey != null) {
                 try {
                     Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
@@ -168,7 +147,7 @@ public class Main {
                     System.out.print("Possible clau trobada: " + pass + " => ");
                     System.out.println(new String(data));
                 } catch (Exception ex) {
-                    //Si hi ha error, segur que la clau no val
+                   //Si encuentra un error significa que la llave no es correcta
                 }
             }
         }

@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">CalculadoraHorizontal</string>
+    <string name="label_resultat">Resultado</string>
+</resources>
