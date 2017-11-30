@@ -10,6 +10,21 @@ import java.security.spec.X509EncodedKeySpec;
 
 public class Main {
 
+    public static KeyPair generarClave() {
+        KeyPair clave = null;//La clase KeyPair soporta una clave privada y una pública.
+        try {
+            //Usamos el algoritmo RSA (RSA es un sistema criptográfico de clave pública desarrollado en 1977).
+            KeyPairGenerator generador = KeyPairGenerator.getInstance("DSA");
+            SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
+            generador.initialize(1024);//Tamaño de la clave.
+
+            clave = generador.genKeyPair();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return clave;
+    }
     private static PublicKey obtenerClavePublica(String fileName) throws Exception {
 
         FileInputStream fis = new FileInputStream(fileName);
@@ -37,6 +52,7 @@ public class Main {
         return keyFromBytes;
     }
 
+
     private static void guardarClave(Key key, String fileName) throws Exception {
         byte[] publicKeyBytes = key.getEncoded();
         FileOutputStream fos = new FileOutputStream(fileName);
@@ -44,10 +60,13 @@ public class Main {
         fos.close();
     }
 
-    public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException {
-	// write your code here
+    public static void main(String[] args) throws Exception {
+        // write your code here
 
+        String arxiu = "arxiu.txt";
 
+        KeyPair claves = generarClave();
+        System.out.println(claves.getPrivate() + " Clave Publica : " + claves.getPublic().toString());
 
 
     }
