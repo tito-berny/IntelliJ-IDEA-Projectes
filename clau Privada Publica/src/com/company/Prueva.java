@@ -60,7 +60,7 @@ public class Prueva {
 
         System.out.println("Aquest es el missatge: \n"+missatgeOriginal);
 
-        // Utilitzem el mode d'encriptaci�
+        // Utilitzem el mode d'encriptacio
 
         cipher.init(Cipher.ENCRYPT_MODE, skeySpect);
 
@@ -72,7 +72,7 @@ public class Prueva {
 
         System.out.println("Missatge encriptat:  \n"+asHex(encriptat));
 
-        // Utilitzem el mode de desencriptaci�, amb la mateixa clau
+        // Utilitzem el mode de desencriptacio, amb la mateixa clau
 
         cipher.init(Cipher.DECRYPT_MODE, skeySpect);
 
