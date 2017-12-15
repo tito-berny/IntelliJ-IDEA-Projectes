@@ -1,6 +1,7 @@
 package com.example.infot.calculadorahorizontal;
 
 import android.annotation.SuppressLint;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,13 +24,25 @@ public class MainActivity extends AppCompatActivity {
     boolean Suma, Resta, Multiplicacion, Division;
 
 
-
+    //Declaramos los sonidos
+    MediaPlayer mdSuma;
+    MediaPlayer mdResta;
+    MediaPlayer mdMultiplica;
+    MediaPlayer mdDivide;
+    MediaPlayer mdIgual;
 
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Indicamos el mp3 para md**
+        mdSuma = MediaPlayer.create(this,R.raw.suma);
+        mdResta = MediaPlayer.create(this,R.raw.resta);
+        mdMultiplica = MediaPlayer.create(this,R.raw.multiplica);
+        mdDivide = MediaPlayer.create(this,R.raw.divideix);
+        mdIgual = MediaPlayer.create(this,R.raw.igual);
 
         // Declaro el Panel
         final TextView resultado = (TextView) findViewById(R.id.textViewPanel);
@@ -181,6 +194,8 @@ public class MainActivity extends AppCompatActivity {
         buttonMas.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Iniciamos el sonido
+                mdSuma.start();
                 //Si resultado esta en null pone el Panel en blanco
                 if (resultado == null) {
                     resultado.setText("");
@@ -197,6 +212,8 @@ public class MainActivity extends AppCompatActivity {
         buttonMenos.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Iniciamos el sonido de resta
+                mdResta.start();
                 primernumero = Float.parseFloat(resultado.getText() + "");
                 Resta = true;
                 resultado.setText(null);
@@ -207,6 +224,8 @@ public class MainActivity extends AppCompatActivity {
         buttonMultiplicar.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Iniciamos el sonido de Multiplicacion
+                mdMultiplica.start();
                 primernumero = Float.parseFloat(resultado.getText() + "");
                 Multiplicacion = true;
                 resultado.setText(null);
@@ -216,6 +235,8 @@ public class MainActivity extends AppCompatActivity {
         buttonDivision.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Iniciamos el sonido de dividir
+                mdDivide.start();
                 primernumero = Float.parseFloat(resultado.getText() + "");
                 Division = true;
                 resultado.setText(null);
@@ -226,6 +247,9 @@ public class MainActivity extends AppCompatActivity {
         buttonIgual.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Iniciamos el sonido Igual
+                mdIgual.start();
+
                 segundonumero = Float.parseFloat(resultado.getText() + "");
 
                 // Con los booleans mira que boton de operacion se apreto
