@@ -11,7 +11,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
 
-
+    TextView resultado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //DECLARAR EN CADA FUNCION NO SE PUEDE HACER GLOBAL
-     TextView resultado = (TextView) findViewById(R.id.textViewResultado);
+        resultado = findViewById(R.id.textViewResultado);
         EditText num1 = (EditText) findViewById(R.id.num1);
         EditText num2 = (EditText) findViewById(R.id.num2);
 
@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
        resultado.setText(""+ res);
     }
 
+    //----------------- GUARDAR DATOS CUANDO GIRA EL MOVIL------------------------------------------
 
     //sobreescribimos metodo heredado de Activity, necesita un Bundle
     public void onSaveInstanceState (Bundle estado){

@@ -1,6 +1,7 @@
 package com.example.infot.calculadorahorizontal;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -278,6 +279,17 @@ public class MainActivity extends AppCompatActivity {
                     //Vuelve a poner el boolean en false
                     Division = false;
                 }
+
+                Intent nom = new Intent(MainActivity.this, Main22Activity.class);
+
+
+                Float i =Float.parseFloat(resultado.getText() + "");
+
+                nom.putExtra("resultado", i);
+                startActivity(nom);
+
+
+
             }
         });
     }

@@ -43,7 +43,8 @@
             <Button
                     android:text="2"
                     android:layout_width="wrap_content"
-                    android:layout_height="35dp" android:id="@+id/boton2"/>
+                    android:layout_height="35dp" android:id="@+id/boton2"
+                android:background="@drawable/animacion"/>
             <Button
                     android:text="3"
                     android:layout_width="wrap_content"
@@ -53,7 +54,8 @@
             <Button
                     android:text="4"
                     android:layout_width="wrap_content"
-                    android:layout_height="35dp" android:id="@+id/boton4"/>
+                    android:layout_height="35dp" android:id="@+id/boton4"
+                android:background="@drawable/animacion"/>
             <Button
                     android:text="5"
                     android:layout_width="wrap_content"
@@ -61,7 +63,8 @@
             <Button
                     android:text="6"
                     android:layout_width="wrap_content"
-                    android:layout_height="35dp" android:id="@+id/boton6"/>
+                    android:layout_height="35dp" android:id="@+id/boton6"
+                android:background="@drawable/animacion"/>
         </TableRow>
         <TableRow android:layout_width="match_parent" android:layout_height="match_parent" android:gravity="center">
             <Button
@@ -71,7 +74,8 @@
             <Button
                     android:text="8"
                     android:layout_width="wrap_content"
-                    android:layout_height="35dp" android:id="@+id/boton8"/>
+                    android:layout_height="35dp" android:id="@+id/boton8"
+                android:background="@drawable/animacion"/>
             <Button
                     android:text="9"
                     android:layout_width="wrap_content"
@@ -81,11 +85,13 @@
             <Button
                     android:text="C"
                     android:layout_width="wrap_content"
-                    android:layout_height="35dp" android:id="@+id/buttonC"/>
+                    android:layout_height="35dp" android:id="@+id/buttonC"
+                android:background="@drawable/animacion"/>
             <Button
                     android:text="0"
                     android:layout_width="wrap_content"
-                    android:layout_height="35dp" android:id="@+id/boton0"/>
+                    android:layout_height="35dp" android:id="@+id/boton0"
+                />
         </TableRow>
     </TableLayout>
     <LinearLayout
