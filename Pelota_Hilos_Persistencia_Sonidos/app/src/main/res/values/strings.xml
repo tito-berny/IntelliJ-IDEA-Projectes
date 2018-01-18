@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Pelota_Hilos_Persistencia_Sonidos</string>
+
+    <string name="dificultad">Please choose starting level:</string>
+    <string name="facil">Easy</string>
+    <string name="medio">Standard</string>
+    <string name="dificil">Dificult</string>
+    <string name="ayuda">Help</string>
+
+    <string name="texto_ayuda">
+
+        The objective of the game is to prevent the ball from falling to the ground,
+        You have to touch the ball with your finger. \n\n\n\n
+
+        To push the ball in a specific direction, we will press on the screen in the opposite direction.
+        \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+        Cheer up!!!!
+
+    </string>
+
+    <string name="vover">Back</string>
+</resources>
