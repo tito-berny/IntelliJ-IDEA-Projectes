@@ -51,7 +51,7 @@ public class Partida extends android.support.v7.widget.AppCompatImageView {
         fondo=Bitmap.createScaledBitmap(fondo, tam_pantX, tam_pantY, false);//mirar en clase Bitmap
 
 
-        BitmapDrawable objetoPelota=(BitmapDrawable)ContextCompat.getDrawable(contexto, R.drawable.pelota_11);
+        BitmapDrawable objetoPelota=(BitmapDrawable)ContextCompat.getDrawable(contexto, R.drawable.pelota_1);
 
         pelota=objetoPelota.getBitmap();
 
@@ -72,21 +72,25 @@ public class Partida extends android.support.v7.widget.AppCompatImageView {
     }
 
     /**
-     * Clase que controla el toque en la pantalla sobre la pelota
+     * Clase que controla el toque en la pantalla
      * @param x Recive cordenada del toque en la pantalla
      * @param y Recive cordenada del toque en la pantalla
      * @return  Por defecto true, false si noo cumple los requisitos
      */
     public boolean toque(int x, int y){
 
+        //Invalida el 1/3 de la pantalla, no se podra clikar en ese espacio
         if(y<tam_pantY/3) return false;
 
+        //Si la pelota esta parada no funciona
         if(velY<=0) return false;
 
+        //Si no hacertamos en la pelota no funcionara el metodo
         if(x<posX || x> posX+tamPelota) return false;
 
         if(y<posY || y>posY+tamPelota) return false;
 
+        //desplaza la pelota segun los calculos
         velY=-velY;
 
         double desplX=x-(posX+tamPelota/2);
@@ -100,7 +104,7 @@ public class Partida extends android.support.v7.widget.AppCompatImageView {
 
     /**
      * Clase que controla el calculo que determina el movimiento de la pelota
-     * @return Boolean por defecto false, sera true cuando cumpla los requisitos
+     * @return Boolean por defecto false, sera true cuando el juego termine
      */
     public boolean movimientoBola(){
 
@@ -115,9 +119,12 @@ public class Partida extends android.support.v7.widget.AppCompatImageView {
 
         posY+=velY;
 
+        //controla si la pelota a salido por arriba o por abajo de la pantalla (partida terminada)
         if(posY>=tam_pantY) return true;
 
+        //controla si la pelota a salido por la iz o der (partida terminada)
         if(posX+tamPelota<0 || posX>tam_pantX) return true;
+
 
         if(velY<0) pelota_sube=true;
 
@@ -132,6 +139,10 @@ public class Partida extends android.support.v7.widget.AppCompatImageView {
         return false;
     }
 
+    /**
+     * Pinta el fondo y la pelota en el inicio
+     * @param lienzo
+     */
     protected void onDraw(Canvas lienzo){
 
         lienzo.drawBitmap(fondo, 0,0, null);
