@@ -81,14 +81,14 @@ public class MainActivity extends AppCompatActivity {
             TextView caja = (TextView)findViewById(R.id.TVRecord);
 
             //Escribe el record en el TF
-            caja.setText("Record : "+record);
+            caja.setText("Record : "+ record);
 
             //Guardamos el nuevo record
             guardarRecord();
 
         }else {
 
-            String puntuacionPartida = " " + resultado;
+            String puntuacionPartida = "Tu puntuació és : " + resultado;
 
             Toast miToast = Toast.makeText(this, puntuacionPartida, Toast.LENGTH_SHORT);
 
@@ -123,6 +123,8 @@ public class MainActivity extends AppCompatActivity {
         //guardamos con una key y los datos a guardar en este caso la variable record
         mieditor.putInt("RECORD", record);
 
+        //aplicamos
+        mieditor.apply();
     }
 
     /**
@@ -138,6 +140,6 @@ public class MainActivity extends AppCompatActivity {
         TextView caja =(TextView)findViewById(R.id.TVRecord);
 
         //Escribimos en el TF
-        //caja.setText("Record: "+ record);
+        caja.setText("Record: "+ record);
     }
 }

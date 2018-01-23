@@ -44,14 +44,14 @@ public class Partida extends android.support.v7.widget.AppCompatImageView {
         tam_pantY=maneja_coord.y;
 
         //Construye un layaut programatico () sobre la imagen que le pasamos
-        BitmapDrawable dibujo_fondo=(BitmapDrawable) ContextCompat.getDrawable(contexto, R.drawable.paisaje_1);
+        BitmapDrawable dibujo_fondo=(BitmapDrawable) ContextCompat.getDrawable(contexto, R.drawable.voley_playa2);
 
         fondo=dibujo_fondo.getBitmap();// mirar en api getBitmap en clase BitmapDrawable. esto nos lleva a la siguiente instr.
 
         fondo=Bitmap.createScaledBitmap(fondo, tam_pantX, tam_pantY, false);//mirar en clase Bitmap
 
 
-        BitmapDrawable objetoPelota=(BitmapDrawable)ContextCompat.getDrawable(contexto, R.drawable.pelota_1);
+        BitmapDrawable objetoPelota=(BitmapDrawable)ContextCompat.getDrawable(contexto, R.drawable.pelota_voley);
 
         pelota=objetoPelota.getBitmap();
 
