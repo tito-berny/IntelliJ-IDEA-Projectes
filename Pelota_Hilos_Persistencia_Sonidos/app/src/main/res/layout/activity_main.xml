@@ -11,9 +11,11 @@
 
     <TextView
         android:id="@+id/texto_botones"
-        android:layout_alignParentTop="true"
+        style="@style/texto_botones"
         android:layout_alignLeft="@+id/facil"
-        style="@style/texto_botones"/>
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/facil"
+        android:layout_marginTop="14dp" />
 
     <Button
         android:id="@+id/facil"
