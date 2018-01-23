@@ -43,4 +43,15 @@
         style="@style/boton_Ayuda"
         />
 
+    <TextView
+        android:id="@+id/TVRecord"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/ayuda"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="18dp"
+        android:layout_marginStart="18dp"
+        android:text="Record" />
+
 </android.widget.RelativeLayout>
