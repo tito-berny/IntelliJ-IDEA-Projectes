@@ -7,7 +7,6 @@ import org.w3c.dom.Text;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -15,7 +14,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.InputMismatchException;
@@ -25,9 +23,9 @@ public class Main {
 
     //-------------------Variables-------------------------
 
-    static Scanner scn = new Scanner(System.in);
+    private static Scanner scn = new Scanner(System.in);
 
-    static File file = new File("./prueba.txt");
+    private static File file = new File("./prueba.txt");
 
     public static void main(String[] args) throws Exception {
 	// write your code here
@@ -37,6 +35,10 @@ public class Main {
 
     }
 
+    /**
+     * Crea el menu de interaccion con el usuario, Insertar parametros, generar XML o salir
+     * @throws Exception Se controla que el usuario solo puedo introducir numeros 1-3
+     */
     private static void menu() throws Exception {
 
         boolean salir = false;
@@ -48,8 +50,8 @@ public class Main {
 
             System.out.println("1. Insereix nous parametres");
             System.out.println("2. Generar XML");
-            System.out.println("3. Opcion 3");
-            System.out.println("4. Salir");
+            System.out.println("3. Salir ");
+
 
             try {
 
@@ -99,22 +101,23 @@ public class Main {
 
                         System.out.println("Has seleccionat Generar XML");
 
-                        ArrayList<String> arrayList = new ArrayList<String>();
+                        ArrayList<String> arrayList;
 
                         arrayList = leerFichero();
 
                         generarXml(arrayList);
 
+                        System.out.println("Arxui generat correctament.");
+                        System.out.println("");
+
                         break;
+
                     case 3:
-                        System.out.println("Has seleccionado la opcion 3");
-                        break;
-                    case 4:
                         salir = true;
                         break;
                     default:
                         System.out.println();
-                        System.out.println("Solo números entre 1 y 4");
+                        System.out.println("Solo números entre 1 y 3");
                         System.out.println();
                 }
             } catch (InputMismatchException e) {
@@ -131,7 +134,7 @@ public class Main {
      * Leemos el fichero linea a linea
      * @return Un ArrayList con una linea del fichero en cada posicion.
      */
-    private static ArrayList leerFichero() {
+    private static ArrayList<String> leerFichero() {
 
         ArrayList<String> lineas = new ArrayList<>();
 
@@ -158,7 +161,7 @@ public class Main {
             System.out.println("");
         }finally{
             // En el finally cerramos el fichero, para asegurarnos
-            // que se cierra tanto si todo va bien como si salta
+            // que se cierra tanto si tod va bien como si salta
             // una excepcion.
             try{
                 if( null != fr ){
@@ -172,101 +175,128 @@ public class Main {
         return lineas;
     }
 
+    /**
+     * Genera el XML con todos sus nodos a partir de los datos del fichero
+     * @param key ArraList de String obtenida del fichero leido
+     * @throws Exception Se controla excepcion si el Array esta vacio
+     */
     private static void generarXml(ArrayList<String> key) throws Exception {
 
         if(key.isEmpty()){
             System.out.println("ERROR la ArrayList es buida.");
-            return;
         }else {
 
+            //Inicializamos el XML
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();   // pag 77
             DocumentBuilder builder = factory.newDocumentBuilder();
             DOMImplementation implementation = builder.getDOMImplementation();
+
+            //Indicamos el nombre de la Raiz
             Document document = implementation.createDocument(null, "DGT", null);
             document.setXmlVersion("1.0");
 
             Element raiz = document.getDocumentElement();
 
+            //For each para cojer cada String[] del Array
             for (String aLista : key) {
 
-                String[] string = aLista.split("|");
+                //Separamos los campos con split (necesitamos poner \\ antes de |
+                //por que es un caracter especial
+                String[] string;
+                string = aLista.split("\\|");
 
+                //Creamos el nodo ABM y le añadimos el texto
+                //de el array correspondiente (0)
                 Element ABM = document.createElement("ABM");
-                Text nodeABMValue = document.createTextNode((String) string[0]);
+                Text nodeABMValue = document.createTextNode(string[0]);
                 ABM.appendChild(nodeABMValue);
 
+                //Creamos un atributo para ABM llamado TIPUS
+                //le insertamos el valor correspondiente de la Array (1)
                 ABM.setAttribute("tipus",string[1] );
 
+                //Creamos el nodo DATA y le añadimos el texto
+                //de el array correspondiente (2)
                 Element DATA = document.createElement("DATA");
-                Text nodeDATAValue = document.createTextNode((String) string[2]);
+                Text nodeDATAValue = document.createTextNode(string[2]);
                 DATA.appendChild(nodeDATAValue);
 
+                //Creamos el nodo MATRICULA y le añadimos el texto
+                //de el array correspondiente (3)
                 Element MATRICULA = document.createElement("MATRICULA");
-                Text nodeMATRICULAValue = document.createTextNode((String) string[3]);
+                Text nodeMATRICULAValue = document.createTextNode(string[3]);
                 MATRICULA.appendChild(nodeMATRICULAValue);
 
+                //Creamos el nodo N_BASTIDOR y le añadimos el texto
+                //de el array correspondiente (4)
                 Element N_BASTIDOR = document.createElement("N_BASTIDOR");
-                Text nodeN_BASTIDORValue = document.createTextNode((String) string[4]);
+                Text nodeN_BASTIDORValue = document.createTextNode(string[4]);
                 N_BASTIDOR.appendChild(nodeN_BASTIDORValue);
 
+                //Creamos el nodo N_MOTOR y le añadimos el texto
+                //de el array correspondiente (5)
                 Element N_MOTOR = document.createElement("N_MOTOR");
-                Text nodeN_MOTORValue = document.createTextNode((String) string[5]);
+                Text nodeN_MOTORValue = document.createTextNode(string[5]);
                 N_MOTOR.appendChild(nodeN_MOTORValue);
 
-                raiz.appendChild(ABM);
-                raiz.appendChild(DATA);
-                raiz.appendChild(MATRICULA);
-                raiz.appendChild(N_BASTIDOR);
+                //Creamos el nodo DNI y le añadimos el texto
+                //de el array correspondiente (6)
+                Element DNI = document.createElement("DNI");
+                Text nodeN_DNIValue = document.createTextNode(string[6]);
+                DNI.appendChild(nodeN_DNIValue);
+
+                //Creamos el nodo COGNOM_NOM y le añadimos el texto
+                //de el array correspondiente (7)
+                Element COGNOM_NOM = document.createElement("COGNOM_NOM");
+                Text nodeN_COGNOM_NOMValue = document.createTextNode(string[7]);
+                COGNOM_NOM.appendChild(nodeN_COGNOM_NOMValue);
+
+                //Creamos el nodo DOMICILI y le añadimos el texto
+                //de el array correspondiente (8)
+                Element ADRECA = document.createElement("DOMICILI");
+                Text nodeN_ADRECAValue = document.createTextNode(string[8]);
+                ADRECA.appendChild(nodeN_ADRECAValue);
+
+                //Insertamos en VEHICLE los nodos MATRICULA,N_MOTOR.
+                Element VEHICLE = document.createElement("VEHICLE");
+                VEHICLE.appendChild(MATRICULA);
+                VEHICLE.appendChild(N_BASTIDOR);
+                VEHICLE.appendChild(N_MOTOR);
+
+                //Insertamos en TITULAR los nodos DNI,COGNOM_NOM.
+                Element TITULAR = document.createElement("TITULAR");
+                TITULAR.appendChild(DNI);
+                TITULAR.appendChild(COGNOM_NOM);
+                TITULAR.appendChild(ADRECA);
+
+                //Insertamos en MOV los nodos ABM, DATA, TITULAR y VEHICLE
+                //Apareceran en el documento por este orden
+                Element MOV = document.createElement("MOV");
+                MOV.appendChild(ABM);
+                MOV.appendChild(DATA);
+                MOV.appendChild(TITULAR);
+                MOV.appendChild(VEHICLE);
+
+                //Insertamos en la raiz el nodo MOV
+                raiz.appendChild(MOV);
             }
 
             //Generate XML
-            Source source = new DOMSource(document);     // pag 77
+            Source source = new DOMSource(document);
+
             //Indicamos donde lo queremos almacenar
-            Result result = new StreamResult(new java.io.File("Arxui.xml"));  // pag 77  //nombre del archivo
+            Result result = new StreamResult(new java.io.File("Arxui.xml"));
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            transformer.transform(source, result);   // pag 77
-/*
-            //Main Node
-            Element raiz = document.getDocumentElement();             // pag 81, 83
-            //Por cada key creamos un item que contendr� la key y el value
-            for(int i=0; i<key.size();i++){
+            transformer.transform(source, result);
 
-                //Item Node
-                Element itemNode = document.createElement("DNI");   // pag 81, 83
-
-                //Key Node
-                Element keyNode = document.createElement("GOGNOMS_NOM");
-
-                // keyNode.setAttribute("id",String.valueOf(i) );    // pag 81
-
-                Text nodeKeyValue = document.createTextNode((String) key.get(i));
-
-                keyNode.appendChild(nodeKeyValue);                        //pag 81, 83
-
-                //Value Node
-                Element valueNode = document.createElement("VALUE");
-
-                Text nodeValueValue = document.createTextNode(value.get(i));
-                valueNode.appendChild(nodeValueValue);
-
-                //append keyNode and valueNode to itemNode
-                itemNode.appendChild(keyNode);
-                itemNode.appendChild(valueNode);
-                //append itemNode to raiz
-                raiz.appendChild(itemNode); //pegamos el elemento a la raiz "Documento"
-            }
-            //Generate XML
-            Source source = new DOMSource(document);     // pag 77
-            //Indicamos donde lo queremos almacenar
-            Result result = new StreamResult(new java.io.File("Arxui.xml"));  // pag 77  //nombre del archivo
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            transformer.transform(source, result);   // pag 77
-        }
-*/
         }
 
     }
 
+    /**
+     * Solicitamos al usuario los campos a guardar
+     * @return Una lista String[] con los campos separados por |
+     */
     private static String[] pedirParametros() {
 
         //Variables
@@ -276,7 +306,8 @@ public class Main {
         String[] lista = new String[9];
 
         //----------------Solicitar---------------
-
+        //Creamos las preguntas para rellenar los campos y las guadamos
+        //en en la lista seguido del separador "|"
 
         System.out.println(" Dona'm A(alta), B(baixa) o M(Modificacio)");
         ABM = scn.next();
@@ -316,7 +347,7 @@ public class Main {
         DNI = scn.next();
         lista[6] = DNI+"|";
 
-        System.out.println(" Dona'm el Cognom");
+        System.out.println(" Dona'm els Cognoms i el nom");
         COGNOM_NOM = scn.next();
         lista[7] = COGNOM_NOM+"|";
 
