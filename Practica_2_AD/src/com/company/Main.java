@@ -21,7 +21,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    //-------------------Variables-------------------------
+    //-------------------Variables Glovales-------------------------
 
     private static Scanner scn = new Scanner(System.in);
 
@@ -32,11 +32,10 @@ public class Main {
 
         menu();
 
-
     }
 
     /**
-     * Crea el menu de interaccion con el usuario, Insertar parametros, generar XML o salir
+     * Crea el menu de interaccion con el usuario (Insertar parametros, generar XML o salir)
      * @throws Exception Se controla que el usuario solo puedo introducir numeros 1-3
      */
     private static void menu() throws Exception {
@@ -45,6 +44,7 @@ public class Main {
         int opcion; //Guardaremos la opcion del usuario
 
         //----------------MENU---------------
+
 
         while(!salir){
 
@@ -63,18 +63,25 @@ public class Main {
                     case 1:
                         System.out.println("Has seleccionat Insereix nous parametres");
 
+                        //Guardamos en un array de Strings los parametros introducidos por el usuario
+                        //ya estaran separados por "|"
                         String[] lista = pedirParametros();
 
                         FileWriter fichero = null;
                         PrintWriter pw;
                         try
                         {
+                            //Indicamos el fichero donde se escribiran los datos
+                            //Si indicamos true como segundo parametro y el fichero ya existe
+                            //copiara la linea seguidamente de los data ya existentes
+                            //si no SOBREESCRIBE el archivo con los datos nuevos
                             fichero = new FileWriter("./prueba.txt",true);
                             pw = new PrintWriter(fichero);
 
+                            //Por cada string de la lista lo guarda en una linea en el fichero
                             for (String aLista : lista) pw.print(aLista);
 
-                                //Agregamos el salto de linea
+                                //Agregamos el salto de linea al final de la linea almacenada
                                 pw.println("");
 
                                 //Informamos al usuario que el archivo se a guardado
@@ -83,6 +90,7 @@ public class Main {
 
                         } catch (Exception e) {
                             e.printStackTrace();
+                            //En caso de error informamos al usuario
                             System.out.println("Problema al emmagatzenar l'arxui");
                         } finally {
                             try {
@@ -103,10 +111,14 @@ public class Main {
 
                         ArrayList<String> arrayList;
 
+                        //Guardamos en el arrayList los datos del fichero leido
                         arrayList = leerFichero();
 
+                        //Lamamos a la funcion que genera el XML y le pasamos arraylist
+                        //con los datos del fichero
                         generarXml(arrayList);
 
+                        //Informamos al usuario que se a generado correctamente el fichero XML
                         System.out.println("Arxui generat correctament.");
                         System.out.println("");
 
@@ -115,6 +127,9 @@ public class Main {
                     case 3:
                         salir = true;
                         break;
+
+                        //En el caso de no introducir un numero del 1 al 3
+                    //informamos al usuario
                     default:
                         System.out.println();
                         System.out.println("Solo números entre 1 y 3");
@@ -149,11 +164,13 @@ public class Main {
             br = new BufferedReader(fr);
 
             // Lectura del fichero
+            // Cada linea leida en el fichero se guarda en una posicion del array
             String linea;
             while((linea=br.readLine())!=null)
                 lineas.add(linea);
 
         }
+        //Capturamos la exepcion e informamos al usuario
         catch(Exception e){
             System.out.println("");
             System.out.println("L'arxiu no s'ha trobat. " +
@@ -161,7 +178,7 @@ public class Main {
             System.out.println("");
         }finally{
             // En el finally cerramos el fichero, para asegurarnos
-            // que se cierra tanto si tod va bien como si salta
+            // que se cierra tanto si va bien como si salta
             // una excepcion.
             try{
                 if( null != fr ){
@@ -307,12 +324,14 @@ public class Main {
 
         //----------------Solicitar---------------
         //Creamos las preguntas para rellenar los campos y las guadamos
-        //en en la lista seguido del separador "|"
+        //en en la lista seguido del separador "|" para poder idenrtificarlas posteriormente
 
+        // ABM
         System.out.println(" Dona'm A(alta), B(baixa) o M(Modificacio)");
         ABM = scn.next();
         lista[0] = ABM+"|";
 
+        // TIPUS
         System.out.println(" Dona 'm el Tipus\n" +
 
                             "AL Alta nou vehicle\n" +
@@ -327,40 +346,51 @@ public class Main {
         TIPUS = scn.next();
         lista[1] = TIPUS+"|";
 
+        // DATA
         System.out.println(" Dona'm la Data (DD/MM/AAAA)");
         DATA = scn.next();
         lista[2] = DATA+"|";
 
+        // MATRICULA
         System.out.println(" Dona'm la Matricula");
         MATRICULA = scn.next();
         lista[3] = MATRICULA+"|";
 
+        // N_BASTIDOR
         System.out.println(" Dona'm el Numero de Bastidor");
         N_BASTIDO = scn.next();
         lista[4] = N_BASTIDO+"|";
 
+        // N_MOTOR
         System.out.println(" Dona'm el Numero de Motor");
         N_MOTOR = scn.next();
         lista[5] = N_MOTOR+"|";
 
+        // DNI
         System.out.println(" Dona'm el DNI");
         DNI = scn.next();
         lista[6] = DNI+"|";
 
-        System.out.println(" Dona'm els Cognoms i el nom");
+        // COGNOM_NOM
+        System.out.println(" Dona'm els Cognoms i el nom (1Cognom_2Cognom_Nom");
         COGNOM_NOM = scn.next();
         lista[7] = COGNOM_NOM+"|";
 
-        System.out.println(" Dona'm l'Adreça");
+        // ADREÇA
+        System.out.println(" Dona'm l'Adreça (Carrer_Numero");
         ADRECA = scn.next();
         lista[8] = ADRECA;
 
+        // Imprimimos por consola el resultado guardado
+        System.out.println("");
         System.out.println("Contigut final : ");
         System.out.println("");
 
+        //Imprime el array mediante un for each
         Arrays.stream(lista, 0, lista.length).forEach(System.out::print);
         System.out.println("");
 
+        // Retorna el array
         return lista;
 
     }
