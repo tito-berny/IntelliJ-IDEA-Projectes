@@ -1,5 +1,6 @@
 package com.example.bernabe.pelota_hilos_persistencia_sonidos;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -22,7 +23,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     * Muestra la activity de ayuda
+     * @param view recive un parametro view
+     */
     public void ayuda(View view){
 
         Intent intencion =new Intent(this, AyudaActivity.class);
@@ -32,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Asigna la dificultad del juego segun el boton pulsado por el usuario
-     * @param vista
+     * @param vista recive parametro vista
      */
     public void dificultad(View vista) {
 
@@ -66,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
      * @param codigo Si la activity elhilo a terminado correctamente
      * @param puntuacion El numero de toques que recibimos de la actividad
      */
+    @SuppressLint("SetTextI18n")
     protected void onActivityResult(int peticion, int codigo, Intent puntuacion){
 
         //Si la peticion no es 1 o el sultado de la activity no es ok (no a terminado)
@@ -78,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             //El nuevo record sera el resultado obtenido
             record = resultado;
 
-            TextView caja = (TextView)findViewById(R.id.TVRecord);
+            TextView caja = findViewById(R.id.TVRecord);
 
             //Escribe el record en el TF
             caja.setText("Record : "+ record);

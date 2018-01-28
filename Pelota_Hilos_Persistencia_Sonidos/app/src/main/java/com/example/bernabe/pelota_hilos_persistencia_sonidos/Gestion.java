@@ -1,6 +1,7 @@
 package com.example.bernabe.pelota_hilos_persistencia_sonidos;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
@@ -24,6 +25,9 @@ public class Gestion extends AyudaActivity{
     private Handler temporizador;
     //Variable para record
     private int botes;
+    //Variables de sonido de toque y de fin de juego
+    MediaPlayer aplausos;
+    MediaPlayer gameover;
 
 
     //----------------PROGRAMA ----------------------------
@@ -37,6 +41,9 @@ public class Gestion extends AyudaActivity{
 
         //inicializamos variable
         botes = 0;
+        //Asignamos los sonidos a las variables
+        aplausos = (MediaPlayer.create(this,R.raw.aplausos));
+        gameover = (MediaPlayer.create(this,R.raw.gameovere));
 
         //Rescatamos el nivel de dificultat desde la otra activiti (MainActivity)
         Bundle extras = getIntent().getExtras();
@@ -88,6 +95,9 @@ public class Gestion extends AyudaActivity{
 
         int y = (int) evento.getY();
 
+        //Con cada toque suena el sonido
+        aplausos.start();
+
         //Pasa los parametros a la funcion que se encarga de toque de la pelota
         if (partida.toque(x,y)) botes++; //Suma los toques de la pelota
 
@@ -101,13 +111,16 @@ public class Gestion extends AyudaActivity{
      */
     public void fin(){
 
+        //Sonido de fin de partida
+        gameover.start();
+
         //Limpia el hilo
         temporizador.removeCallbacks(elhilo);
 
         //Creamos  bundle para pasar puntuacion de record
         Intent in = new Intent();
 
-        in.putExtra("PUNTUACION", botes );
+        in.putExtra("PUNTUACION", botes * dificultad );
 
         //Indicamos que la actividad a terminado correctamente
         //como propone el metodo onStartForResult

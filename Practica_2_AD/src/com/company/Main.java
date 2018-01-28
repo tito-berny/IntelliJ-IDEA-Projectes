@@ -27,8 +27,9 @@ public class Main {
 
     private static File file = new File("./prueba.txt");
 
+    //------------------Programa------------------------------------
+
     public static void main(String[] args) throws Exception {
-	// write your code here
 
         menu();
 
@@ -40,11 +41,15 @@ public class Main {
      */
     private static void menu() throws Exception {
 
+        //------------VARIABLES--------------
+
+        //boolean para indicar que queremos salir del bucle while
         boolean salir = false;
-        int opcion; //Guardaremos la opcion del usuario
+        //Guardaremos la opcion del usuario
+        int opcion;
+
 
         //----------------MENU---------------
-
 
         while(!salir){
 
@@ -73,7 +78,7 @@ public class Main {
                         {
                             //Indicamos el fichero donde se escribiran los datos
                             //Si indicamos true como segundo parametro y el fichero ya existe
-                            //copiara la linea seguidamente de los data ya existentes
+                            //copiara la linea seguidamente de los datos ya existentes,
                             //si no SOBREESCRIBE el archivo con los datos nuevos
                             fichero = new FileWriter("./prueba.txt",true);
                             pw = new PrintWriter(fichero);
@@ -129,7 +134,7 @@ public class Main {
                         break;
 
                         //En el caso de no introducir un numero del 1 al 3
-                    //informamos al usuario
+                        //informamos al usuario
                     default:
                         System.out.println();
                         System.out.println("Solo números entre 1 y 3");
@@ -151,6 +156,8 @@ public class Main {
      */
     private static ArrayList<String> leerFichero() {
 
+        //Creamos ArrayList de String, en cada posicion se situa un array de String
+        //con la lectura de cada linea
         ArrayList<String> lineas = new ArrayList<>();
 
         FileReader fr = null;
