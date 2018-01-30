@@ -114,7 +114,7 @@ public class Main {
                         //Guardamos en el arrayList los datos del fichero leido
                         arrayList = leerFichero();
 
-                        //Lamamos a la funcion que genera el XML y le pasamos arraylist
+                        //Lamamos a la funcion que genera el XML y le pasamos arraylist2
                         //con los datos del fichero
                         generarXml(arrayList);
 
