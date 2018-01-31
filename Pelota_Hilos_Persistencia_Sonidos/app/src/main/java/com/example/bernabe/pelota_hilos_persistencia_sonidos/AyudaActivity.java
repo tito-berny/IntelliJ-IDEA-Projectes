@@ -12,6 +12,10 @@ public class AyudaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ayuda);
     }
 
+    /**
+     * Imita al boton atras del terminal
+     * @param view Recive una vista
+     */
     public void volver (View view){
 
         onBackPressed();
