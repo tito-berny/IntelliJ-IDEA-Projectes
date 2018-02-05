@@ -86,12 +86,12 @@ public class Main {
                             //Por cada string de la lista lo guarda en una linea en el fichero
                             for (String aLista : lista) pw.print(aLista);
 
-                                //Agregamos el salto de linea al final de la linea almacenada
-                                pw.println("");
+                            //Agregamos el salto de linea al final de la linea almacenada
+                            pw.println("");
 
-                                //Informamos al usuario que el archivo se a guardado
-                                System.out.println("Arxiu dreçat ;");
-                                System.out.println("");
+                            //Informamos al usuario que el archivo se a guardado
+                            System.out.println("Arxiu dreçat ;");
+                            System.out.println("");
 
                         } catch (Exception e) {
                             e.printStackTrace();

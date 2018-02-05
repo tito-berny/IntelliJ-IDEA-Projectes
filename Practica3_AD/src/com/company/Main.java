@@ -2,12 +2,21 @@ package com.company;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+import static com.company.Main.guardarFichero;
 
 public class Main {
 
     //-------------------Variables Glovales-------------------------
 
     private static File file = new File("./prueba.txt");
+
+    private static Scanner scn = new Scanner(System.in);
+
+    private static RandomAccessFile randomAccessFile;
+
 
     //-------------------Variables de Configuracion tamaños campos-----------
 
@@ -35,15 +44,86 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException, Exception {
 
 
-        RandomAccessFile randomAccessFile = new RandomAccessFile("DGTestruct.csv","rw");
 
-        ArrayList<String> fichero;
-        ArrayList<String[]> ficheroEstructurado;
+        ArrayList<String> fichero = null;
 
-        //Guardamos en el fichero los datos del fichero leido
-        fichero = leerFichero();
+        //------------VARIABLES--------------
 
-        ficheroEstructurado = estructurarFicheroRandom(fichero);
+        //boolean para indicar que queremos salir del bucle while
+        boolean salir = false;
+        //Guardaremos la opcion del usuario
+        int opcion;
+
+
+        //----------------MENU---------------
+
+        while(!salir) {
+
+            System.out.println("");
+            System.out.println("1. Transformar Fichero");
+            System.out.println("2. Modificar Registro");
+            System.out.println("3. Salir ");
+
+            try {
+
+                System.out.println("Escribe una de las opciones");
+                opcion = scn.nextInt();
+
+                switch (opcion) {
+
+                    case 1:
+                        System.out.println("Has seleccionat Transformar Fichero");
+
+                        //Guardamos en el array los datos del fichero leido
+                        fichero = leerFichero();
+
+                        //Estructuramos el fichero para que guarde los datos seguidos en formato RandomAccessFile
+                        int num = estructurarFicheroRandom(fichero);
+
+                        System.out.println("El archivo tiene "+fichero.size()+" Registros.");
+                        break;
+
+                    case 2:
+
+
+                        System.out.println("Has seleccionat Modificar Registro");
+                        System.out.println("");
+                        //Preguntamos al usuari que registro quiere modificar
+                        System.out.println("Que registro deseas Modificar ? ");
+                        int numReg = scn.nextInt();
+
+                        //Controlamos que el usuario introduzca un numero de registro existente
+                        if (numReg>=fichero.size()){
+                            System.out.println("EL NUMERO DE REGISTRO NO EXISTE  !!!");
+                        }else {
+
+                            modificarRegistro(numReg);
+                        }
+
+                        break;
+
+                    case 3:
+                        salir = true;
+
+                        break;
+
+                    //En el caso de no introducir un numero del 1 al 3
+                    //informamos al usuario
+                    default:
+                        System.out.println();
+                        System.out.println("Solo números entre 1 y 3");
+                        System.out.println();
+                }
+            } catch (InputMismatchException e) {
+                System.out.println();
+                System.out.println("Debes insertar un número");
+                scn.next();
+                System.out.println();
+            }
+        }
+
+
+
 
         /*
         try {
@@ -76,6 +156,27 @@ public class Main {
 */
     }
 
+    private static void modificarRegistro(int a) {
+
+        try {
+            randomAccessFile = new RandomAccessFile("DGTcsv.txt","rw");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        //obtenemos el registro a modificar multiplicandolo por el total de cada registro
+        int reg = a * 159;
+
+        try {
+            randomAccessFile.seek(reg);
+            System.out.println(randomAccessFile.readLine());
+            randomAccessFile.writeUTF("fwe");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * Leemos el fichero linea a linea
@@ -83,7 +184,7 @@ public class Main {
      */
     private static ArrayList<String> leerFichero(){
 
-        ArrayList<String> lineas = new ArrayList<String>();
+        ArrayList<String> lineas = new ArrayList<>();
 
         FileReader fr = null;
         BufferedReader br;
@@ -124,10 +225,11 @@ public class Main {
         return lineas;
     }
 
-    private static ArrayList<String[]> estructurarFicheroRandom(ArrayList<String> fichero) {
+    private static int estructurarFicheroRandom(ArrayList<String> fichero) {
 
-        ArrayList<String[]> array = new ArrayList<String[]>();
+        ArrayList<String[]> array = new ArrayList<>();
         String[] finalstring = new String[9];
+        int contador=0;
 
         //Por cada registro en el fichero creara una linea con los tamaños especificados
         for (String aLista: fichero) {
@@ -146,7 +248,7 @@ public class Main {
             else if (string[0].length() > ABM){
 
                 //Informamos al usuario que se perderan datos por ser demasiado largo el String
-                System.out.println("Tamaño del campo ABM demasiado grande, se perderan datos !" +
+                System.out.println("Tamaño del campo ABM del Registro "+contador +" es demasiado grande, se perderan datos !" +
                         "Le recomendamos modificar el reguistro ABM.");
 
                 //Con subString recortamos el String demasialo largo al tamaño indicado
@@ -176,7 +278,7 @@ public class Main {
             else if (string[1].length() > Tipus){
 
                 //Informamos al usuario que se perderan datos por ser demasiado largo el String
-                System.out.println("Tamaño del campo Tipus demasiado grande, se perderan datos !" +
+                System.out.println("Tamaño del campo Tipus del Registro "+contador +" es demasiado grande, se perderan datos !" +
                         "Le recomendamos modificar el reguistro Tipus.");
 
                 //Con subString recortamos el String demasialo largo al tamaño indicado
@@ -206,7 +308,7 @@ public class Main {
             else if (string[2].length() > Data){
 
                 //Informamos al usuario que se perderan datos por ser demasiado largo el String
-                System.out.println("Tamaño del campo Data demasiado grande, se perderan datos !" +
+                System.out.println("Tamaño del campo Data del Registro "+contador +" es demasiado grande, se perderan datos !" +
                         "Le recomendamos modificar el reguistro Data.");
 
                 //Con subString recortamos el String demasialo largo al tamaño indicado
@@ -236,7 +338,7 @@ public class Main {
             else if (string[3].length() > Matricula){
 
                 //Informamos al usuario que se perderan datos por ser demasiado largo el String
-                System.out.println("Tamaño del campo Matricula demasiado grande, se perderan datos !" +
+                System.out.println("Tamaño del campo Matricula del Registro "+contador +" demasiado grande, se perderan datos !" +
                         "Le recomendamos modificar el reguistro Matricula.");
 
                 //Con subString recortamos el String demasialo largo al tamaño indicado
@@ -266,7 +368,7 @@ public class Main {
             else if (string[4].length() > BASTIDOR){
 
                 //Informamos al usuario que se perderan datos por ser demasiado largo el String
-                System.out.println("Tamaño del campo BASTIDOR demasiado grande, se perderan datos !" +
+                System.out.println("Tamaño del campo BASTIDOR del Registro "+contador +" es demasiado grande, se perderan datos !" +
                         "Le recomendamos modificar el reguistro BASTIDOR.");
 
                 //Con subString recortamos el String demasialo largo al tamaño indicado
@@ -296,7 +398,7 @@ public class Main {
             else if (string[5].length() > N_MOTOR){
 
                 //Informamos al usuario que se perderan datos por ser demasiado largo el String
-                System.out.println("Tamaño del campo N_MOTOR demasiado grande, se perderan datos !" +
+                System.out.println("Tamaño del campo N_MOTOR del Registro "+contador +" es demasiado grande, se perderan datos !" +
                         "Le recomendamos modificar el reguistro N_MOTOR.");
 
                 //Con subString recortamos el String demasialo largo al tamaño indicado
@@ -326,7 +428,7 @@ public class Main {
             else if (string[6].length() > DNI){
 
                 //Informamos al usuario que se perderan datos por ser demasiado largo el String
-                System.out.println("Tamaño del campo DNI demasiado grande, se perderan datos !" +
+                System.out.println("Tamaño del campo DNI del Registro "+contador +" es demasiado grande, se perderan datos !" +
                         "Le recomendamos modificar el reguistro DNI.");
 
                 //Con subString recortamos el String demasialo largo al tamaño indicado
@@ -356,7 +458,7 @@ public class Main {
             else if (string[7].length() > GOGNOMS_NOM){
 
                 //Informamos al usuario que se perderan datos por ser demasiado largo el String
-                System.out.println("Tamaño del campo GOGNOMS_NOM demasiado grande, se perderan datos !" +
+                System.out.println("Tamaño del campo GOGNOMS_NOM del Registro "+contador +" es demasiado grande, se perderan datos !" +
                         "Le recomendamos modificar el reguistro GOGNOMS_NOM.");
 
                 //Con subString recortamos el String demasialo largo al tamaño indicado
@@ -386,7 +488,7 @@ public class Main {
             else if (string[8].length() > ADREÇA){
 
                 //Informamos al usuario que se perderan datos por ser demasiado largo el String
-                System.out.println("Tamaño del campo ADREÇA demasiado grande, se perderan datos !" +
+                System.out.println("Tamaño del campo ADREÇA del Registro "+contador +" es demasiado grande, se perderan datos !" +
                         "Le recomendamos modificar el reguistro ADREÇA.");
 
                 //Con subString recortamos el String demasialo largo al tamaño indicado
@@ -406,10 +508,56 @@ public class Main {
                 //Asignamos el nuevo string a la lista final
                 finalstring[8] = string[8];
             }
-            array.add(finalstring);
-        }
 
-        return array;
+            //Guardamos la nueva linea en el fichero csv
+            try {
+                guardarFichero(finalstring);
+                contador++;
+            }catch (Exception e){
+                System.out.println("Error al dreçar l'arxui");
+            }
+        }
+        return contador;
+    }
+
+    public static void guardarFichero(String[] a){
+
+        FileWriter fichero = null;
+        PrintWriter pw;
+        try
+        {
+            //Indicamos el fichero donde se escribiran los datos
+            //Si indicamos true como segundo parametro y el fichero ya existe
+            //copiara la linea seguidamente de los datos ya existentes,
+            //si no SOBREESCRIBE el archivo con los datos nuevos
+            fichero = new FileWriter("./DGTcsv.txt",true);
+            pw = new PrintWriter(fichero);
+
+            //Por cada string de la lista lo guarda en una linea en el fichero
+            for (String aLista : a){
+                pw.print(aLista);
+                System.out.print(aLista);
+            }
+
+            //Agregamos el salto de linea al final de la linea almacenada
+            pw.println("");
+
+            System.out.println("");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            //En caso de error informamos al usuario
+            System.out.println("Problema al emmagatzenar una linea");
+        } finally {
+            try {
+                // Nuevamente aprovechamos el finally para
+                // asegurarnos que se cierra el fichero.
+                if (null != fichero)
+                    fichero.close();
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
     }
 
 }
