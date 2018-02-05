@@ -1,22 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4a324fd4-58d1-4907-bbaa-04d0beac1513" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/Practica3_AD_ficheroRandom/.idea/description.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Practica3_AD_ficheroRandom/.idea/misc.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Practica3_AD_ficheroRandom/.idea/modules.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Practica3_AD_ficheroRandom/.idea/project-template.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Practica3_AD_ficheroRandom/.idea/workspace.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Practica3_AD_ficheroRandom/DGTestruct.csv" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Practica3_AD_ficheroRandom/Practica3_AD_ficheroRandom.iml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Practica3_AD_ficheroRandom/out/production/Practica3_AD_ficheroRandom/com/company/Main.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Practica3_AD_ficheroRandom/prueba.txt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Practica3_AD_ficheroRandom/src/com/company/Main.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/Practica3_AD_ficheroRandom/test.txt" afterPath="" />
-    </list>
+    <list default="true" id="1f728cfa-78f0-4ce1-83c8-cd0416f2b39c" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -30,21 +15,29 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/company/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-              <folding />
+            <state relative-caret-position="630">
+              <caret line="415" column="0" lean-forward="false" selection-start-line="415" selection-start-column="0" selection-end-line="415" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#2119#2127#0" expanded="true" />
+                <element signature="e#3489#3499#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
   </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
   <component name="GradleLocalSettings">
     <option name="externalProjectsViewState">
       <projects_view />
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/com/company/Main.java" />
+      </list>
     </option>
   </component>
   <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
@@ -54,7 +47,7 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="122" />
+    <option name="x" value="73" />
     <option name="y" value="66" />
     <option name="width" value="1482" />
     <option name="height" value="935" />
@@ -75,31 +68,10 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="IntelliJ-IDEA-Projectes" type="b2602c69:ProjectViewProjectNode" />
-              <item name="IntelliJ-IDEA-Projectes" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="IntelliJ-IDEA-Projectes" type="b2602c69:ProjectViewProjectNode" />
-              <item name="IntelliJ-IDEA-Projectes" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="IntelliJ-IDEA-Projectes" type="b2602c69:ProjectViewProjectNode" />
-              <item name="IntelliJ-IDEA-Projectes" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="company" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
+      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="AndroidView" />
-      <pane id="Scratches" />
+      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -130,7 +102,7 @@
       <option name="ENABLE_SWING_INSPECTOR" value="false" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="IntelliJ-IDEA-Projectes" />
+      <module name="Practica3_AD" />
       <envs />
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
@@ -159,20 +131,21 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="4a324fd4-58d1-4907-bbaa-04d0beac1513" name="Default" comment="" />
-      <created>1517820685098</created>
+      <changelist id="1f728cfa-78f0-4ce1-83c8-cd0416f2b39c" name="Default" comment="" />
+      <created>1517820928767</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1517820685098</updated>
-      <workItem from="1517820688966" duration="186000" />
+      <updated>1517820928767</updated>
+      <workItem from="1517820932424" duration="38000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="186000" />
+    <option name="totallyTimeSpent" value="38000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="122" y="66" width="1482" height="935" extended-state="0" />
+    <frame x="73" y="66" width="1482" height="935" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -182,7 +155,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -215,9 +188,13 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/com/company/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-          <folding />
+        <state relative-caret-position="630">
+          <caret line="415" column="0" lean-forward="false" selection-start-line="415" selection-start-column="0" selection-end-line="415" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2119#2127#0" expanded="true" />
+            <element signature="e#3489#3499#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Practica3_AD_ficheroRandom.iml" filepath="$PROJECT_DIR$/Practica3_AD_ficheroRandom.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Practica3_AD.iml" filepath="$PROJECT_DIR$/Practica3_AD.iml" />
     </modules>
   </component>
 </project>
