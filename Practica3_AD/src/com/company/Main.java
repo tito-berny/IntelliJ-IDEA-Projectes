@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import static com.company.Main.guardarFichero;
-
 public class Main {
 
     //-------------------Variables Glovales-------------------------
@@ -40,6 +38,7 @@ public class Main {
 
     private static String relleno = "*";
 
+    private static int Toal_linea = 159;
 
     public static void main(String[] args) throws FileNotFoundException, Exception {
 
@@ -97,7 +96,8 @@ public class Main {
                             System.out.println("EL NUMERO DE REGISTRO NO EXISTE  !!!");
                         }else {
 
-                            modificarRegistro(numReg);
+                            String linea = modificarRegistro(numReg);
+                            pedirCampoaModificar(linea);
                         }
 
                         break;
@@ -156,7 +156,170 @@ public class Main {
 */
     }
 
-    private static void modificarRegistro(int a) {
+    private static void pedirCampoaModificar(String a) {
+
+        Registro reg = new Registro();
+
+
+        System.out.println("Que campo desea modificar?" +
+                "/n 1)ABM  2)Tipus  3)Data  4)Matricula  5)Bastidor  6)N_Motor  7)DNI  8)Cognoms_Nom  9)Adreça");
+        int opcion = scn.nextInt();
+
+        switch (opcion){
+            case (1):
+                boolean salir= false;
+
+                a.substring(0,1);
+                System.out.println("Valor: " + a);
+
+                while (!salir)
+
+                System.out.println("Introduce nuevo valor (tamaño 1)");
+                String b = scn.next();
+                if (b.length()>1){
+                    System.out.println("Valor demasiado grande para el campo");
+                }else {
+                    reg.setABM(b);
+                    salir=true;
+                }
+
+            case (2):
+                boolean salir= false;
+
+                a.substring(1,3);
+                System.out.println("Valor: " + a);
+
+                while (!salir)
+
+                    System.out.println("Introduce nuevo valor tamaño 2");
+                String b = scn.next();
+                if (b.length()>1){
+                    System.out.println("Valor demasiado grande para el campo");
+                }else {
+                    reg.setABM(b);
+                    salir=true;
+                }
+            case (3):
+                boolean salir= false;
+
+                a.substring(0,10);10
+                System.out.println("Valor: " + a);
+
+                while (!salir)
+
+                    System.out.println("Introduce nuevo valor tamaño 10");
+                String b = scn.next();
+                if (b.length()>1){
+                    System.out.println("Valor demasiado grande para el campo");
+                }else {
+                    reg.setABM(b);
+                    salir=true;
+                }
+            case (4):
+                boolean salir= false;
+
+                a.substring(0,9);
+                System.out.println("Valor: " + a);
+
+                while (!salir)
+
+                    System.out.println("Introduce nuevo valor tamaño 9");
+                String b = scn.next();
+                if (b.length()>1){
+                    System.out.println("Valor demasiado grande para el campo");
+                }else {
+                    reg.setABM(b);
+                    salir=true;
+                }
+            case (5):
+                boolean salir= false;
+
+                a.substring(0,17);
+                System.out.println("Valor: " + a);
+
+                while (!salir)
+
+                    System.out.println("Introduce nuevo valor tamaño 17");
+                String b = scn.next();
+                if (b.length()>1){
+                    System.out.println("Valor demasiado grande para el campo");
+                }else {
+                    reg.setABM(b);
+                    salir=true;
+                }
+            case (6):
+                boolean salir= false;
+
+                a.substring(0,20);
+                System.out.println("Valor: " + a);
+
+                while (!salir)
+
+                    System.out.println("Introduce nuevo valor tamaño 20");
+                String b = scn.next();
+                if (b.length()>1){
+                    System.out.println("Valor demasiado grande para el campo");
+                }else {
+                    reg.setABM(b);
+                    salir=true;
+                }
+            case (7):
+                boolean salir= false;
+
+                a.substring(0,9);
+                System.out.println("Valor: " + a);
+
+                while (!salir)
+
+                    System.out.println("Introduce nuevo valor tamaño 9");
+                String b = scn.next();
+                if (b.length()>1){
+                    System.out.println("Valor demasiado grande para el campo");
+                }else {
+                    reg.setABM(b);
+                    salir=true;
+                }
+            case (8):
+                boolean salir= false;
+
+                a.substring(0,40);
+                System.out.println("Valor: " + a);
+
+                while (!salir)
+
+                    System.out.println("Introduce nuevo valor tamaño 40");
+                String b = scn.next();
+                if (b.length()>1){
+                    System.out.println("Valor demasiado grande para el campo");
+                }else {
+                    reg.setABM(b);
+                    salir=true;
+                }
+            case (9):
+                boolean salir= false;
+
+                a.substring(0,50);
+                System.out.println("Valor: " + a);
+
+                while (!salir)
+
+                    System.out.println("Introduce nuevo valor tamaño 50");
+                String b = scn.next();
+                if (b.length()>1){
+                    System.out.println("Valor demasiado grande para el campo");
+                }else {
+                    reg.setABM(b);
+                    salir=true;
+                }
+
+        }
+
+
+    }
+
+    private static String modificarRegistro(int a) {
+
+        String linea = null;
 
         try {
             randomAccessFile = new RandomAccessFile("DGTcsv.txt","rw");
@@ -165,16 +328,18 @@ public class Main {
         }
 
         //obtenemos el registro a modificar multiplicandolo por el total de cada registro
-        int reg = a * 159;
+        int reg = a * Toal_linea;
 
         try {
             randomAccessFile.seek(reg);
             System.out.println(randomAccessFile.readLine());
-            randomAccessFile.writeUTF("fwe");
+            linea = randomAccessFile.readLine();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return linea;
     }
 
 

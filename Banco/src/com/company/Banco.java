@@ -1,16 +1,16 @@
 package com.company;
 
-public class banco {
+public class Banco {
 
     //--------------VARIABLES-----------
 
     private String nom;
     private double saldo = 200000;
 
-    public banco() {
+    public Banco() {
     }
 
-    public banco(String nom, double saldo) {
+    public Banco(String nom, double saldo) {
         this.nom = nom;
         this.saldo = saldo;
     }
