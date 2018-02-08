@@ -11,38 +11,43 @@ public class Main {
 
     private static File file = new File("./prueba.txt");
 
+    private static File fileConfig = new File("./Config.txt");
+
     private static Scanner scn = new Scanner(System.in);
 
     private static RandomAccessFile randomAccessFile;
 
 
+
+
     //-------------------Variables de Configuracion tamaños campos-----------
 
-    private static int ABM = 1;
+    private static int ABM ;
 
-    private static int Tipus = 2;
+    private static int Tipus;
 
-    private static int Data = 10;
+    private static int Data ;
 
-    private static int Matricula = 9;
+    private static int Matricula ;
 
-    private static int BASTIDOR = 17;
+    private static int BASTIDOR ;
 
-    private static int N_MOTOR = 20;
+    private static int N_MOTOR ;
 
-    private static int DNI = 9;
+    private static int DNI ;
 
-    private static int GOGNOMS_NOM = 40;
+    private static int GOGNOMS_NOM ;
 
-    private static int ADREÇA = 50;
+    private static int ADREÇA ;
 
-    private static String relleno = "*";
+    private static String relleno ;
 
-    private static int Toal_linea = 159;
+    private static int Toal_linea ;
 
     public static void main(String[] args) throws FileNotFoundException, Exception {
 
 
+        leerFicheroConf();
         ArrayList<String> fichero = null;
 
         //------------VARIABLES--------------
@@ -52,6 +57,8 @@ public class Main {
         //Guardaremos la opcion del usuario
         int opcion;
 
+
+        //CArgar fichero de Configuracion de campos
 
         //----------------MENU---------------
 
@@ -98,6 +105,7 @@ public class Main {
 
                             String linea = modificarRegistro(numReg);
                             reg = pedirCampoaModificar(linea);
+                            guardarRegistro(numReg, reg);
 
                             
                         }
@@ -124,40 +132,100 @@ public class Main {
             }
         }
 
-
-
-
-        /*
-        try {
-
-            // create a new RandomAccessFile with filename test
-            RandomAccessFile raf = new RandomAccessFile("./test.txt", "rw");
-
-            // write something in the file
-            raf.writeUTF("Hello World");
-
-            // set the file pointer at 0 position
-            raf.seek(0);
-
-            // print the line
-            System.out.println("" + raf.readLine());
-
-            // set the file pointer at 0 position
-            raf.seek(0);
-
-            // write something in the file
-            raf.writeUTF("This is an example \n Hello World");
-
-            raf.seek(10);
-            // print the line
-            System.out.println("" + raf.readLine());
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-*/
     }
 
+    /**
+     * Asignamos valor a las variables glovales de medida de campos
+     * con los valores del fichero de configuracion
+     */
+    private static void leerFicheroConf() {
+
+        ArrayList<String> lineas = new ArrayList<>();
+        String[] cof = new String[0];
+
+        FileReader fr = null;
+        BufferedReader br;
+
+        try {
+            // Apertura del fichero y creacion de BufferedReader para poder
+            // hacer una lectura comoda (disponer del metodo readLine()).
+
+            fr = new FileReader(fileConfig);
+            br = new BufferedReader(fr);
+
+            // Lectura del fichero
+            // Cada linea leida en el fichero se guarda en una posicion del array
+            String linea;
+            while ((linea = br.readLine()) != null)
+                 cof = linea.split(";");
+
+            //Llenamos los valosres con la linea de configuracion del fichero
+            ABM = Integer.parseInt(cof[0]);
+            Tipus = Integer.parseInt(cof[1]);
+            Data = Integer.parseInt(cof[2]);
+            Matricula = Integer.parseInt(cof[3]);
+            BASTIDOR = Integer.parseInt(cof[4]);
+            N_MOTOR = Integer.parseInt(cof[5]);
+            DNI = Integer.parseInt(cof[6]);
+            GOGNOMS_NOM = Integer.parseInt(cof[7]);
+            ADREÇA = Integer.parseInt(cof[8]);
+            relleno = cof[9];
+            Toal_linea = Integer.parseInt(cof[10]);
+
+        }
+        //Capturamos la exepcion e informamos al usuario
+        catch (Exception e) {
+            System.out.println("");
+            System.out.println("L'arxiu no s'ha trobat. " +
+                    " Introdueix nous parametres.");
+            System.out.println("");
+        } finally {
+            // En el finally cerramos el fichero, para asegurarnos
+            // que se cierra tanto si va bien como si salta
+            // una excepcion.
+            try {
+                if (null != fr) {
+                    fr.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+
+        }
+    }
+
+    /**
+     * Guarda la linea modificada por el usuario sobre la anterior
+     * @param numReg Recibe el numero del registro introducido
+     * @param reg Recibe el objeto con los parametros modificados
+     */
+    private static void guardarRegistro(int numReg, Registro reg) {
+
+        String linea;
+
+        //Encapsulamos el objeto en un string
+        linea = (reg.getABM()+reg.getTipus()+reg.getData()+reg.getMatricula()+reg.getBASTIDOR()+
+                reg.getN_MOTOR()+reg.getDNI()+reg.getGOGNOMS_NOM()+reg.getADREÇA()+"\n");
+
+        //Nos da la posicion exacta de la linea
+        int i = numReg + Toal_linea;
+
+        //Buscamos la posicion de la linea y la sobreescribimos con la nueva modificada
+        try {
+            randomAccessFile.seek(i);
+            randomAccessFile.writeUTF(linea);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Pide al usuario que campo del registro que desea cambiar y
+     * controla que el campo introducio que coincida con el tamaño.
+     * Encapsula los diferentes camps en un objeto Registro
+     * @param a Recibe un String con la linea seleccionada con todos los campos
+     * @return Retorna un objeto con el campo ya modificado
+     */
     private static Registro pedirCampoaModificar(String a) {
 
         Registro reg = new Registro();
@@ -166,172 +234,212 @@ public class Main {
         System.out.println("");
         System.out.println("Que campo desea modificar?" +
                 "/n 1)ABM  2)Tipus  3)Data  4)Matricula  5)Bastidor  6)N_Motor  7)DNI  8)Cognoms_Nom  9)Adreça");
-        int opcion = scn.nextInt();
+        int opcion = Integer.parseInt(scn.next());
+
+        try {
 
 
-        switch (opcion) {
-            case (1):
-                boolean salir1 = false;
+            switch (opcion) {
+                case (1):
+                    boolean salir1 = false;
 
-                a.substring(0, 1);//1
-                System.out.println("Valor: " + a);
+                    //Obtenemos el String deseado mediante .subString
+                    a.substring(0, 1);//1
+                    System.out.println("Valor: " + a.substring(0, 1));
 
-                while (!salir1)
+                    while (!salir1) {
 
-                    System.out.println("Introduce nuevo valor (tamaño 1)");
-                    String b1 = scn.next();
-                    if (b1.length() == 1) {
-                        reg.setABM(b1);
-                        salir1 = true;
-                    } else {
-                        System.out.println("Valor de tamaño incorrecto introduce 50 caracteres, si es mas corto " +
-                                "rellena con '***'");
+                        System.out.println("Introduce nuevo valor (tamaño 1)");
+                        String b1 = scn.next();
+                        if (b1.length() == 1) {
+                            reg.setABM(b1);
+                            salir1 = true;
+                        } else {
+                            System.out.println("Valor de tamaño incorrecto introduce 1 caracterer, si es mas corto " +
+                                    "rellena con '***'");
+                        }
                     }
+                    break;
 
-            case (2):
-                boolean salir2 = false;
+                case (2):
+                    boolean salir2 = false;
 
-                a.substring(1, 3);//2
-                System.out.println("Valor: " + a);
+                    a.substring(1, 3);//2
+                    System.out.println("Valor: " + a.substring(1, 3));
 
-                while (!salir2)
+                    while (!salir2) {
 
-                    System.out.println("Introduce nuevo valor tamaño 2");
-                    String b2 = scn.next();
-                    if (b2.length() == 2) {
-                        reg.setTipus(b2);
-                        salir2 = true;
-                    } else {
-                        System.out.println("Valor de tamaño incorrecto introduce 50 caracteres, si es mas corto " +
-                                "rellena con '***'");
+                        System.out.println("Introduce nuevo valor tamaño 2");
+                        String b2 = scn.next();
+                        if (b2.length() == 2) {
+                            reg.setTipus(b2);
+                            salir2 = true;
+                        } else {
+                            System.out.println("Valor de tamaño incorrecto introduce 2 caracteres, si es mas corto " +
+                                    "rellena con '***'");
+                        }
                     }
-            case (3):
-                boolean salir3 = false;
+                    break;
 
-                a.substring(3, 13);//10
+                case (3):
+                    boolean salir3 = false;
 
-                System.out.println("Valor: " + a);
+                    a.substring(3, 13);//10
 
-                while (!salir3)
+                    System.out.println("Valor: " + a.substring(3, 13));
 
-                    System.out.println("Introduce nuevo valor tamaño 10");
-                    String b3 = scn.next();
-                    if (b3.length() == 10) {
-                        reg.setData(b3);
-                        salir3 = true;
-                    } else {
-                        System.out.println("Valor de tamaño incorrecto introduce 50 caracteres, si es mas corto " +
-                                "rellena con '***'");
+                    while (!salir3) {
+
+                        System.out.println("Introduce nuevo valor tamaño 10");
+                        String b3 = scn.next();
+                        if (b3.length() == 10) {
+                            reg.setData(b3);
+                            salir3 = true;
+                        } else {
+                            System.out.println("Valor de tamaño incorrecto introduce 10 caracteres, si es mas corto " +
+                                    "rellena con '***'");
+                        }
                     }
-            case (4):
-                boolean salir4 = false;
+                    break;
 
-                a.substring(13, 22);//9
-                System.out.println("Valor: " + a);
+                case (4):
+                    boolean salir4 = false;
 
-                while (!salir4)
+                    a.substring(13, 22);//9
+                    System.out.println("Valor: " + a.substring(13, 22));
 
-                    System.out.println("Introduce nuevo valor tamaño 9");
-                    String b4 = scn.next();
-                    if (b4.length() == 9) {
-                        reg.setMatricula(b4);
-                        salir4 = true;
-                    } else {
-                        System.out.println("Valor de tamaño incorrecto introduce 50 caracteres, si es mas corto " +
-                                "rellena con '***'");
+                    while (!salir4) {
+
+                        System.out.println("Introduce nuevo valor tamaño 9");
+                        String b4 = scn.next();
+                        if (b4.length() == 9) {
+                            reg.setMatricula(b4);
+                            salir4 = true;
+                        } else {
+                            System.out.println("Valor de tamaño incorrecto introduce 9 caracteres, si es mas corto " +
+                                    "rellena con '***'");
+                        }
                     }
-            case (5):
-                boolean salir5 = false;
+                    break;
 
-                a.substring(22, 39);//17
-                System.out.println("Valor: " + a);
+                case (5):
+                    boolean salir5 = false;
 
-                while (!salir5)
+                    a.substring(22, 39);//17
+                    System.out.println("Valor: " + a.substring(22, 39));
 
-                    System.out.println("Introduce nuevo valor tamaño 17");
-                    String b5 = scn.next();
-                    if (b5.length() == 17) {
-                        reg.setBASTIDOR(b5);
-                        salir5 = true;
-                    } else {
-                        System.out.println("Valor de tamaño incorrecto introduce 50 caracteres, si es mas corto " +
-                                "rellena con '***'");
+                    while (!salir5) {
+
+                        System.out.println("Introduce nuevo valor tamaño 17");
+                        String b5 = scn.next();
+                        if (b5.length() == 17) {
+                            reg.setBASTIDOR(b5);
+                            salir5 = true;
+                        } else {
+                            System.out.println("Valor de tamaño incorrecto introduce 17 caracteres, si es mas corto " +
+                                    "rellena con '***'");
+                        }
                     }
-            case (6):
-                boolean salir6 = false;
+                    break;
 
-                a.substring(39, 59);//20
-                System.out.println("Valor: " + a);
+                case (6):
+                    boolean salir6 = false;
 
-                while (!salir6)
+                    a.substring(39, 59);//20
+                    System.out.println("Valor: " + a.substring(39, 59));
 
-                    System.out.println("Introduce nuevo valor tamaño 20");
-                    String b6 = scn.next();
-                    if (b6.length() == 20) {
-                        reg.setN_MOTOR(b6);
-                        salir6 = true;
-                    } else {
-                        System.out.println("Valor de tamaño incorrecto introduce 50 caracteres, si es mas corto " +
-                                "rellena con '***'");
+                    while (!salir6) {
+
+                        System.out.println("Introduce nuevo valor tamaño 20");
+                        String b6 = scn.next();
+                        if (b6.length() == 20) {
+                            reg.setN_MOTOR(b6);
+                            salir6 = true;
+                        } else {
+                            System.out.println("Valor de tamaño incorrecto introduce 20 caracteres, si es mas corto " +
+                                    "rellena con '***'");
+                        }
                     }
-            case (7):
-                boolean salir7 = false;
+                    break;
 
-                a.substring(59, 68);//9
-                System.out.println("Valor: " + a);
+                case (7):
+                    boolean salir7 = false;
 
-                while (!salir7)
+                    a.substring(59, 68);//9
+                    System.out.println("Valor: " + a.substring(59, 68));
 
-                    System.out.println("Introduce nuevo valor tamaño 9");
-                    String b7 = scn.next();
-                    if (b7.length() == 9) {
-                        reg.setDNI(b7);
-                        salir7 = true;
-                    } else {
-                        System.out.println("Valor de tamaño incorrecto introduce 50 caracteres, si es mas corto " +
-                                "rellena con '***'");
+                    while (!salir7) {
+
+                        System.out.println("Introduce nuevo valor tamaño 9");
+                        String b7 = scn.next();
+                        if (b7.length() == 9) {
+                            reg.setDNI(b7);
+                            salir7 = true;
+                        } else {
+                            System.out.println("Valor de tamaño incorrecto introduce 9 caracteres, si es mas corto " +
+                                    "rellena con '***'");
+                        }
                     }
-            case (8):
-                boolean salir8 = false;
+                    break;
 
-                a.substring(68, 108);//40
-                System.out.println("Valor: " + a);
+                case (8):
+                    boolean salir8 = false;
 
-                while (!salir8)
+                    a.substring(68, 108);//40
+                    System.out.println("Valor: " + a.substring(68, 108));
 
-                    System.out.println("Introduce nuevo valor tamaño 40");
-                    String b8 = scn.next();
-                    if (b8.length() == 40) {
-                        reg.setGOGNOMS_NOM(b8);
-                        salir8 = true;
-                    } else {
-                        System.out.println("Valor de tamaño incorrecto introduce 50 caracteres, si es mas corto " +
-                                "rellena con '***'");
+                    while (!salir8) {
+
+                        System.out.println("Introduce nuevo valor tamaño 40");
+                        String b8 = scn.next();
+                        if (b8.length() == 40) {
+                            reg.setGOGNOMS_NOM(b8);
+                            salir8 = true;
+                        } else {
+                            System.out.println("Valor de tamaño incorrecto introduce 40 caracteres, si es mas corto " +
+                                    "rellena con '***'");
+                        }
                     }
-            case (9):
-                boolean salir9 = false;
+                    break;
 
-                a.substring(108, 158);//50
-                System.out.println("Valor: " + a.substring(108, 158));
+                case (9):
+                    boolean salir9 = false;
+
+                    a.substring(108, 158);//50
+                    System.out.println("Valor: " + a.substring(108, 158));
 
 
-                while (!salir9) {
+                    while (!salir9) {
 
-                    System.out.println("Introduce nuevo valor tamaño 50");
-                    String b9 = scn.nextLine();
-                    if (b9.length() == 50) {
-                        reg.setADREÇA(b9);
-                        salir9 = true;
-                    } else {
-                        System.out.println("Valor de tamaño incorrecto introduce 50 caracteres, si es mas corto " +
-                                "rellena con '***'");
+                        System.out.println("Introduce nuevo valor tamaño 50");
+                        String b9 = scn.nextLine();
+                        if (b9.length() == 50) {
+                            reg.setADREÇA(b9);
+                            salir9 = true;
+                        } else {
+                            System.out.println("Valor de tamaño incorrecto introduce 50 caracteres, si es mas corto " +
+                                    "rellena con '***'");
+                        }
                     }
-                }
+                    break;
+
+                default:
+                    System.out.println();
+                    System.out.println("Introduce un numero del 1 - 9 !!!");
+                    System.out.println();
+
+                    break;
+            }
+
+        }catch (InputMismatchException e) {
+            System.out.println();
+            System.out.println("Debes insertar un número");
+            scn.next();
+            System.out.println();
 
         }
 
         return reg;
-
 
     }
 
@@ -339,7 +447,7 @@ public class Main {
      * Obtiene todos los valores de la linea leida y los encapsula
      * en un objeto Registro
      * @param a Objeto registro completo
-     * @return
+     * @return Debuelve el objeto con los valores
      */
     private static Registro rellenarRegistroConLinea(String a) {
 
@@ -360,7 +468,7 @@ public class Main {
     /**
      * Obtine la linea del registro que el usuario quiere modificar
      * @param a String con la linea leida
-     * @return
+     * @return Linea seleccionada por el usuario
      */
     private static String modificarRegistro(int a) {
 
@@ -389,10 +497,8 @@ public class Main {
         return linea;
     }
 
-
     /**
      * Leemos el fichero linea a linea
-     *
      * @return Un ArrayList con una linea del fichero en cada posicion.
      */
     private static ArrayList<String> leerFichero() {
@@ -441,8 +547,8 @@ public class Main {
     /**
      * Controla que todos los campos de los registros leidos del fichero origen
      * sean de la longitud exacta expecificada
-     * @param fichero
-     * @return
+     * @param fichero ArrayList con las lineas del fichero Original
+     * @return int con la cantidad de Registros que contiene el fichero
      */
     private static int estructurarFicheroRandom(ArrayList<String> fichero) {
 
@@ -743,7 +849,7 @@ public class Main {
      * Guarda en el fichero el Array de String
      * @param a Recive el Array de Strig con los Registros sin separar
      */
-    public static void guardarFichero(String[] a) {
+    private static void guardarFichero(String[] a) {
 
         FileWriter fichero = null;
         PrintWriter pw;

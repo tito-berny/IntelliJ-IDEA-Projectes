@@ -1,11 +1,1 @@
-ABM = 1;
-Tipus = 2;
-Data = 10;
-Matricula = 9;
-BASTIDOR = 17;
-N_MOTOR = 20;
-DNI = 9;
-GOGNOMS_NOM = 40;
-ADREÇA = 50;
-relleno = "*";
-Toal_linea = 159;
+1;2;10;9;17;20;9;40;50;*;159;
