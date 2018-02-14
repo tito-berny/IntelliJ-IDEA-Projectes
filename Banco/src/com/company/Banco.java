@@ -1,64 +1,96 @@
 package com.company;
 
+import java.lang.reflect.Array;
+
 public class Banco {
 
     //--------------VARIABLES-----------
 
-    private String nom;
-    private double saldo = 200000;
+
+    private double[] cuentas = new double[100];
+
 
     public Banco() {
+        for (int i = 0; i < 100; i++) {
+            cuentas[i] = 2000;
+        }
     }
 
-    public Banco(String nom, double saldo) {
-        this.nom = nom;
-        this.saldo = saldo;
-    }
 
-    public String getNom() {
-        return nom;
-    }
+    /**
+     * Realiza la transferencia de saldo de una cuenta 'cuentaOrigen' a otra cuenta 'cuentaDestino'.
+     * @param cuentaOrigen Cuenta de origen
+     * @param cuentaDestino Cuenta de destino
+     * @param cantidad Cantidad de saldo a traspasar.
+     */
+    public void transferencia (int cuentaOrigen, int cuentaDestino, double cantidad){
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
+        //Comprovar que la cuenta de origen tenga saldo
+        if (cuentas[cuentaOrigen] < cantidad){
+            return;
+        }
+                System.out.println(Thread.currentThread());
 
-    public double getSaldo() {
-        return saldo;
-    }
+        cuentas[cuentaOrigen] -= cantidad; //dinero que sale de la cuenta origen
 
-    public void setSaldo(double saldo) {
-        this.saldo = saldo;
+                System.out.printf("%10.2f de %d para %d ",cantidad, cuentaOrigen, cuentaDestino);
+
+                cuentas[cuentaDestino] += cantidad;
+
+                System.out.printf(" Saldo total: %10.2f%n", getSaldoBanco());
+
     }
 
     /**
-     * Realiza la transferencia de saldo de una cuenta 'a' a otra cuenta 'b'.
-     * @param a Cuenta de origen
-     * @param b Cuenta de destino
-     * @param cantidad Cantidad de saldo a traspasar.
+     * Comprueva el saldo total sumando el saldo de todas las cuentas
+     * @return Dooble con el saldo total
      */
-    public void transferencia (cuenta a, cuenta b, int cantidad){
+    public double getSaldoBanco(){
 
-        //Comprovar que la cuenta de origen tenga saldo
-        if (a.getSaldo()<= 0){
-            System.out.println("La cuenta de origen no tiene saldo !");
-        }else {
+        double total = 0;
 
-            //Si tiene saldo y no queda en numeros negativos despues de
-            //la operacion se ejecuta la transacion
-            if (a.getSaldo() - cantidad < 0){
-                System.out.println("No se puede realizar la operacion por que" +
-                        " la cuenta quedara en numeros negativos !");
+        for (double a: cuentas) {
+            total += a;
+        }
+        return total;
+    }
+}
 
-            }else {
-                //restar a cuenta a
-                a.setSaldo(a.getSaldo() - cantidad);
-                //sumar a cuenta b
-                b.setSaldo(b.getSaldo() + cantidad);
+class EjecucionTransferencias implements Runnable {
+
+    public EjecucionTransferencias (Banco b, int d, double max){
+
+
+        banco = b;
+        deLaCuenta = d;
+        cantidadMax = max;
+    }
+
+    @Override
+    public void run() {
+
+        try {
+
+            while (true){
+
+                int paraLaCuenta = (int)(100+Math.random());
+
+                double cantidad = cantidadMax+Math.random();
+
+                banco.transferencia(deLaCuenta, paraLaCuenta, cantidad);
+
+                Thread.sleep((int)(Math.random()*10));
+
+
             }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
-
-
     }
+
+    private Banco banco;
+    private int deLaCuenta;
+    private double cantidadMax;
+
 }
