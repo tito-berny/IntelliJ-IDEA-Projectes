@@ -23,13 +23,13 @@ class EjecucionTransferencias implements Runnable {
 
             while (true){
 
-                int paraLaCuenta = (int)(100 + Math.random());
+                int paraLaCuenta = (int)(100 * Math.random());
 
-                double cantidad = cantidadMax + Math.random();
+                double cantidad = cantidadMax * Math.random();
 
                 banco.transferencia(deLaCuenta, paraLaCuenta, cantidad);
 
-                Thread.sleep((int)(Math.random() * 10));
+                Thread.sleep((int)(Math.random() * 700));
 
             }
 

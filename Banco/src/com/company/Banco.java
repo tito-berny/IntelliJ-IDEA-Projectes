@@ -1,10 +1,9 @@
 package com.company;
 
-import java.lang.reflect.Array;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static com.company.EjecucionTransferencias.*;
+
 
 public class Banco {
 
@@ -12,9 +11,9 @@ public class Banco {
 
 
     private double[] cuentas = new double[100];
-    public Lock cierreBanco=new ReentrantLock();
+    private Lock cierreBanco=new ReentrantLock();
 
-    public Banco() {
+    Banco() {
         for (int i = 0; i < 100; i++) {
             cuentas[i] = 2000;
         }
@@ -57,7 +56,7 @@ public class Banco {
      * Comprueva el saldo total sumando el saldo de todas las cuentas
      * @return Dooble con el saldo total
      */
-    public double getSaldoBanco(){
+    private double getSaldoBanco(){
 
         double total = 0;
 
