@@ -14,7 +14,7 @@ public class Main {
 
         for (int i=0; i<100; i++){
 
-            EjecucionTransferencias r= new EjecucionTransferencias(b,i,2000);
+            EjecucionTransferencias r = new EjecucionTransferencias(b,i,2000);
 
             Thread t = new Thread(r);
 
