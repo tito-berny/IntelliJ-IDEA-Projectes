@@ -1,6 +1,10 @@
 package com.company;
 
 import java.lang.reflect.Array;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+import static com.company.EjecucionTransferencias.*;
 
 public class Banco {
 
@@ -8,7 +12,7 @@ public class Banco {
 
 
     private double[] cuentas = new double[100];
-
+    public Lock cierreBanco=new ReentrantLock();
 
     public Banco() {
         for (int i = 0; i < 100; i++) {
@@ -25,20 +29,28 @@ public class Banco {
      */
     public void transferencia (int cuentaOrigen, int cuentaDestino, double cantidad){
 
-        //Comprovar que la cuenta de origen tenga saldo
-        if (cuentas[cuentaOrigen] < cantidad){
-            return;
+        cierreBanco.lock();
+
+        try {
+
+
+            //Comprovar que la cuenta de origen tenga saldo
+            if (cuentas[cuentaOrigen] < cantidad) {
+                return;
+            }
+            System.out.println(Thread.currentThread());
+
+            cuentas[cuentaOrigen] -= cantidad; //dinero que sale de la cuenta origen
+
+            System.out.printf("%10.2f de %d para %d ", cantidad, cuentaOrigen, cuentaDestino);
+
+            cuentas[cuentaDestino] += cantidad;
+
+            System.out.printf(" Saldo total: %10.2f%n", getSaldoBanco());
+            
+        } finally {
+            cierreBanco.unlock();
         }
-                System.out.println(Thread.currentThread());
-
-        cuentas[cuentaOrigen] -= cantidad; //dinero que sale de la cuenta origen
-
-                System.out.printf("%10.2f de %d para %d ",cantidad, cuentaOrigen, cuentaDestino);
-
-                cuentas[cuentaDestino] += cantidad;
-
-                System.out.printf(" Saldo total: %10.2f%n", getSaldoBanco());
-
     }
 
     /**
@@ -56,41 +68,3 @@ public class Banco {
     }
 }
 
-class EjecucionTransferencias implements Runnable {
-
-    public EjecucionTransferencias (Banco b, int d, double max){
-
-
-        banco = b;
-        deLaCuenta = d;
-        cantidadMax = max;
-    }
-
-    @Override
-    public void run() {
-
-        try {
-
-            while (true){
-
-                int paraLaCuenta = (int)(100+Math.random());
-
-                double cantidad = cantidadMax+Math.random();
-
-                banco.transferencia(deLaCuenta, paraLaCuenta, cantidad);
-
-                Thread.sleep((int)(Math.random()*10));
-
-
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private Banco banco;
-    private int deLaCuenta;
-    private double cantidadMax;
-
-}
