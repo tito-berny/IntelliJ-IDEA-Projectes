@@ -16,7 +16,7 @@ public class Main {
 
             EjecucionTransferencias r= new EjecucionTransferencias(b,i,2000);
 
-            Thread t=new Thread(r);
+            Thread t = new Thread(r);
 
             t.start();
 
