@@ -92,7 +92,8 @@ public class Main {
 
                 s.execute(sql);
 
-                //ALTA "A"
+                // ------------------------------ALTA "A"--------------------------------------------
+
                 if (string[0].equals("A")){
 
                     // inserte los datos tabla contribuyentes,  Si exite el mismo DNI salta excepcion
@@ -112,20 +113,61 @@ public class Main {
                     //Ejecuta la sentencia
                     s.execute(sqlAV);
 
-                    //TODO Falta poner el id de la tabla contribuyente y el ID de la tabla Vehiculo
-                    // inserte los datos tabla Historial, Si exite Cont_ID y Vehi_ID conjunta como clave plimaria salta excepcion
-                    String sqlAH = "INSERT INTO tbl_historial " +
-                            "(Cont_ID,Vehi_Id,Data_Alta ) " +
-                            "VALUES ('"++"','"+string[4]+"','"+sqlDate+"')";
+                    //Consulta para introucir el cont_Id y vehi_Id a la tabla tbl_vehicle y tbl_contribuyente
 
-                    //Ejecuta la sentencia
-                    s.execute(sqlAH);
+                    String c_id = "SELECT id FROM tbl_contribuyentes WHERE DNI = '"
+                            + string[6]  + "';";
+                    ResultSet rs = s.executeQuery(c_id);
+
+                    if(rs.next()){
+                        String cont_id = rs.getString(1);
+
+                        String v_id = "SELECT id FROM tbl_vehicles WHERE Matricula = '"
+                                + string[3] + "';";
+                        ResultSet rst = s.executeQuery(v_id);
+
+                        if(rst.next()){
+                            String vehi_id = rst.getString(1);
+                            // inserte los datos tabla Historial, Si exite Cont_ID y Vehi_ID conjunta como clave plimaria salta excepcion
+                            String sqlAH = "INSERT INTO tbl_historial " +
+                                    "(Cont_ID,Vehi_Id,Data_Alta ) " +
+                                    "VALUES ('" + cont_id + "','" + vehi_id + "','" + sqlDate + "')";
+                        //Ejecuta la sentencia
+                            s.execute(sqlAH);
+                        }
+
+                        //Cierra conecsion
+                        conexion.close();
+                    }
 
                 }
+
+
+                //-----------------------------BAIXA----------------------------------
+
 
                 if (string[0].equals("B")){
 
+                    //-----------------DEFINITIVA--------------
+
+                    if (string[1].equals("BD")){
+
+                        //UPDATE a tbl_vehicles y ponemos la fecha de baja y el tipo de baja BD
+
+                        String upbd = "UPDATE Data_Baixa FROM tbl_vehi"
+                        String query = "update users set num_points = ? where first_name = ?";
+                    }
+
+                    //-------------------TEMPORAL--------------------
+
+                    if (string[1].equals("BT")){
+
+                    }
+
                 }
+
+                //----------------------------MODIFICACIO-----------------------------
+
 
                 if (string[0].equals("M")){
                 }
