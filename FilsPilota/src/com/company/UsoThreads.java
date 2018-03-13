@@ -10,6 +10,8 @@ import java.awt.event.*;
 
 class Main {
 
+
+
     public static void main(String[] args) {
         // TODO Auto-generated method stub
 
@@ -143,7 +145,7 @@ class Pelotahilos implements Runnable{
         System.out.println("Stode del hilo al comnzar " + Thread.interrupted());
 
         //Bucle para el movimiento de la pelota sera infinito
-
+        //TODO SI EL HILO NO ESTA INTERRUMPIDO
         while (!Thread.currentThread().isInterrupted()){
 
             pelota.mueve_pelota(componente.getBounds());
@@ -154,6 +156,7 @@ class Pelotahilos implements Runnable{
             } catch (InterruptedException e) {
                 //e.printStackTrace();
 
+                //TODO IMPORTANTE DETIENE EL HILO en un catch por el sleep
                 //Cuando salta la exepcion al no poder detener un hilo bloqueado por sleep
                 //En la exepcion interrumpimos el hilo
                 Thread.currentThread().interrupt();
@@ -173,6 +176,14 @@ class Pelotahilos implements Runnable{
 //Marco con lamina y botones------------------------------------------------------------------------------
 
 class MarcoRebote extends JFrame{
+
+    private LaminaPelota lamina;
+
+    //Declaramos variables t y botones para que sea accesibe desde cualquier metodo todos los hilos
+
+    private static Thread t1,t2,t3;
+
+    public static JButton arranca1, arranca2,arranca3, detener1, detener2, detener3;
 
     public MarcoRebote(){
 
@@ -327,7 +338,7 @@ class MarcoRebote extends JFrame{
     /**
      * Detiene un hilo cuando le damos al boton detener
      */
-    public  void detener(ActionEvent e){
+    public void detener(ActionEvent e){
 
         //Dependiendo de que boton de detener pulsemos detienee un hilo o otro
         if(e.getSource().equals(detener1)){
@@ -344,12 +355,5 @@ class MarcoRebote extends JFrame{
 
     }
 
-    private LaminaPelota lamina;
-
-    //Declaramos variables t y botones para que sea accesibe desde cualquier metodo todos los hilos
-
-    Thread t1,t2,t3;
-
-    JButton arranca1, arranca2,arranca3, detener1, detener2, detener3;
 
 }

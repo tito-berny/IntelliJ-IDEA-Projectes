@@ -60,6 +60,8 @@ public class Main {
         //MovimentDGT mvm = new MovimentDGT();
         String[] cof = new String[0];
 
+
+
         FileReader fr = null;
         BufferedReader br;
 
@@ -74,10 +76,10 @@ public class Main {
             // Cada linea leida en el fichero se guarda en una posicion del array
             String linea;
             String[] string;
+
             while ((linea = br.readLine()) != null){
                 //Separamos los datos por "|" necesitamos // delante por ser un caracter especial
                 string = linea.split("\\|");
-
 
 
                 // crear un extracto de la conexión
@@ -113,6 +115,8 @@ public class Main {
                     //Ejecuta la sentencia
                     s.execute(sqlAV);
 
+                    //INSERTA EL REGISTRO EN LA TABLA HISTORIAL --------------------------
+
                     //Consulta para introucir el cont_Id y vehi_Id a la tabla tbl_vehicle y tbl_contribuyente
 
                     String c_id = "SELECT id FROM tbl_contribuyentes WHERE DNI = '"
@@ -136,8 +140,7 @@ public class Main {
                             s.execute(sqlAH);
                         }
 
-                        //Cierra conecsion
-                        conexion.close();
+
                     }
 
                 }
@@ -146,7 +149,10 @@ public class Main {
                 //-----------------------------BAIXA----------------------------------
 
 
+
+
                 if (string[0].equals("B")){
+
 
                     //-----------------DEFINITIVA--------------
 
@@ -154,13 +160,50 @@ public class Main {
 
                         //UPDATE a tbl_vehicles y ponemos la fecha de baja y el tipo de baja BD
 
-                        String upbd = "UPDATE Data_Baixa FROM tbl_vehi"
-                        String query = "update users set num_points = ? where first_name = ?";
+                        String uptbl_v = "UPDATE tbl_vehicles SET Data_Baixa='"+sqlDate+"', Tipus_Baixa='BD' " +
+                                "WHERE Matricula = '" + string[3] + "';";
+                        //UPDATE tabla SET campo1=valor1, campo2=valor2 WHERE campo=condicio
+                        s.execute(uptbl_v);
+
+                        //UPDATE a tbl_historial y ponemos la fecha de baja
+
+                        //Consulta para consegir la primary key del registro histrial con el cont_Id y vehi_Id
+
+                        String consulta_id = "SELECT id FROM tbl_contribuyentes WHERE DNI = '"
+                                + string[6]  + "';";
+                        ResultSet rs = s.executeQuery(consulta_id);
+
+                       //Obtenemos el valor de la consulta en este caaso en la posicion 1
+                        //Ya que solo hay un valor de respuesta
+                        if(rs.next()){
+                            String cont_id = rs.getString(1);
+
+                            String v_id = "SELECT id FROM tbl_vehicles WHERE Matricula = '"
+                                    + string[3] + "';";
+                            ResultSet rst = s.executeQuery(v_id);
+
+                            if(rst.next()){
+                                String vehi_id = rst.getString(1);
+                                // inserte los datos tabla Historial, Si exite Cont_ID y Vehi_ID conjunta como clave plimaria salta excepcion
+                                String sqlAH = "UPDATE tbl_historial SET Data_Baixa='" + string[2] +
+                                        "' WHERE Cont_ID='" + cont_id + "' AND Vehi_Id='" + vehi_id + "';";
+                                //Ejecuta la sentencia
+                                s.execute(sqlAH);
+                            }
+                        }
+
                     }
 
-                    //-------------------TEMPORAL--------------------
+                    //-------------------TEMPORAL------------------------
 
                     if (string[1].equals("BT")){
+
+                        //UPDATE a tbl_vehicles y ponemos la fecha de baja y el tipo de baja BT
+
+                        String uptbl_v = "UPDATE tbl_vehicles SET Data_Baixa='" + string[2] + "', Tipus_Baixa='BT' " +
+                                "WHERE Matricula = '" + string[3] + "';";
+
+                        s.execute(uptbl_v);
 
                     }
 
@@ -170,6 +213,99 @@ public class Main {
 
 
                 if (string[0].equals("M")){
+
+                    //--------------CD canvi domicili--------------------
+
+                    if (string[1].equals("CD")){
+
+                        //UPDATE a tbl_contribuyentes y ponemos la nueva direccion
+
+                        String uptbl_v = "UPDATE tbl_contribuyentes SET ADRECA='" + string[8] +
+                                "' WHERE DNI = '" + string[6] + "';";
+
+                        s.execute(uptbl_v);
+                    }
+
+
+                    //-----------------CP canvi propietari---------------
+
+                    if (string[1].equals("CP")){
+
+
+                        //TODO comprovar si existe el contribullente si no crearlo(INSERT)
+
+                        //UPDATE a tbl_historial y ponemos la FECHA DE BAJA
+
+                        //Consulta para consegir la primary key del registro histrial con el cont_Id y vehi_Id
+
+                        String consulta_id = "SELECT id FROM tbl_contribuyentes WHERE DNI = '"
+                                + string[6]  + "';";
+                        ResultSet rs = s.executeQuery(consulta_id);
+
+                        //Obtenemos el valor de la consulta en este caaso en la posicion 1
+                        //Ya que solo hay un valor de respuesta
+                        if(rs.next()){
+                            String cont_id = rs.getString(1);
+
+                            String v_id = "SELECT id FROM tbl_vehicles WHERE Matricula = '"
+                                    + string[3] + "';";
+                            ResultSet rst = s.executeQuery(v_id);
+
+                            if(rst.next()){
+                                String vehi_id = rst.getString(1);
+                                // inserte los datos tabla Historial, Si exite Cont_ID y Vehi_ID conjunta como clave plimaria salta excepcion
+                                String sqlAH = "UPDATE tbl_historial SET Data_Baixa='" + string[2] +
+                                        "' WHERE Cont_ID='" + cont_id + "' AND Vehi_Id='" + vehi_id + "';";
+                                //Ejecuta la sentencia
+                                s.execute(sqlAH);
+                            }
+                        }
+
+
+                        //INSERT CONTRIBUYENTE SI NO EXISTE
+
+                        try {
+                            // inserte los datos tabla contribuyentes,  Si exite el mismo DNI salta excepcion
+                            String sqlA = "INSERT INTO tbl_contribuyentes " +
+                                    "(DNI,COGNOM_NOM,ADRECA ) " +
+                                    "VALUES ('"+string[6]+"','"+string[7]+"','"+string[8]+"')";
+
+                            //Ejecuta la sentencia
+                            s.execute(sqlA);
+                        }catch (Exception e){
+                            System.out.println("El contribuyente ya existe");
+
+                        }
+
+
+                        //NUEVO REGISTRO EN LA TABLA HISTORIAL
+
+                        String c_id = "SELECT id FROM tbl_contribuyentes WHERE DNI = '"
+                                + string[6]  + "';";
+                        ResultSet rs1 = s.executeQuery(c_id);
+
+                        if(rs1.next()){
+                            String cont_id = rs.getString(1);
+
+                            String v_id = "SELECT id FROM tbl_vehicles WHERE Matricula = '"
+                                    + string[3] + "';";
+                            ResultSet rst = s.executeQuery(v_id);
+
+                            if(rst.next()){
+                                String vehi_id = rst.getString(1);
+                                // inserte los datos tabla Historial, Si exite Cont_ID y Vehi_ID conjunta como clave plimaria salta excepcion
+                                String sqlAH = "INSERT INTO tbl_historial " +
+                                        "(Cont_ID,Vehi_Id,Data_Alta ) " +
+                                        "VALUES ('" + cont_id + "','" + vehi_id + "','" + sqlDate + "')";
+                                //Ejecuta la sentencia
+                                s.execute(sqlAH);
+                            }
+
+
+                        }
+
+
+                    }
                 }
 
                 }
@@ -195,5 +331,8 @@ public class Main {
             }
 
         }
+
+        //Cierra conecsion
+        conexion.close();
     }
 }

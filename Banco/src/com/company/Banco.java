@@ -52,7 +52,7 @@ public class Banco {
             }//else {
                // System.out.println("-----------------Saldo OK: " + cuentaOrigen);
 
-            //}
+            //Imprime el hilo en ejecucion
             System.out.println(Thread.currentThread());
 
             //dinero que sale de la cuenta origen
