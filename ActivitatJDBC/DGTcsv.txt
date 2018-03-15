@@ -1,1 +1,5 @@
+A|CD|23/07/2018|3456FRE|435362wf|2543654634tgw|45678965H|MArtinez_Carrasco_Manolo|Carrer_de_les_Flors
+B|BD|30/08/2017|3456FRE|2342345werw|2353453rqw|45678965H|Lopez_gutierrez_Alberto|Carrer_De_La_Montanya_45_4-4
+B|BT|01/03/2016|3456FRE|546456etwet|457567tuur|45678965H|Porras_Viejas_Sonia|AV_de_les_Corts_76_1-2
+M|CD|25/12/2018|3456FRE|twertye567567|wryt65u7|45678965H|Constanti_Perez_Jordi|Carrer_Pic_Blanc_N34_5-4
 M|CP|02/08/2020|3456FRE|twertywer67567|wwer5u7|88888888L|Sonia_Calvo_Andrea|Carrer_Espronceda_N69_2-2
