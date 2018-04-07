@@ -33,6 +33,13 @@
             style="@style/botones"
             android:src="@drawable/musica"/>
 
+        <Space style="@style/espacio"/>
+
+        <ImageButton
+            android:id="@+id/descarga"
+            style="@style/botones"
+            android:src="@drawable/descarga"/>
+
     </LinearLayout>
 
 

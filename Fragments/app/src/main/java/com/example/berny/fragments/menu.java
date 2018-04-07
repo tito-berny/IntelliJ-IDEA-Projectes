@@ -2,8 +2,8 @@ package com.example.berny.fragments;
 
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +15,12 @@ import android.widget.ImageButton;
  */
 public class Menu extends Fragment {
 
-    private final int[] BOTONESMENU = {R.id.linterna, R.id.musica, R.id.nivel};
+    //Array para los botones
+    private final int[] BOTONESMENU = {R.id.linterna, R.id.musica, R.id.nivel, R.id.descarga};
+    //Arrray para los botones iluminados
+    private final int[] BOTONESILUMINADOS = {R.drawable.linterna2, R.drawable.musica2, R.drawable.nivel2, R.drawable.descarga2};
+    //Variable para recibir el boton pulsado desde la acctividad
+    private int boton;
 
     public Menu() {
 
@@ -28,6 +33,14 @@ public class Menu extends Fragment {
         // Inflate the layout for this fragment
         View mimenu = inflater.inflate(R.layout.fragment_menu, container, false);
 
+        boton = -1;
+
+
+        //Controla si se carga por primera vez el menu no de error al no recibir ningun argumento de ActividadHerramienta
+        if (getArguments() != null) {
+            //Rescatamos la informacion del badle mandado del ActividadHerramientas para saber que boton se a pulsado
+            boton = getArguments().getInt("BOTONPULSADO");
+        }
 
         ImageButton botonmenu;
 
@@ -35,6 +48,12 @@ public class Menu extends Fragment {
 
             //Hacemos un casting de las imagenes en los botones
             botonmenu = (ImageButton) mimenu.findViewById(BOTONESMENU[i]);
+
+            //Cambia la imagen de fondo de los botones, si coincide con el fragment elegido se
+            //cambia el boton a iluminado
+            if (boton == i){
+                botonmenu.setImageResource(BOTONESILUMINADOS[i]);
+            }
 
             final int queBoton = i;
 
