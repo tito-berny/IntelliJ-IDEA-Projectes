@@ -106,4 +106,10 @@ public class ActividadHerramientas extends AppCompatActivity implements Comunica
             e.printStackTrace();
         }
     }
+
+    //Sale de la aplicacion con el boton de atras
+    public void onBackPressed(){
+
+        moveTaskToBack(true);
+    }
 }

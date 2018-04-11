@@ -25,7 +25,7 @@ public class ServicioMusica extends Service {
 
     }
 
-        public int onStartComand(Intent intent, int flags, int startId ){
+        public int onStartCommand(Intent intent, int flags, int startId ){
 
 
         miReproductor.start();
@@ -34,10 +34,13 @@ public class ServicioMusica extends Service {
     }
 
     public void onDestroy (){
+
         super.onDestroy();
 
+        //Si la musica esta sonando la paramos
         if (miReproductor.isPlaying()) miReproductor.stop();
 
+        //Liberamos recursos en la memosria
         miReproductor.release();
 
         miReproductor=null;

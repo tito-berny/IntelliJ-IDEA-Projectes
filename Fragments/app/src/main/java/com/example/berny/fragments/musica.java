@@ -44,6 +44,8 @@ public class Musica extends Fragment {
 
         botonMusica = (ImageView) fragmento.findViewById(R.id.musica);
 
+        if(encendida) botonMusica.setImageResource(R.drawable.musica2);
+
         //getActivity().getRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         botonMusica.setOnClickListener(new View.OnClickListener() {

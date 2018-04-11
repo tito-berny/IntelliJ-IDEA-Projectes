@@ -34,6 +34,10 @@ public class Linterna extends Fragment {
 
         botonCamara = (ImageView) fragmento.findViewById(R.id.linterna);
 
+        //Controlamos que i eta ya encendido el flas y volvemos a la linterna la imagen sea la de encendida
+        if(encendida) botonCamara.setImageResource(R.drawable.linterna2);
+
+
         botonCamara.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
