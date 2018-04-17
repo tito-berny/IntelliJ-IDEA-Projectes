@@ -138,15 +138,15 @@ public class Main {
                 }
 
 
-                //-----------------------------BAIXA----------------------------------
+                    //-----------------------------BAIXA----------------------------------
 
 
-                if (string[0].equals("B")) {
+                    if (string[0].equals("B")) {
 
 
-                    //-----------------DEFINITIVA--------------
+                        //-----------------DEFINITIVA--------------
 
-                    if (string[1].equals("BD")) {
+                        if (string[1].equals("BD")) {
 
                         //UPDATE a tbl_vehicles y ponemos la fecha de baja y el tipo de baja BD
 
