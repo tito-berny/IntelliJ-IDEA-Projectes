@@ -3,10 +3,8 @@ package com.company;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
+import java.net.ServerSocket;
 import java.net.Socket;
 
 
@@ -39,7 +37,7 @@ class MarcoCliente extends JFrame{
 	
 }
 
-class LaminaMarcoCliente extends JPanel{
+class LaminaMarcoCliente extends JPanel implements Runnable{
 	
 	public LaminaMarcoCliente(){
 
@@ -68,10 +66,50 @@ class LaminaMarcoCliente extends JPanel{
 
 		add(miboton);
 
+		//Creamos un nuevo hilo
+		Thread mihilo = new Thread(this);
+
+		//Ejecutamos el hilo
+		mihilo.start();
+
 	}
-	
-	
-	
+
+	@Override
+	public void run() {
+		try {
+
+			//Creamos una nueva instancia de ServerSocket y le indicamos el puerto a la escucha
+			ServerSocket servido_cliente = new ServerSocket(9090);
+
+			//Creamos el socket
+			Socket cliente;
+			//Variable del paquete
+			PaqueteEnvio paqueteRecivido;
+
+			//Bucle para que siempre este a la escucha
+			while (true){
+
+				//Le decimos que acepte todas las conecciones que reciva
+				cliente = servido_cliente.accept();
+
+				//Creamos el flujo de datos para transportar e paquete
+				ObjectInputStream flujo_entrada = new ObjectInputStream(cliente.getInputStream());
+
+				//Obtenemos la informacion del paquete casteamos
+				paqueteRecivido = (PaqueteEnvio) flujo_entrada.readObject();
+
+				//Escribimos la informacion en el cuador de texto
+				campochat.append("\n" + paqueteRecivido.getNick() + ": " + paqueteRecivido.getMensaje());
+
+			}
+
+
+		}catch (Exception e){
+			System.out.println(e);
+		}
+	}
+
+
 	private class EnviaTexto implements ActionListener {
 
 		@Override
@@ -79,6 +117,8 @@ class LaminaMarcoCliente extends JPanel{
 
 			System.out.print(campo1.getText());
 
+			//Ponemos nuestro mensaje en nuestr app del cliente
+			campochat.append("\n" + "YO: " + campo1.getText());
 
 			try {
 				//Creamos un nuevo socket, tenemos que indcarle la direccion IP local y el puerto
@@ -133,7 +173,7 @@ class LaminaMarcoCliente extends JPanel{
 	
 }
 
-class PaqueteEnvio {
+class PaqueteEnvio implements Serializable {
 
 	private String nick, ip, mensaje;
 

@@ -5,6 +5,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -57,12 +59,31 @@ class MarcoServidor extends JFrame implements Runnable {
 		try {
 			ServerSocket servidor = new ServerSocket(9999);
 
+			//Variables para guardar la informacion del cliente
+			String nick, ip, mensaje;
+
+			//Instanciapara el paquete
+			PaqueteEnvio paqueteRecivido;
+
+
 			//Creamos un bucle infinito para que siempre acepte la s conecsiones
 			while (true){
 
 				//De decimos que acepte las conecsiones que le vengan en servidor
 				Socket misocket = servidor.accept();
 
+				//Flujo de datos de entrada
+				ObjectInputStream paquete_datos = new ObjectInputStream(misocket.getInputStream());
+
+				//Casteamos del objeto a la clase paqueteEnvio
+				paqueteRecivido = (PaqueteEnvio) paquete_datos.readObject();
+
+				//Obtenemos las variables del objeto y las enapsulamos en las variables locales
+				nick = paqueteRecivido.getNick();
+				ip = paqueteRecivido.getIp();
+				mensaje = paqueteRecivido.getMensaje();
+
+				/*
 				//Recibe el flujo de datos
 				DataInputStream flujo_entrada = new DataInputStream(misocket.getInputStream());
 
@@ -71,6 +92,25 @@ class MarcoServidor extends JFrame implements Runnable {
 
 				//Escribimos en el textArea el texto del Flujo de datos
 				areatexto.append("\n" + mensajeTexto);
+				*/
+
+				//mostramos la informacion recivida en el text area
+				areatexto.append("\n" + nick + " : " + mensaje + "   para :" + ip);
+
+				//Creamos un socket para enviar la informacion recivida al destinatario
+				Socket enviaDestinatario = new Socket(ip, 9090);
+
+				//Creamos el paquete por el socket creado
+				ObjectOutputStream paquete_reenvio = new ObjectOutputStream(enviaDestinatario.getOutputStream());
+
+				//Ponemos la informacion dentro del paquete
+				paquete_reenvio.writeObject(paqueteRecivido);
+
+				//Cerramos coneccion
+				paquete_reenvio.close();
+
+				//Cerramos conecsion paquete
+				enviaDestinatario.close();
 
 				//Cerramos la conecsion
 				misocket.close();
@@ -78,6 +118,8 @@ class MarcoServidor extends JFrame implements Runnable {
 			}
 
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
