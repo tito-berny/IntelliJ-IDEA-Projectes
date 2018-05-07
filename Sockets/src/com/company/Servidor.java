@@ -7,8 +7,11 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Servidor  {
 
@@ -65,12 +68,18 @@ class MarcoServidor extends JFrame implements Runnable {
 			//Instanciapara el paquete
 			PaqueteEnvio paqueteRecivido;
 
+			//ArrayList para almacenar las is de los clientes que se conecten
+			ArrayList<String> listaIp = new ArrayList<>();
+
+
 
 			//Creamos un bucle infinito para que siempre acepte la s conecsiones
 			while (true){
 
 				//De decimos que acepte las conecsiones que le vengan en servidor
 				Socket misocket = servidor.accept();
+
+
 
 				//Flujo de datos de entrada
 				ObjectInputStream paquete_datos = new ObjectInputStream(misocket.getInputStream());
@@ -94,26 +103,68 @@ class MarcoServidor extends JFrame implements Runnable {
 				areatexto.append("\n" + mensajeTexto);
 				*/
 
-				//mostramos la informacion recivida en el text area
-				areatexto.append("\n" + nick + " : " + mensaje + "   para :" + ip);
+				if(!mensaje.equals(" online")) {
 
-				//Creamos un socket para enviar la informacion recivida al destinatario
-				Socket enviaDestinatario = new Socket(ip, 9090);
 
-				//Creamos el paquete por el socket creado
-				ObjectOutputStream paquete_reenvio = new ObjectOutputStream(enviaDestinatario.getOutputStream());
+					//mostramos la informacion recivida en el text area
+					areatexto.append("\n" + nick + " : " + mensaje + "   para :" + ip);
 
-				//Ponemos la informacion dentro del paquete
-				paquete_reenvio.writeObject(paqueteRecivido);
+					//Creamos un socket para enviar la informacion recivida al destinatario
+					Socket enviaDestinatario = new Socket(ip, 9090);
 
-				//Cerramos coneccion
-				paquete_reenvio.close();
+					//Creamos el paquete por el socket creado
+					ObjectOutputStream paquete_reenvio = new ObjectOutputStream(enviaDestinatario.getOutputStream());
 
-				//Cerramos conecsion paquete
-				enviaDestinatario.close();
+					//Ponemos la informacion dentro del paquete
+					paquete_reenvio.writeObject(paqueteRecivido);
 
-				//Cerramos la conecsion
-				misocket.close();
+					//Cerramos coneccion
+					paquete_reenvio.close();
+
+					//Cerramos conecsion paquete
+					enviaDestinatario.close();
+
+					//Cerramos la conecsion
+					misocket.close();
+
+				}else {
+
+					//------------------Detecta Online---------------------------
+
+					InetAddress localizacion = misocket.getInetAddress();
+
+					String ip_remota = localizacion.getHostAddress();
+
+					System.out.println("Online " + ip_remota);
+
+					listaIp.add(ip_remota);
+
+					paqueteRecivido.setIps(listaIp);
+
+					for (String z:listaIp){
+
+						//Creamos un socket para enviar la informacion recivida al destinatario
+						Socket enviaDestinatario = new Socket( z , 9090);
+
+						//Creamos el paquete por el socket creado
+						ObjectOutputStream paquete_reenvio = new ObjectOutputStream(enviaDestinatario.getOutputStream());
+
+						//Ponemos la informacion dentro del paquete
+						paquete_reenvio.writeObject(paqueteRecivido);
+
+						//Cerramos coneccion
+						paquete_reenvio.close();
+
+						//Cerramos conecsion paquete
+						enviaDestinatario.close();
+
+						//Cerramos la conecsion
+						misocket.close();
+					}
+
+
+					//-----------------------------------------------------------
+				}
 
 			}
 

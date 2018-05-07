@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Moto Ruta</string>
+    <string name="title_activity_maps">Map</string>
+
+
+    <string name="buscar_ruta">Buscar Ruta</string>
+    <string name="crear_ruta">Crear Ruta</string>
+
+    <string name="ir_ruta">Anar a la Ruta</string>
+
+    <string name="iniciar_ruta">Començar Ruta</string>
+    <string name="finalizar_ruta">Finalitzar Ruta</string>
+    <string name="guardar_ruta">Guardar</string>
+
+</resources>

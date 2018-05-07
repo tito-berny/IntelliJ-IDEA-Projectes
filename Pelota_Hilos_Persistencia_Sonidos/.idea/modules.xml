@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/IntelliJ-IDEA-Projectes-Pelota_Hilos_Persistencia_Sonidos.iml" filepath="$PROJECT_DIR$/IntelliJ-IDEA-Projectes-Pelota_Hilos_Persistencia_Sonidos.iml" />
       <module fileurl="file://$PROJECT_DIR$/Pelota_Hilos_Persistencia_Sonidos.iml" filepath="$PROJECT_DIR$/Pelota_Hilos_Persistencia_Sonidos.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/Pelota_Hilos_Persistencia_Sonidos-app.iml" filepath="$PROJECT_DIR$/app/Pelota_Hilos_Persistencia_Sonidos-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

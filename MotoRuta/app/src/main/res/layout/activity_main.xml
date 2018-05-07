@@ -3,11 +3,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity" >
+    android:background="@drawable/principal_menu"
+    tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/bBuscarRuta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:alpha="0.7"
+            android:background="@drawable/boton"
+            android:text="@string/buscar_ruta"
+            android:textColor="@color/blanco" />
+
+        <Button
+            android:id="@+id/bCrearRuta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:alpha="0.7"
+            android:background="@drawable/boton"
+            android:text="@string/crear_ruta"
+            android:textColor="@color/blanco"/>
+    </LinearLayout>
 
 </RelativeLayout>

@@ -3,9 +3,12 @@ package com.company;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 
 public class Cliente {
@@ -33,22 +36,74 @@ class MarcoCliente extends JFrame{
 		add(milamina);
 		
 		setVisible(true);
+
+		//Se ejecuta el metos windows open para que envie al servidor la señal que esta online el cliente
+		addWindowListener(new EnvioOnline());
 		}	
 	
+}
+
+			//-------------------------Envio señal Onlone-----------------------
+class EnvioOnline extends WindowAdapter{
+
+	//e ejecuta nada mas abrir la ventana del cliente
+	public void windowOpened(WindowEvent event){
+
+		try {
+
+			//Creamos socket
+			Socket misoket = new Socket("192.168.1.40", 9999);
+
+			//Creamos paquete
+			PaqueteEnvio datos = new PaqueteEnvio();
+
+			datos.setMensaje(" online");
+
+			//Creamos flujo datos para que sepa que estamos online nada mas conectemos
+			ObjectOutputStream paquete_datos = new ObjectOutputStream(misoket.getOutputStream());
+
+			paquete_datos.writeObject(datos);
+
+			//Cerramos socket
+			misoket.close();
+
+
+
+		}catch (Exception e){
+			System.out.println(e);
+		}
+
+	}
+			//.--------------------------------------------------------------------------------
 }
 
 class LaminaMarcoCliente extends JPanel implements Runnable{
 	
 	public LaminaMarcoCliente(){
 
-		nick =new JTextField(5);
+		//preguntamos al usuario su nick
+		String nick_usuario = JOptionPane.showInputDialog("Nick:");
+
+		//Ponemos en una lavel el nick
+		JLabel n_nick = new JLabel("Nick: ");
+		add(n_nick);
+
+		nick = new JLabel();
+		nick.setText(nick_usuario);
 		add(nick);
-	
-		JLabel texto=new JLabel("-CHAT-");
+
+		JLabel texto=new JLabel("Online : ");
 		
 		add(texto);
 
-		ip=new JTextField(8);
+		ip= new JComboBox();
+		//ip.addItem("Usuari 1");
+		//ip.addItem("Usuari 2");
+		//ip.addItem("Usuari 3");
+
+		//ip.addItem("192.168.1.41");
+		//ip.addItem("192.168.1.42");
+
 		add(ip);
 		campochat=new JTextArea(12,20);
 
@@ -98,8 +153,29 @@ class LaminaMarcoCliente extends JPanel implements Runnable{
 				//Obtenemos la informacion del paquete casteamos
 				paqueteRecivido = (PaqueteEnvio) flujo_entrada.readObject();
 
+				if (!paqueteRecivido.getMensaje().equals(" online")){
+
+
 				//Escribimos la informacion en el cuador de texto
-				campochat.append("\n" + paqueteRecivido.getNick() + ": " + paqueteRecivido.getMensaje());
+					campochat.append("\n" + paqueteRecivido.getNick() + ": " + paqueteRecivido.getMensaje());
+				}else {
+
+					//campochat.append("\n " + paqueteRecivido.getIps() );
+
+					//Creamos un nuevo arrayList y le agreganos las ips del paquete
+					ArrayList<String> IpsMenu = new ArrayList<>();
+					IpsMenu = paqueteRecivido.getIps();
+
+					//Borra todos los items del comboBox para que no se sobreescriban los antiguos
+					ip.removeAllItems();
+
+					//Recorremos el array lisrt para obtener las ips
+					for (String z:IpsMenu){
+
+						ip.addItem(z);
+ 					}
+				}
+
 
 			}
 
@@ -129,7 +205,7 @@ class LaminaMarcoCliente extends JPanel implements Runnable{
 
 				//Encapsulamos las variables de nick, ip y mensaje en el nuevo onjeto
 				datos.setNick(nick.getText());
-				datos.setIp(ip.getText());
+				datos.setIp(ip.getSelectedItem().toString());
 				datos.setMensaje(campo1.getText());
 
 				//Necesitamos utilizzar un ObjectOutputStream para poder enviar un objeto
@@ -163,7 +239,11 @@ class LaminaMarcoCliente extends JPanel implements Runnable{
 	}
 		
 		
-	private JTextField campo1, nick, ip;
+	private JTextField campo1;
+
+	private JComboBox ip;
+
+	private JLabel nick;
 	
 	private JButton miboton;
 
@@ -176,6 +256,16 @@ class LaminaMarcoCliente extends JPanel implements Runnable{
 class PaqueteEnvio implements Serializable {
 
 	private String nick, ip, mensaje;
+
+	private ArrayList<String> Ips;
+
+	public ArrayList<String> getIps() {
+		return Ips;
+	}
+
+	public void setIps(ArrayList<String> ips) {
+		Ips = ips;
+	}
 
 	public String getNick() {
 		return nick;

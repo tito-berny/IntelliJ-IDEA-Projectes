@@ -1,3 +1,16 @@
 <resources>
-    <string name="app_name">MotoRuta</string>
+    <string name="app_name">Moto Ruta</string>
+    <string name="title_activity_maps">Map</string>
+
+
+    <string name="buscar_ruta">BUSCAR RUTA</string>
+    <string name="crear_ruta">CREAR RUTA</string>
+
+    <string name="ir_ruta">IR A LA RUTA</string>
+
+    <string name="iniciar_ruta">INICIAR RUTA</string>
+    <string name="finalizar_ruta">FINALIZAR RUTA</string>
+    <string name="guardar_ruta">GUARDAR</string>
+
+
 </resources>
