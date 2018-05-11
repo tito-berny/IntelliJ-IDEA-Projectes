@@ -8,6 +8,11 @@
          location permissions for the 'MyLocation' functionality. 
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+
+
 
     <application
         android:allowBackup="true"
@@ -28,14 +33,14 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <!--
-             The API key for Google Maps-based APIs is defined as a string resource.
-             (See the file "res/values/google_maps_api.xml").
-             Note that the API key is linked to the encryption key used to sign the APK.
-             You need a different API key for each encryption key, including the release key that is used to
-             sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+             La clave API para las API basadas en Google Maps se define como un recurso de cadena.
+             (Ver el archivo "res / values ​​/ google_maps_api.xml").
+             Tenga en cuenta que la clave API está vinculada a la clave de cifrado utilizada para firmar el APK.
+             Necesita una clave de API diferente para cada clave de cifrado, incluida la clave de liberación que se utiliza para
+             Firme el APK para publicar.
+             Puede definir las claves para los objetivos de depuración y liberación en src / debug / y src / release /.
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -43,7 +48,12 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".BuscarRutaActivity"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

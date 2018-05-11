@@ -2,23 +2,23 @@
     <!--
     TODO: Before you run your application, you need a Google Maps API key.
 
-    To get one, follow this link, follow the directions and press "Create" at the end:
+    Para obtener uno, siga este enlace, siga las instrucciones y presione "Crear" al final:
 
-    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=4D:FA:D4:D6:68:0D:DF:7B:F8:30:68:CC:4C:CE:A7:8E:4C:01:79:0F%3Bcom.example.berny.motoruta
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=4D:FA:D4:D6:68:0D:DF:7B:F8:30:68:CC:4C:CE: A7: 8E: 4C: 01: 79: 0F% 3Bcom.example.berny.motoruta
 
-    You can also add your credentials to an existing key, using these values:
+    También puede agregar sus credenciales a una clave existente, usando estos valores:
 
-    Package name:
-    4D:FA:D4:D6:68:0D:DF:7B:F8:30:68:CC:4C:CE:A7:8E:4C:01:79:0F
+    Nombre del paquete:
+    4D: FA: D4: D6: 68: 0D: DF: 7B: F8: 30: 68: CC: 4C: CE: A7: 8E: 4C: 01: 79: 0F
 
-    SHA-1 certificate fingerprint:
-    4D:FA:D4:D6:68:0D:DF:7B:F8:30:68:CC:4C:CE:A7:8E:4C:01:79:0F
+    Huella digital del certificado SHA-1:
+    4D: FA: D4: D6: 68: 0D: DF: 7B: F8: 30: 68: CC: 4C: CE: A7: 8E: 4C: 01: 79: 0F
 
-    Alternatively, follow the directions here:
-    https://developers.google.com/maps/documentation/android/start#get-key
+    Alternativamente, siga las instrucciones aquí:
+    https://developers.google.com/maps/documentation/android/start#get-key
 
-    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
-    string in this file.
+    Una vez que tenga su clave (comienza con "AIza"), reemplace la "google_maps_key"
+    cadena en este archivo.
     -->
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">YOUR_KEY_HERE</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDSIf_wuNIUFeOlBtelMjYsXG6GPLfj2bE</string>
 </resources>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BuscarRutaActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/miMapa"
+            android:layout_width="350dp"
+            android:layout_height="250dp"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/tvAlias"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:text="TextView"
+            tools:layout_editor_absoluteX="111dp"
+            tools:layout_editor_absoluteY="75dp" />
+
+        <TextView
+            android:id="@+id/tvEmail"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:text="TextView"
+            tools:layout_editor_absoluteX="111dp"
+            tools:layout_editor_absoluteY="140dp" />
+
+        <TextView
+            android:id="@+id/tvPass"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:text="TextView"
+            tools:layout_editor_absoluteX="111dp"
+            tools:layout_editor_absoluteY="201dp" />
+
+        <TextView
+            android:id="@+id/tvMoto"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:text="TextView"
+            tools:layout_editor_absoluteX="111dp"
+            tools:layout_editor_absoluteY="265dp" />
+
+        <TextView
+            android:id="@+id/tvNivel"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:text="TextView"
+            tools:layout_editor_absoluteX="111dp"
+            tools:layout_editor_absoluteY="330dp" />
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
