@@ -4,9 +4,11 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.berny.motoruta.DataBase.ConexionSQLiteHelper;
@@ -21,12 +23,16 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 public class BuscarRutaActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     public ConexionSQLiteHelper con;
 
     private GoogleMap mMap;
+    private RatingBar ratingBar;
+
 
     private MapView mapView;
 
@@ -59,8 +65,11 @@ public class BuscarRutaActivity extends AppCompatActivity implements OnMapReadyC
 
         mapView = (MapView) findViewById(R.id.miMapa);
         mapView.onCreate(savedInstanceState);
+        ratingBar = (RatingBar) findViewById(R.id.ratingBar);
 
+        SQLiteDatabase db = con.getReadableDatabase();
 
+/*
             TextView alias = (TextView) findViewById(R.id.tvAlias);
             TextView email = (TextView) findViewById(R.id.tvEmail);
             TextView moto = (TextView) findViewById(R.id.tvMoto);
@@ -91,7 +100,7 @@ public class BuscarRutaActivity extends AppCompatActivity implements OnMapReadyC
             c.close();
             db.close();
 
-
+*/
     }
 
     @Override
@@ -99,22 +108,38 @@ public class BuscarRutaActivity extends AppCompatActivity implements OnMapReadyC
 
         mMap = googleMap;
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+        }else
+        {
+
+
+        }
+
+
+        // Add a thin red line from London to New York.
+        Polyline line = mMap.addPolyline(new PolylineOptions()
+                .add(new LatLng(51.5, -0.1), new LatLng(40.7, -74.0))
+                .width(5)
+                .color(Color.BLUE));
+
         // Add a marker in Sydney and move the camera
        // LatLng sydney = new LatLng(-34, 151);
         //mMap.addMarker(new MarkerOptions().position(sydney).title("Marca en Sydney"));
-        float zoom = 10;
+        //float zoom = 10;
         //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, zoom));
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        mMap.moveCamera(CameraUpdateFactory.zoomTo(zoom));
+        //if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        //    return;
+        //}
+        //mMap.moveCamera(CameraUpdateFactory.zoomTo(zoom));
         //Poner en nuestra ubi
         mMap.setMyLocationEnabled(true);
 
         //Quitar boton Localizacion
-        mMap.getUiSettings().setMyLocationButtonEnabled(false);
-        mMap.setBuildingsEnabled(true);
+        //mMap.getUiSettings().setMyLocationButtonEnabled(false);
+        //mMap.setBuildingsEnabled(true);
     }
+
 }

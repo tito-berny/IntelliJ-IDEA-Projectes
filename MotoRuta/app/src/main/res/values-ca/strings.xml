@@ -14,4 +14,23 @@
     <string name="finalizar_ruta">Finalitzar Ruta</string>
     <string name="guardar_ruta">Guardar</string>
 
+    <string name="reanudar_ruta">Reprendre</string>
+    <string name="pausa">Pausa</string>
+
+    <!--Alerta Crear ruta -->
+    <string name="alerta_GPS_desactivado_titulo">GPS Desactivat</string>
+    <string name="alerta_GPS_desactivado">Moto Ruta necessita que s\'activi el GPS</string>
+
+    <!--Crear ruta -->
+    <string name="boton_siguiente_ruta">Següent</string>
+    <string name="boton_anterior_ruta">Anterior</string>
+    <string name="comentario_ruta">Comentari</string>
+
+    <!--Guardar ruta -->
+    <string name="nombre_ruta">Nom Ruta</string>
+    <string name="distancia_ruta">Distancia</string>
+    <string name="tiempo_ruta">Temps</string>
+    <string name="valoracion_ruta">Valoracio</string>
+    <string name="meteorologia_ruta">Meteorologia</string>
+
 </resources>

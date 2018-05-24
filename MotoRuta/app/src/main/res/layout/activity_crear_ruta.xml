@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/principal_menu"
+    tools:context=".CrearRutaActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/miMapa2"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_gravity="center"
+            android:layout_margin="10dp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="120dp" />
+
+        <Button
+            android:id="@+id/bIniciarRuta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:alpha="0.7"
+            android:background="@drawable/boton"
+            android:text="@string/iniciar_ruta"
+            android:textColor="@color/blanco" />
+
+        <Button
+            android:id="@+id/bFinalizarRuta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:alpha="0.7"
+            android:background="@drawable/boton"
+            android:enabled="false"
+            android:text="@string/finalizar_ruta"
+            android:textColor="@color/blanco" />
+    </LinearLayout>
+
+</RelativeLayout>

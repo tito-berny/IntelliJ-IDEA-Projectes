@@ -1,21 +1,13 @@
 package com.example.berny.motoruta;
 
 import android.app.Activity;
-import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.berny.motoruta.DataBase.ConexionSQLiteHelper;
-import com.example.berny.motoruta.DataBase.tbl_Comentario;
-import com.example.berny.motoruta.DataBase.tbl_Ruta;
-import com.example.berny.motoruta.DataBase.tbl_Usuario;
-import com.example.berny.motoruta.Entidades.Usuario;
 import com.example.berny.motoruta.Utilidades.Utilidades;
 
 public class MainActivity extends Activity {
@@ -36,20 +28,13 @@ public class MainActivity extends Activity {
         con = new ConexionSQLiteHelper(this, Utilidades.DATABASE_NAME,null, Utilidades.DATABASE_VERSION);
 
 
-        //tbl_Usuario tbl_usuario = new tbl_Usuario(this);
-        //tbl_Ruta tbl_ruta = new tbl_Ruta(this);
-        //tbl_Comentario tbl_comentario = new tbl_Comentario(this);
-
-        //SQLiteDatabase db = tbl_ruta.getWritableDatabase();
-        //SQLiteDatabase db1 = tbl_comentario.getWritableDatabase();
-
         //**********PARA FORENG KEY FUNCIONEN****************
         /*SQLiteDatabase db = pSQL.getWritableDatabase();
         if (!db.isReadOnly()) {
             db.execSQL("PRAGMA foreign_keys = ON;");
         }*/
 
-        crearUsuarioSQL();
+        //crearUsuarioSQL();
 
 
 
@@ -79,7 +64,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                Intent crear = new Intent(MainActivity.this, MapsActivity.class);
+                Intent crear = new Intent(MainActivity.this, CrearRutaActivity.class);
 
                 startActivity(crear);
 
@@ -89,9 +74,8 @@ public class MainActivity extends Activity {
         //..........................................................................................
     }
 
-    private void crearUsuarioSQL() {
 
-        //tbl_Usuario tbl_usuario = new tbl_Usuario(this);
+    private void crearUsuarioSQL() {
 
         SQLiteDatabase db = con.getWritableDatabase();
 

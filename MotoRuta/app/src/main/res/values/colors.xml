@@ -7,8 +7,10 @@
     <color name="negro">#000000</color>
     <color name="gris">#212121</color>
     <color name="grisClaro">#424242</color>
-    <color name="blanco" >#ffffff</color>
+    <color name="blanco">#ffffff</color>
     <color name="Transparent80">#80000000</color>
+
+    <color name="black_overlay">#66000000</color>
 
 
 </resources>

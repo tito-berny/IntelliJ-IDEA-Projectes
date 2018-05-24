@@ -6,6 +6,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.berny.motoruta.Utilidades.Utilidades;
 
+/**
+ * Controla el acceso a la BBDD
+ * la crea en su metodo onCreate y la Actualiza en su metodo onUpgrade
+ */
 public class ConexionSQLiteHelper extends SQLiteOpenHelper {
 
     public ConexionSQLiteHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -15,6 +19,7 @@ public class ConexionSQLiteHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
+        //Crea tablas especificadas en Utilidades
         db.execSQL(Utilidades.SQL_CREAR_TBL_USUARIO);
         db.execSQL(Utilidades.SQL_CREAR_TBL_RUTA);
         db.execSQL(Utilidades.SQL_CREAR_TBL_COMENTARIO);
