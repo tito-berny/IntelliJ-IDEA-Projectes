@@ -9,6 +9,9 @@
     <color name="grisClaro">#424242</color>
     <color name="blanco">#ffffff</color>
     <color name="Transparent80">#80000000</color>
+    <color name="estrella_encendida">#E5E7E9</color>
+    <color name="estrella_apagada">#F1C40F</color>
+
 
     <color name="black_overlay">#66000000</color>
 

@@ -1,13 +1,19 @@
 package com.example.berny.motoruta;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -19,6 +25,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -26,48 +33,69 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-public class BuscarRutaActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class BuscarRutaActivity extends FragmentActivity implements OnMapReadyCallback {
 
     public ConexionSQLiteHelper con;
 
     private GoogleMap mMap;
     private RatingBar ratingBar;
 
+    private Button anterior, siguiente;
+
+    LocationManager locationManager;
+
 
     private MapView mapView;
 
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mapView.onResume();
-    }
-
-    @Override
-    protected void onDestroy() {
-
-        super.onDestroy();
-        mapView.onDestroy();
-    }
-
-    @Override
-    protected void onPause() {
-
-        super.onPause();
-        mapView.onPause();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buscar_ruta);
+        SupportMapFragment mapFragment = (SupportMapFragment)
+                getSupportFragmentManager().findFragmentById(R.id.mRuta);
+        mapFragment.getMapAsync(this);
 
-        mapView = (MapView) findViewById(R.id.miMapa);
-        mapView.onCreate(savedInstanceState);
-        ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+        //onMapReady(mMap);
 
-        SQLiteDatabase db = con.getReadableDatabase();
+        anterior = (Button) findViewById(R.id.bAnterior);
+        siguiente = (Button) findViewById(R.id.bSiguiente);
+
+        ratingBar = (RatingBar) findViewById(R.id.ratingBar2);
+
+
+        //-----------------     BOTONES            -------------------------------------------------
+
+
+        //Escuchador de clicks en botones lanza vista buscar ruta
+        anterior.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent buscar = new Intent(BuscarRutaActivity.this, MapsActivity.class);
+
+                //buscar.putExtra("conexion", (Parcelable) con);
+
+                startActivity(buscar);
+
+            }
+        });
+
+        //Escuchador de clicks en botones, pone 0 todos los valores
+        siguiente.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent crear = new Intent(BuscarRutaActivity.this, CrearRutaActivity.class);
+
+                startActivity(crear);
+
+            }
+        });
+
+        //..........................................................................................
+
+        //SQLiteDatabase db = con.getReadableDatabase();
 
 /*
             TextView alias = (TextView) findViewById(R.id.tvAlias);
@@ -108,15 +136,6 @@ public class BuscarRutaActivity extends AppCompatActivity implements OnMapReadyC
 
         mMap = googleMap;
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-        {
-        }else
-        {
-
-
-        }
-
-
         // Add a thin red line from London to New York.
         Polyline line = mMap.addPolyline(new PolylineOptions()
                 .add(new LatLng(51.5, -0.1), new LatLng(40.7, -74.0))
@@ -134,8 +153,9 @@ public class BuscarRutaActivity extends AppCompatActivity implements OnMapReadyC
         //    return;
         //}
         //mMap.moveCamera(CameraUpdateFactory.zoomTo(zoom));
+
         //Poner en nuestra ubi
-        mMap.setMyLocationEnabled(true);
+       // mMap.setMyLocationEnabled(true);
 
         //Quitar boton Localizacion
         //mMap.getUiSettings().setMyLocationButtonEnabled(false);

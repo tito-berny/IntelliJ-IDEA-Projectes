@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -14,11 +15,19 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,7 +38,9 @@ import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
 
-public class CrearRutaActivity extends AppCompatActivity {
+public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCallback {
+
+    private GoogleMap mMap;
 
     Button inicia, finaliza;
     Float lat, log;
@@ -38,6 +49,11 @@ public class CrearRutaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_ruta);
+        // Obtenga el SupportMapFragment y reciba notificaciones cuando el mapa esté listo para ser utilizado.
+        SupportMapFragment mapFragment = (SupportMapFragment)
+                getSupportFragmentManager().findFragmentById(R.id.mapa);
+        mapFragment.getMapAsync(this);
+
 
         //Clases del GPS
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -55,9 +71,8 @@ public class CrearRutaActivity extends AppCompatActivity {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-            //Llama al escuchador del gps
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
-
+        //Llama al escuchador del gps
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
 
 
         //-----------------     BOTONES            -------------------------------------------------
@@ -72,13 +87,12 @@ public class CrearRutaActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
-
-                if (inicia.getText().equals(R.string.iniciar_ruta)){
+                if (inicia.getText().equals(R.string.iniciar_ruta)) {
 
                     inicia.setText(R.string.pausa);
                 }
 
-                if (inicia.getText().equals(R.string.pausa)){
+                if (inicia.getText().equals(R.string.pausa)) {
                     inicia.setText(R.string.reanudar_ruta);
                 }
 
@@ -93,7 +107,7 @@ public class CrearRutaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-            MyLocationListener my = new MyLocationListener();
+                MyLocationListener my = new MyLocationListener();
 
                 Intent guardar = new Intent(CrearRutaActivity.this, GuardarRutaActivity.class);
 
@@ -107,6 +121,44 @@ public class CrearRutaActivity extends AppCompatActivity {
         });
 
         //..........................................................................................
+
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
+        mMap = googleMap;
+
+        // Add a marker in Sydney and move the camera
+        //LatLng sydney = new LatLng(-34, 151);
+        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marca en Sydney"));
+        //float zoom = 10;
+        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, zoom));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+
+        //Poner en nuestra ubi
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
+
+        // DIBUJAR LINEA DE UN PUNTO A OTRO red line from London to New York.
+       /* Polyline line = mMap.addPolyline(new PolylineOptions()
+                .add(new LatLng(51.5, -0.1), new LatLng(40.7, -74.0))
+                .width(5)
+                .color(Color.RED));*/
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
 
