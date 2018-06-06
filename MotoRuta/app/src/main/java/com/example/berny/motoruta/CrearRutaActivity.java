@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,8 +23,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -52,7 +55,17 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
 
     private GoogleMap mMap;
 
+    //Tamaño de lineas Lat|Lng/n a cada vez que e guarda en el fichero tmp
+    private final int tamaño_lineas_a_guardar = 5;
+
+    //Botones
     private Button inicia, finaliza;
+    //Sonido Botones
+    private MediaPlayer mpInicia;
+
+    //TextView
+    private TextView tiempo;
+
     private Float lat, log;
 
     private boolean guardar;
@@ -69,7 +82,14 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
                 getSupportFragmentManager().findFragmentById(R.id.mRuta);
         mapFragment.getMapAsync(this);
 
+        //Boton guardar sin pulsar
         guardar = false;
+
+        //TODO Iniciamos sonido
+        //mpInicia = MediaPlayer.create(this,R.raw.cbrarranca);
+
+        //Inicia TextView Tiempo
+        tiempo = (TextView) findViewById(R.id.tvTiempo);
 
         //Clases del GPS
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -78,13 +98,7 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
 
         //Permisos del GPS
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+
             return;
         }
         //Llama al escuchador del gps
@@ -103,39 +117,52 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
             @Override
             public void onClick(View v) {
 
-                if (guardar){
+                //TODO Sonido boton
+                //mpInicia.start();
 
-                    inicia.setText(R.string.reanudar_ruta);
-                    guardar = false;
 
-                    //Avisamos al usuario que el guardado esta en pause mediante un Toast
-                    Toast.makeText(
-                            getBaseContext(),
-                            R.string.Toast_pausa_guardado_ruta , Toast.LENGTH_SHORT).show();
+                //Controlamos si el boton ya se a pulsado o no
+                if (!guardar){
 
-                }else {
+                    //Inicia cronometro
+                    Cronometro cronometro = new Cronometro();
+                    cronometro.execute();
 
+                    //Ponemos boton en no pulsado
                     guardar = true;
+                    //Cambia texto boton a pausa
                     inicia.setText(R.string.pausa);
 
                     //Avisamos al usuario que comenzo a guardarse la ruta mediante un Toast
-                    Toast.makeText(
-                            getBaseContext(),
-                            R.string.Toast_comienza_guardado_ruta , Toast.LENGTH_SHORT).show();
+                    Toast aviso = Toast.makeText(getBaseContext(), R.string.Toast_comienza_guardado_ruta , Toast.LENGTH_SHORT);
+                    aviso.setGravity(Gravity.CENTER, 0,0);
+                    aviso.show();
+
+                }else {
+
+                    //Cambia texto boton a Reanudar ruta
+                    inicia.setText(R.string.reanudar_ruta);
+                    //Ponemos el boton en pulsado
+                    guardar = false;
+
+                    //Avisamos al usuario que el guardado esta en pause mediante un Toast
+                    Toast toast = Toast.makeText(getBaseContext(), R.string.Toast_pausa_guardado_ruta , Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
 
                 }
-               // CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
-                //mMap.animateCamera(cameraUpdate);
+
 
             }
         });
 
-        //Escuchador de clicks en botones, pone 0 todos los valores
+        //Escuchador boton finalizar,
+        //Para el cronometro, lanza nueva activity pasandole los valores de ruta
         finaliza.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                MyLocationListener my = new MyLocationListener();
+
 
 
                 Intent guardar = new Intent(CrearRutaActivity.this, GuardarRutaActivity.class);
@@ -239,7 +266,7 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
 
         ArrayList<String> latlog = new ArrayList<String>();
 
-        int i = 0;
+        int i = 1;
 
         File internalStorageDir = getFilesDir();
         File ruta = new File(internalStorageDir, "ruta_tmp.txt");
@@ -265,7 +292,7 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
 
                 //Guardamos en un fichero temporal las nuevas lat lng cada vez que se llene
                 //Podemos determinar cada cuantos cambio se guarda en el fichero (i = 1000)
-                if (i==100) {
+                if (i==tamaño_lineas_a_guardar) {
                     for (String aLista : latlog) {
 
                         // Create file output stream
@@ -285,7 +312,7 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
                     //Limpimos Array al guardarla ya en fichero
                     latlog.clear();
                     //Reiniciamos el contador
-                    i=0;
+                    i=1;
 
                 }else {
                     //Añadimos 1 al contador para llegar al maximo y empezar el guardado en fichero
@@ -421,7 +448,58 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
 
     }
 
-}
+    /**
+     * Clase para cronometrar el tiempo de ruta
+     * Actualiza el TextField tfTiempo
+     */
+    class Cronometro extends AsyncTask < Void, String , Void > {
+
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+
+            int minutos;
+            int segundos;
+            int horas;
+
+            String total;
+            //Contador de Horas Minutos Segundos
+            for (horas=0; horas<100; horas++){
+
+                for (minutos=0; minutos<60; minutos++){
+
+                    for (segundos=0; segundos<60; segundos++){
+
+                        //Genera un String con hh:mm:ss
+                        total= (horas + " h: " + minutos + " m: " + segundos + " s");
+                        esperaSegundo();
+                        publishProgress(total);
+                    }
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+
+            //Actualiza el TextField con el String generado
+            tiempo.setText(values[0]);
+
+        }
+
+        private void esperaSegundo() {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    }
 
 
 

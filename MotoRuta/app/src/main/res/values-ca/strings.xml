@@ -22,6 +22,8 @@
     <string name="pausa">Pausa</string>
     <string name="Toast_comienza_guardado_ruta">Ruta Iniciada</string>
     <string name="Toast_pausa_guardado_ruta">Ruta en Pausa</string>
+    <string name="tiempo_total">Temps Total :</string>
+
 
     <!--Alerta Crear ruta -->
     <string name="alerta_GPS_desactivado_titulo">GPS Desactivat</string>

@@ -3,6 +3,7 @@ package com.example.berny.motoruta;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +16,8 @@ public class MainActivity extends Activity {
     public ConexionSQLiteHelper con;
 
     Button buscarRuta, crearRuta;
+
+     MediaPlayer mpInicia1;
 
 
     @Override
@@ -43,6 +46,8 @@ public class MainActivity extends Activity {
 
         buscarRuta = (Button) findViewById(R.id.bBuscarRuta);
         crearRuta = (Button) findViewById(R.id.bCrearRuta);
+        //TODO sonido
+        //mpInicia1 = MediaPlayer.create(this, R.raw.cbrarranca);
 
 
         //Escuchador de clicks en botones lanza vista buscar ruta
@@ -55,6 +60,9 @@ public class MainActivity extends Activity {
                 //buscar.putExtra("conexion", (Parcelable) con);
 
                 startActivity(buscar);
+
+                //TODO sonido
+                //mpInicia1.start();
 
             }
         });
