@@ -13,30 +13,22 @@
         android:orientation="vertical">
 
         <fragment
-            android:id="@+id/mapa"
+            android:id="@+id/mRuta"
             android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="350dp"
-            android:layout_height="250dp"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
             tools:layout="@layout/activity_maps" />
 
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="50dp" />
+    </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-
-        </LinearLayout>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="80dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/bIniciarRuta"

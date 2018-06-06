@@ -9,16 +9,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    private MainActivity Mapa;
+
     private GoogleMap mMap;
 
     private RatingBar ratingBar;
@@ -29,7 +31,7 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guardar_ruta);
         SupportMapFragment mapFragment = (SupportMapFragment)
-                getSupportFragmentManager().findFragmentById(R.id.mapa);
+                getSupportFragmentManager().findFragmentById(R.id.mRuta);
         mapFragment.getMapAsync(this);
 
 
@@ -58,10 +60,21 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        LatLng efds = new LatLng(51.5, -0.1);
+
+        // Add a thin red line from London to New York.
         Polyline line = mMap.addPolyline(new PolylineOptions()
                 .add(new LatLng(51.5, -0.1), new LatLng(40.7, -74.0))
                 .width(5)
-                .color(Color.RED));
+                .color(Color.BLUE));
+
+        // Add a marker in Sydney and move the camera
+        // LatLng sydney = new LatLng(-34, 151);
+        mMap.addMarker(new MarkerOptions().position(efds).title("Marca en Sydney"));
+        //float zoom = 10;
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(efds, 10));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(efds));
+
     }
 
 

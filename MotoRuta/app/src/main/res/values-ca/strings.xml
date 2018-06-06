@@ -4,27 +4,28 @@
     <string name="app_name">Moto Ruta</string>
     <string name="title_activity_maps">Map</string>
 
-
+    <!--Menu principal -->
     <string name="buscar_ruta">Buscar Ruta</string>
     <string name="crear_ruta">Crear Ruta</string>
 
+    <!--Buscar Ruta -->
+    <string name="boton_siguiente_ruta">Següent</string>
+    <string name="boton_anterior_ruta">Anterior</string>
     <string name="ir_ruta">Anar a la Ruta</string>
 
-    <string name="iniciar_ruta">Començar Ruta</string>
-    <string name="finalizar_ruta">Finalitzar Ruta</string>
     <string name="guardar_ruta">Guardar</string>
 
+    <!--Crear ruta -->
+    <string name="iniciar_ruta">Començar Ruta</string>
+    <string name="finalizar_ruta">Finalitzar Ruta</string>
     <string name="reanudar_ruta">Reprendre</string>
     <string name="pausa">Pausa</string>
+    <string name="Toast_comienza_guardado_ruta">Ruta Iniciada</string>
+    <string name="Toast_pausa_guardado_ruta">Ruta en Pausa</string>
 
     <!--Alerta Crear ruta -->
     <string name="alerta_GPS_desactivado_titulo">GPS Desactivat</string>
     <string name="alerta_GPS_desactivado">Moto Ruta necessita que s\'activi el GPS</string>
-
-    <!--Crear ruta -->
-    <string name="boton_siguiente_ruta">Següent</string>
-    <string name="boton_anterior_ruta">Anterior</string>
-    <string name="comentario_ruta">Comentari</string>
 
     <!--Guardar ruta -->
     <string name="nombre_ruta">Nom Ruta</string>
@@ -32,5 +33,6 @@
     <string name="tiempo_ruta">Temps</string>
     <string name="valoracion_ruta">Valoracio</string>
     <string name="meteorologia_ruta">Meteorologia</string>
+    <string name="comentario_ruta">Comentari</string>
 
 </resources>

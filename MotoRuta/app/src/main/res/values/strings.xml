@@ -2,28 +2,30 @@
     <string name="app_name">Moto Ruta</string>
     <string name="title_activity_maps">Map</string>
 
-
+    <!--Menu principal -->
     <string name="buscar_ruta">Buscar Ruta</string>
     <string name="crear_ruta">Crear Ruta</string>
 
+    <!--Buscar Ruta -->
+    <string name="boton_siguiente_ruta">Siguiente</string>
+    <string name="boton_anterior_ruta">Anterior</string>
     <string name="ir_ruta">Ir a la Ruta</string>
 
     <string name="iniciar_ruta">Iniciar Ruta</string>
     <string name="finalizar_ruta">Finalizar Ruta</string>
     <string name="guardar_ruta">Guardar</string>
 
+
+    <!--Crear ruta -->
     <string name="reanudar_ruta">Reanudar</string>
     <string name="pausa">Pausa</string>
-
+    <string name="Toast_comienza_guardado_ruta">Ruta Iniciada</string>
+    <string name="Toast_pausa_guardado_ruta">Ruta en Pausa</string>
 
     <!--Alerta Crear ruta -->
     <string name="alerta_GPS_desactivado_titulo">GPS Desactivado</string>
     <string name="alerta_GPS_desactivado">Moto Ruta necesita que se active el GPS</string>
 
-    <!--Crear ruta -->
-    <string name="boton_siguiente_ruta">Siguiente</string>
-    <string name="boton_anterior_ruta">Anterior</string>
-    <string name="comentario_ruta">Comentario</string>
 
     <!--Guardar ruta -->
     <string name="nombre_ruta">Nombre Ruta</string>
@@ -31,6 +33,7 @@
     <string name="tiempo_ruta">Tiempo</string>
     <string name="valoracion_ruta">Valoración</string>
     <string name="meteorologia_ruta">Meteorologia</string>
+    <string name="comentario_ruta">Comentario</string>
 
 
 

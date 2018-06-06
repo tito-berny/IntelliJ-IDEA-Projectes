@@ -34,7 +34,7 @@ public class MainActivity extends Activity {
             db.execSQL("PRAGMA foreign_keys = ON;");
         }*/
 
-        //crearUsuarioSQL();
+        crearUsuarioSQL();
 
 
 

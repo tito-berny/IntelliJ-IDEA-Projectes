@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -27,6 +28,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -35,9 +37,10 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 public class BuscarRutaActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    public ConexionSQLiteHelper con;
-
     private GoogleMap mMap;
+
+    //public ConexionSQLiteHelper con;
+
     private RatingBar ratingBar;
 
     private Button anterior, siguiente;
@@ -136,6 +139,8 @@ public class BuscarRutaActivity extends FragmentActivity implements OnMapReadyCa
 
         mMap = googleMap;
 
+        LatLng efds = new LatLng(51.5, -0.1);
+
         // Add a thin red line from London to New York.
         Polyline line = mMap.addPolyline(new PolylineOptions()
                 .add(new LatLng(51.5, -0.1), new LatLng(40.7, -74.0))
@@ -144,10 +149,17 @@ public class BuscarRutaActivity extends FragmentActivity implements OnMapReadyCa
 
         // Add a marker in Sydney and move the camera
        // LatLng sydney = new LatLng(-34, 151);
-        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marca en Sydney"));
-        //float zoom = 10;
-        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, zoom));
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.addMarker(new MarkerOptions().position(efds).title("Marca en Sydney"));
+
+
+        //Determina la posicion de la camara
+       // CameraPosition CameraPosition = new CameraPosition(efds,10,55,5);
+        //mueve la camara a la posicion
+        //mMap.moveCamera(CameraUpdateFactory.newCameraPosition(CameraPosition));
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(efds, 10));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(efds));
+
 
         //if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
         //    return;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@drawable/principal_menu"
         android:gravity="center"
         android:orientation="vertical"
@@ -20,7 +20,7 @@
             android:id="@+id/mRuta"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="350dp"
-            android:layout_height="230dp"
+            android:layout_height="250dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
             tools:layout="@layout/activity_maps" />
@@ -56,13 +56,14 @@
                 android:layout_marginLeft="1dp"
                 android:layout_marginRight="1dp"
                 android:layout_marginStart="1dp"
-                android:clickable="true"
+                android:numStars="5"
+                android:paddingLeft="0dp"
                 android:rating="3"
                 android:theme="@style/RatingBar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-            />
+
 
         </LinearLayout>
 
@@ -123,6 +124,7 @@
                 android:id="@+id/bAnterior"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:alpha="0.7"
@@ -134,6 +136,7 @@
                 android:id="@+id/bSiguiente"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:alpha="0.7"
@@ -144,4 +147,4 @@
 
     </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

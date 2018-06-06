@@ -4,33 +4,35 @@
     <string name="app_name">MotoRoute</string>
     <string name="title_activity_maps">Map</string>
 
-
+    <!--Menu principal -->
     <string name="buscar_ruta">Search Route</string>
     <string name="crear_ruta">Create Route</string>
 
+    <!--Buscar Ruta -->
+    <string name="boton_siguiente_ruta">Next</string>
+    <string name="boton_anterior_ruta">Back</string>
     <string name="ir_ruta">Go Route</string>
 
+    <!--Crear ruta -->
     <string name="iniciar_ruta">Start Route</string>
     <string name="finalizar_ruta">End Route</string>
-    <string name="guardar_ruta">Save</string>
-
     <string name="reanudar_ruta">Resume</string>
     <string name="pausa">Pause</string>
+    <string name="Toast_comienza_guardado_ruta">Start Route</string>
+    <string name="Toast_pausa_guardado_ruta">Route Pausa</string>
 
     <!--Alerta Crear ruta -->
     <string name="alerta_GPS_desactivado_titulo">GPS Off</string>
     <string name="alerta_GPS_desactivado">Moto Ruta needs to activate the GPS</string>
 
-    <!--Crear ruta -->
-    <string name="boton_siguiente_ruta">Next</string>
-    <string name="boton_anterior_ruta">Back</string>
-    <string name="comentario_ruta">Commentary</string>
 
     <!--Guardar ruta -->
     <string name="nombre_ruta">Name Route</string>
     <string name="distancia_ruta">Distance</string>
     <string name="tiempo_ruta">Time</string>
     <string name="valoracion_ruta">Assessment</string>
+    <string name="comentario_ruta">Commentary</string>
+    <string name="guardar_ruta">Save</string>
 
 
 
