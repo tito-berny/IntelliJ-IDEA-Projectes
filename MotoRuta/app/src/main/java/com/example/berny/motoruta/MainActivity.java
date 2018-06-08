@@ -15,9 +15,9 @@ public class MainActivity extends Activity {
 
     public ConexionSQLiteHelper con;
 
-    Button buscarRuta, crearRuta;
-
-     MediaPlayer mpInicia1;
+    private Button buscarRuta, crearRuta;
+    //TOdo audio
+    //private MediaPlayer mpInicia1;
 
 
     @Override

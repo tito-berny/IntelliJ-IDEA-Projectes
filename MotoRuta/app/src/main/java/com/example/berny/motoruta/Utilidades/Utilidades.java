@@ -40,7 +40,7 @@ public class Utilidades {
     public static final String COLUMNA_NOMBRE = "nombre";
     public static final String COLUMNA_FECHA = "fecha";
     public static final String COLUMNA_TIEMPO = "tiempo";
-    public static final String COLUMNA_METEOROLOGIA = "meteorología";
+    public static final String COLUMNA_METEOROLOGIA = "meteorologia";
     public static final String COLUMNA_VALORACION = "valoracion";
     public static final String COLUMNA_PATH = "path";
 
@@ -52,7 +52,7 @@ public class Utilidades {
             + COLUMNA_FECHA + " text,"
             + COLUMNA_TIEMPO + " integer,"
             + COLUMNA_METEOROLOGIA + " integer,"
-            + COLUMNA_VALORACION + " integer,"
+            + COLUMNA_VALORACION + " REAL,"
             + COLUMNA_PATH + " text"
             + ");";
 
