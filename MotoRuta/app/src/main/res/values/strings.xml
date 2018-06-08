@@ -27,15 +27,27 @@
     <!--Alerta Crear ruta -->
     <string name="alerta_GPS_desactivado_titulo">GPS Desactivado</string>
     <string name="alerta_GPS_desactivado">Moto Ruta necesita que se active el GPS</string>
+    <string name="alerta_guardar_titulo">Guardar</string>
+    <string name="alerta_guardar">¿De veras quiere guardar la ruta?</string>
+
 
 
     <!--Guardar ruta -->
     <string name="nombre_ruta">Nombre Ruta</string>
     <string name="distancia_ruta">Distancia</string>
     <string name="tiempo_ruta">Tiempo</string>
+    <string name="fecha">Fecha</string>
     <string name="valoracion_ruta">Valoración</string>
     <string name="meteorologia_ruta">Meteorologia</string>
     <string name="comentario_ruta">Comentario</string>
+    <!--Alerta Guarda ruta-->
+    <string name="titulo_alerta_guardado">Ruta guardada</string>
+    <string name="alerta_guardado">Ruta guardada correctamente.</string>
+    <string name="titulo_alerta_NO_guardado">ERROR en guardado</string>
+    <string name="alerta_NO_guardado">La Ruta no puede ser almacenada. Intente de nuevo.</string>
+    <string name="titulo_alerta_nombre_obligatorio">Mandatory name</string>
+    <string name="alerta_nombre_obligatorio">You need to name the Route</string>
+
 
 
 

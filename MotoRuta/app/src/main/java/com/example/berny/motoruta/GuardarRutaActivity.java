@@ -1,9 +1,13 @@
 package com.example.berny.motoruta;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -90,7 +94,7 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
             //tfTiempo.setText(tiempo);
             latlng = parametros.getStringArrayList("LatLng");
 
-            //ruta = parametros.
+
 
             //PintarRuta pintarRuta = new PintarRuta();
             //pintarRuta.execute(latlng);
@@ -162,51 +166,106 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
             @Override
             public void onClick(View v) {
 
-                //Edit Text Nombre
-                String nombre = nombre_ruta.getText().toString();
+                //Commprovamos si el campo nombre esta vacio si lo esta lanza alerta
+                if (nombre_ruta.getText().toString().length() > 0 ) {
 
-                //Encapsulamos en un Float el valor de las estrellas
-                Float estrellas = ratingBar.getRating();
 
-                //Comprovamos CheckBox
-                if (sol.isChecked()) meteo = 1;
-                if (nuves.isChecked()) meteo = 2;
-                if (llubia.isChecked()) meteo = 3;
+                    //Edit Text Nombre
+                    String nombre = nombre_ruta.getText().toString();
 
-                //Path con el nombre de la ruta mas fecha y hora
-                String hora = Calendar.getInstance().getTime().toString();
-                String path_to_ruta = nombre + hora;
-                System.out.println(path_to_ruta);
+                    //Encapsulamos en un Float el valor de las estrellas
+                    Float estrellas = ratingBar.getRating();
 
-                //guarda en la BBDD
-                SQLiteDatabase db = con.getWritableDatabase();
+                    //Comprovamos CheckBox
+                    if (sol.isChecked()) meteo = 1;
+                    if (nuves.isChecked()) meteo = 2;
+                    if (llubia.isChecked()) meteo = 3;
 
-                if (!db.isReadOnly()) {
-                    db.execSQL("PRAGMA foreign_keys = ON;");
+                    //Path con el nombre de la ruta mas fecha y hora
+                    String hora = Calendar.getInstance().getTime().toString();
+                    String path_to_ruta = nombre + hora;
+                    System.out.println(path_to_ruta);
+
+                    //guarda en la BBDD
+                    SQLiteDatabase db = con.getWritableDatabase();
+
+                    if (!db.isReadOnly()) {
+                        db.execSQL("PRAGMA foreign_keys = ON;");
+                    }
+
+                    //Insert into tbl_ruta
+                    String insert = "INSERT INTO tbl_ruta (nombre, fecha, tiempo, meteorologia, valoracion, path)" +
+                            " VALUES ('" + nombre + "','" + fecha + "','" + "fecha" + "','" + meteo + "','" + estrellas + "','" + path_to_ruta + "');";
+
+                    db.execSQL(insert);
+
+                    //Cerramos conexion
+                    db.close();
+
+
+                    //----------------------- GUARDAR RUTA EN CARPETA ------------------------------------------
+
+                    //Fila origen
+                    File ruta_tmp = new File(getFilesDir(), "ruta_tmp.txt");
+                    //Fila destino
+                    File nuevaCarpeta = new File(getFilesDir(), path_to_ruta + ".txt");
+
+                    boolean mover = ruta_tmp.renameTo(nuevaCarpeta);
+
+                    if (mover) {
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(GuardarRutaActivity.this);
+
+                        builder.setMessage(R.string.alerta_guardado).setTitle(R.string.titulo_alerta_guardado)
+                                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+
+                                        // Abre las opciones de la localizazcion
+                                        Intent myIntent = new Intent(GuardarRutaActivity.this, MainActivity.class);
+                                        startActivity(myIntent);
+                                    }
+
+                                });
+
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    } else {
+
+                        //Avisamos ususrio que no se ha podido guardar la ruta
+                        AlertDialog.Builder builder = new AlertDialog.Builder(GuardarRutaActivity.this);
+
+                        builder.setMessage(R.string.alerta_NO_guardado).setTitle(R.string.titulo_alerta_NO_guardado)
+                                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+
+                                    }
+
+                                });
+
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
+
+                    //Lanza alerta campo nombre esta vacio
+                }else{
+
+                    //Avisamos ususrio que no se ha podido guardar la ruta
+                    AlertDialog.Builder builder = new AlertDialog.Builder(GuardarRutaActivity.this);
+
+                    builder.setMessage(R.string.alerta_nombre_obligatorio).setTitle(R.string.titulo_alerta_nombre_obligatorio)
+                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+
+                                }
+                            });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                 }
 
-                //Insert into tbl_ruta
-                String insert = "INSERT INTO tbl_ruta (nombre, fecha, tiempo, meteorologia, valoracion, path)" +
-                        " VALUES ('"+nombre+"','"+fecha+"','"+"fecha"+"','"+meteo+ "','"+ estrellas +"','"+ path_to_ruta + "');";
-
-                db.execSQL(insert);
-
-                //Cerramos conexion
-                db.close();
             }
 
         });
-
-        //----------------------- GUARDAR RUTA EN CARPETA ------------------------------------------
-
-        //Prueva a crear la carpeta si no existe
-         File nuevaCarpeta = new File(getFilesDir(), "rutasCreadas");
-
-         if ((!nuevaCarpeta.exists()) && (nuevaCarpeta.isDirectory())) {
-             nuevaCarpeta.mkdirs();
-         }
-
-
 
     }
 

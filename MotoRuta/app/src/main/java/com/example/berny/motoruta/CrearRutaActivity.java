@@ -36,7 +36,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import static android.content.ContentValues.TAG;
 
@@ -44,14 +47,10 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
 
     private GoogleMap mMap;
 
-    private File internalStorageDir = getFilesDir();
-    private File ruta = new File(internalStorageDir, "ruta_tmp.txt");
-
     private ArrayList<String> latlog_general;
 
     //Tamaño de lineas Lat|Lng/n a cada vez que e guarda en el fichero tmp
-    private final int tamaño_lineas_a_guardar = 5;
-
+    private final int tamaño_lineas_a_guardar = 1;
 
     //Botones
     private Button inicia, finaliza;
@@ -89,6 +88,15 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
         //Inicia TextView Tiempo
         tiempo = (TextView) findViewById(R.id.tvTiempo);
 
+        //Obtenemos la fecha del sistema
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+        Date date = new Date();
+
+        final String fecha = dateFormat.format(date);
+
+        //Ponemos fecha en su campo
+        tiempo.setText(fecha);
+
         //Clases del GPS
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = new MyLocationListener();
@@ -117,6 +125,8 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
                 //TODO Sonido boton
                 //mpInicia.start();
 
+                //Activar boton finalizar ruta
+                finaliza.setEnabled(true);
 
                 //Controlamos si el boton ya se a pulsado o no
                 //Empieza ruta
@@ -175,7 +185,7 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
                 //Mostramos alerta si deberas quiere el usuario finalizar la ruta
                 AlertDialog.Builder builder = new AlertDialog.Builder(CrearRutaActivity.this);
 
-                builder.setMessage(R.string.alerta_GPS_desactivado).setTitle(R.string.alerta_GPS_desactivado_titulo)
+                builder.setMessage(R.string.alerta_guardar).setTitle(R.string.alerta_guardar_titulo)
                         //Usamos recursos de android para texto cancelar
                         //Si cancela regresa
                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -193,7 +203,6 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
                                 Intent guardar = new Intent(CrearRutaActivity.this, GuardarRutaActivity.class);
                                 guardar.putExtra("LatLng", latlog_general);
                                 guardar.putExtra("tiempo", tiempo.getText().toString());
-                                guardar.putExtra("ruta", ruta);
                                 startActivity(guardar);
                             }
 
@@ -297,7 +306,8 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
 
         int i = 1;
 
-
+        File internalStorageDir = getFilesDir();
+        File ruta = new File(internalStorageDir, "ruta_tmp.txt");
         FileOutputStream fos = null;
 
         @Override

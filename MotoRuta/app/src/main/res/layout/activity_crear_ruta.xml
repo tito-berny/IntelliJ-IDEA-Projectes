@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="@string/tiempo_total"
+                android:text="@string/fecha"
                 android:textColor="@android:color/background_light" />
 
             <TextView
@@ -42,7 +42,6 @@
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="0 h: 0 m: 0 s"
                 android:textColor="@android:color/background_light" />
         </LinearLayout>
 
@@ -73,6 +72,9 @@
             android:layout_marginBottom="20dp"
             android:alpha="0.7"
             android:background="@drawable/boton"
+            android:editable="false"
+            android:enabled="false"
+            android:fadeScrollbars="false"
             android:text="@string/finalizar_ruta"
             android:textColor="@color/blanco" />
     </LinearLayout>
