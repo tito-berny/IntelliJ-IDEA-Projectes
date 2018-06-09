@@ -45,8 +45,10 @@ import static android.content.ContentValues.TAG;
 
 public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    //Variable mapa
     private GoogleMap mMap;
 
+    //VAriable Array ruta completa
     private ArrayList<String> latlog_general;
 
     //Tamaño de lineas Lat|Lng/n a cada vez que e guarda en el fichero tmp
@@ -154,7 +156,7 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
                     aviso.setGravity(Gravity.CENTER, 0,0);
                     aviso.show();
 
-                    //PAUSA
+                    //PAUSA en ruta
                 }else {
 
                     //Cambia texto boton a Reanudar ruta
@@ -312,16 +314,14 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
 
         @Override
         public void onLocationChanged(Location loc) {
-
-
-
+            
             //Si se a presionado el boton guardar comienza el guardado de la ruta
             //y tambien el dibujado de la ruta en el mapa
             if (guardar) {
 
                 //Creamos el nuevo punto LatLng y enfocamos la camara en la nueva ubicacion
                 LatLng latLng = new LatLng(loc.getLatitude(), loc.getLongitude());
-                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
                 mMap.animateCamera(cameraUpdate);
 
                 //Guardamos la lat y lng en el Array Global
@@ -330,10 +330,6 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
                 //Guardamos en Array para guardar en fichero
                 //Esta Array se borra llegada la medida deseada de guardado
                 latlog_guardar.add(loc.getLatitude() + "|" + loc.getLongitude() + "\n");
-
-                //Guardar en fichero temporal carpeta tmp el fichero generado
-                //al final cuando se guarde la ruta eliminar y cambiar el nombre
-                //La app comprueva que no hay nada en la carpeta temp si explota la app se queda el archivo guardado
 
                 //Guardamos en un fichero temporal las nuevas lat lng cada vez que se llene
                 //Podemos determinar cada cuantos cambio se guarda en el fichero (i = 1000)
@@ -364,6 +360,7 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
                     i++;
                 }
 
+                /*
                 Toast.makeText(
                         getBaseContext(),
                         "Locatio changed: Lat: " + loc.getLatitude() + " Lng: "
@@ -372,6 +369,8 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
                 Log.v(TAG, longitude);
                 String latitude = "Latitude: " + loc.getLatitude();
                 Log.v(TAG, latitude);
+
+                */
 
                 //Si es pulsado el boton guardar comienza a dibujar la ruta en el mapa
                 //Creamos instancia del hilo

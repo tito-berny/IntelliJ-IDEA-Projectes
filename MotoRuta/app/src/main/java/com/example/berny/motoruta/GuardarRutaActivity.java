@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -45,21 +46,19 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
     //Conexion con la BBDD
     public ConexionSQLiteHelper con;
 
-    //
-    private File ruta ;
-
     //Mapa
     private GoogleMap mMap;
     //Variables elementos
     private RatingBar ratingBar;
     private Button guardar;
     private TextView tfTiempo;
-    private EditText nombre_ruta;
+    private EditText nombre_ruta, comentario_ruta;
     private CheckBox sol, nuves, llubia;
 
-    //Variable control meteorologia
-    private int meteo;
-
+    //Variable control meteorologia por defecto es 1 =Sol
+    private int meteo=1;
+    //Variable para recojer la id de la ruta
+    private String id_ruta;
     //Array de ruta
     private ArrayList<String> latlng;
 
@@ -71,12 +70,12 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
                 getSupportFragmentManager().findFragmentById(R.id.mRuta);
         mapFragment.getMapAsync(this);
 
-        //INICIAMOS LA CONECSION LA BBDD Creara las tablas si es la 1 vez que se ejecuta
+        //INICIAMOS LA CONEXION LA BBDD Creara las tablas si es la 1 vez que se ejecuta
         con = new ConexionSQLiteHelper(this, Utilidades.DATABASE_NAME,null, Utilidades.DATABASE_VERSION);
-
 
         //Asignamos variables
         nombre_ruta = (EditText) findViewById(R.id.etNombreRuta);
+        comentario_ruta = (EditText) findViewById(R.id.etComentario);
         ratingBar = (RatingBar) findViewById(R.id.ratingBar2);
         guardar = (Button) findViewById(R.id.bGuardar);
         tfTiempo = (TextView) findViewById(R.id.tvTiempo);
@@ -94,10 +93,6 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
             //tfTiempo.setText(tiempo);
             latlng = parametros.getStringArrayList("LatLng");
 
-
-
-            //PintarRuta pintarRuta = new PintarRuta();
-            //pintarRuta.execute(latlng);
         }
 
         //Obtenemos la fecha del sistema
@@ -170,8 +165,11 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
                 if (nombre_ruta.getText().toString().length() > 0 ) {
 
 
-                    //Edit Text Nombre
+                    //Recuperamos el texto del Edit Text Nombre
                     String nombre = nombre_ruta.getText().toString();
+
+                    //Recuperamos texto en comentario
+                    String comentario = comentario_ruta.getText().toString();
 
                     //Encapsulamos en un Float el valor de las estrellas
                     Float estrellas = ratingBar.getRating();
@@ -186,9 +184,13 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
                     String path_to_ruta = nombre + hora;
                     System.out.println(path_to_ruta);
 
+                    //----------    INSERT TABLA RUTA       ----------------------------------------
+
                     //guarda en la BBDD
                     SQLiteDatabase db = con.getWritableDatabase();
 
+                    //Si la conexion para grabar esta preparada
+                    //Ejecuta comando para activar las ForeignKeys
                     if (!db.isReadOnly()) {
                         db.execSQL("PRAGMA foreign_keys = ON;");
                     }
@@ -202,6 +204,38 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
                     //Cerramos conexion
                     db.close();
 
+                    //-----------    INSERT TABLA COMENTARIO     -----------------------------------
+
+                    SQLiteDatabase db1 = con.getReadableDatabase();
+                    //------  SELECT TBL_RUTA  -----------------
+                    //Para conseguir el ID de la ruta para el comentario
+                    //Pasamos argumento path_to_ruta ya que sera unico para esta ruta
+                    String[] args = new String[] {path_to_ruta};
+                    //Creamos consulta BBDD
+                    Cursor cur = db1.rawQuery(" SELECT id FROM tbl_ruta WHERE path=? ", args);
+
+                    //Nos aseguramos de que existe al menos un registro
+                    if (cur.moveToFirst()) {
+                        //Recorremos el cursor hasta que no haya más registros
+
+                        do {
+                            id_ruta = cur.getString(0);
+                        } while (cur.moveToNext());
+                    }
+                    //Cerramos conexion
+                    db1.close();
+
+                    //guarda en la BBDD
+                    SQLiteDatabase db2 = con.getWritableDatabase();
+
+                    //Una vez obtenido el Id del registro podemos hacer el Insert into tbl_comentario
+                    String insert_comentario = "INSERT INTO tbl_comentario (ruta_id, comentario)" +
+                            " VALUES ('" + id_ruta + "','" + comentario + "');";
+                    //Ejecutamos SQL
+                    db2.execSQL(insert_comentario);
+
+                    //Cerramos conexion
+                    db2.close();
 
                     //----------------------- GUARDAR RUTA EN CARPETA ------------------------------------------
 
@@ -229,6 +263,7 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
 
                         AlertDialog dialog = builder.create();
                         dialog.show();
+
                     } else {
 
                         //Avisamos ususrio que no se ha podido guardar la ruta
@@ -239,7 +274,6 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
                                     public void onClick(DialogInterface dialog, int id) {
 
                                     }
-
                                 });
 
                         AlertDialog dialog = builder.create();
@@ -302,11 +336,8 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
             ArrayList<LatLng> points;
             PolylineOptions lineOptions = null;
 
-
             points = new ArrayList<>();
             lineOptions = new PolylineOptions();
-
-
 
             // Por cada String del Array recoje Lat y Lng
             for (String aLista : result){
@@ -324,7 +355,7 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
                 LatLng position = new LatLng(lat, lng);
 
                 //Enfocamos la camara a la ruta y le damos un zoom
-                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(position, 10);
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(position, 12);
                 mMap.animateCamera(cameraUpdate);
 
                 //Añadimos el nuevo punto
@@ -338,7 +369,6 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
             lineOptions.width(10);
             //Define el color de la linea
             lineOptions.color(Color.BLUE);
-
 
 
             // Añade la linea en el mapa si no es nula

@@ -19,12 +19,36 @@
         <fragment
             android:id="@+id/mRuta"
             android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="250dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
             tools:layout="@layout/activity_maps" />
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:text="@string/nombre_ruta"
+                android:textColor="@android:color/background_light"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tvNombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@android:color/background_light"
+                android:textSize="18sp" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,10 +59,12 @@
             <TextView
                 android:layout_width="70dp"
                 android:layout_height="40dp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
                 android:textColor="@android:color/background_light"
                 tools:layout_editor_absoluteX="111dp"
-                tools:layout_editor_absoluteY="75dp" />
+                tools:layout_editor_absoluteY="75dp"
+                tools:text="@string/valoracion_ruta" />
 
             <TextView
                 android:layout_width="48dp"
@@ -56,9 +82,9 @@
                 android:layout_marginLeft="1dp"
                 android:layout_marginRight="1dp"
                 android:layout_marginStart="1dp"
+                android:isIndicator="true"
                 android:numStars="5"
                 android:paddingLeft="0dp"
-                android:rating="3"
                 android:theme="@style/RatingBar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -74,16 +100,17 @@
 
             <TextView
                 android:id="@+id/tvTmp"
-                android:layout_width="70dp"
+                android:layout_width="wrap_content"
                 android:layout_height="42dp"
-                android:layout_marginLeft="5dp"
-                android:text="Tmp:"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:text="@string/meteorologia_ruta"
                 android:textColor="@android:color/background_light"
                 tools:layout_editor_absoluteX="111dp"
                 tools:layout_editor_absoluteY="265dp" />
 
             <TextView
-                android:id="@+id/tvTiempo"
+                android:id="@+id/tvMeteo"
                 android:layout_width="110dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
@@ -94,11 +121,11 @@
                 android:layout_height="42dp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:text="Km:"
+                android:text="@string/fecha"
                 android:textColor="@android:color/background_light" />
 
             <TextView
-                android:id="@+id/tvDistancia"
+                android:id="@+id/tvFecha"
                 android:layout_width="110dp"
                 android:layout_height="42dp"
                 android:textColor="@android:color/background_light"
@@ -108,8 +135,10 @@
 
         <TextView
             android:id="@+id/tvComentario"
-            android:layout_width="350dp"
-            android:layout_height="122dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:alpha="0.7"
             android:background="@android:color/background_light"
             android:text="@string/comentario_ruta" />
@@ -129,6 +158,7 @@
                 android:layout_weight="1"
                 android:alpha="0.7"
                 android:background="@drawable/boton"
+                android:enabled="false"
                 android:text="@string/boton_anterior_ruta"
                 android:textColor="@color/blanco" />
 
