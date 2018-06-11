@@ -34,13 +34,13 @@
 
 
     <!--Guardar ruta -->
-    <string name="nombre_ruta">Nombre Ruta</string>
-    <string name="distancia_ruta">Distancia</string>
-    <string name="tiempo_ruta">Tiempo</string>
+    <string name="nombre_ruta">Nombre Ruta:</string>
+    <string name="distancia_ruta">Distancia:</string>
+    <string name="tiempo_ruta">Tiempo:</string>
     <string name="fecha">Fecha: </string>
-    <string name="valoracion_ruta">Valoración</string>
-    <string name="meteorologia_ruta">Meteorologia</string>
-    <string name="comentario_ruta">Comentario</string>
+    <string name="valoracion_ruta">Valoración:</string>
+    <string name="meteorologia_ruta">Meteorologia:</string>
+    <string name="comentario_ruta">Comentario:</string>
     <!--Alerta Guarda ruta-->
     <string name="titulo_alerta_guardado">Ruta guardada</string>
     <string name="alerta_guardado">Ruta guardada correctamente.</string>

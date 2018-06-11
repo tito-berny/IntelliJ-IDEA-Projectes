@@ -353,7 +353,7 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
                 LatLng position = new LatLng(lat, lng);
 
                 //Enfocamos la camara a la ruta y le damos un zoom
-                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(position, 12);
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(position, 10);
                 mMap.animateCamera(cameraUpdate);
 
                 //Añadimos el nuevo punto

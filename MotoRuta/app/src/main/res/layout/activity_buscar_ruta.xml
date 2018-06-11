@@ -52,26 +52,22 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="41dp"
+            android:layout_height="43dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:gravity="left"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="70dp"
+                android:id="@+id/tvValorar"
+                android:layout_width="100dp"
                 android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
                 android:textColor="@android:color/background_light"
+                android:visibility="visible"
                 tools:layout_editor_absoluteX="111dp"
                 tools:layout_editor_absoluteY="75dp"
                 tools:text="@string/valoracion_ruta" />
-
-            <TextView
-                android:layout_width="48dp"
-                android:layout_height="42dp"
-                android:textColor="@android:color/background_light"
-                tools:layout_editor_absoluteX="111dp"
-                tools:layout_editor_absoluteY="201dp" />
 
 
             <RatingBar
@@ -80,7 +76,7 @@
                 android:layout_height="70dp"
                 android:layout_marginEnd="1dp"
                 android:layout_marginLeft="1dp"
-                android:layout_marginRight="1dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginStart="1dp"
                 android:isIndicator="true"
                 android:numStars="5"
@@ -94,7 +90,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="left">
 
@@ -109,10 +105,10 @@
                 tools:layout_editor_absoluteX="111dp"
                 tools:layout_editor_absoluteY="265dp" />
 
-            <TextView
-                android:id="@+id/tvMeteo"
-                android:layout_width="110dp"
-                android:layout_height="match_parent"
+            <ImageView
+                android:id="@+id/ivMeteo"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_weight="1" />
 
             <TextView
@@ -131,22 +127,36 @@
                 android:textColor="@android:color/background_light"
                 tools:layout_editor_absoluteX="111dp"
                 tools:layout_editor_absoluteY="265dp" />
+
         </LinearLayout>
 
         <TextView
             android:id="@+id/tvComentario"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:alpha="0.7"
             android:background="@android:color/background_light"
-            android:text="@string/comentario_ruta" />
+            android:text="@string/comentario_ruta"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tfTextoComentario"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:alpha="0.7"
+            android:background="@android:color/background_light"
+            android:textColor="@android:color/black" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
+            android:gravity="bottom"
             android:orientation="horizontal">
 
             <Button

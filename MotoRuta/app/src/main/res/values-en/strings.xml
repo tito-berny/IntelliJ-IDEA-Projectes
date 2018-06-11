@@ -33,12 +33,12 @@
 
 
     <!--Guardar ruta -->
-    <string name="nombre_ruta">Name Route</string>
-    <string name="distancia_ruta">Distance</string>
-    <string name="tiempo_ruta">Time</string>
+    <string name="nombre_ruta">Name Route:</string>
+    <string name="distancia_ruta">Distance:</string>
+    <string name="tiempo_ruta">Time:</string>
     <string name="fecha">Date: </string>
-    <string name="valoracion_ruta">Assessment</string>
-    <string name="comentario_ruta">Commentary</string>
+    <string name="valoracion_ruta">Assessment:</string>
+    <string name="comentario_ruta">Commentary:</string>
     <string name="guardar_ruta">Save</string>
     <!--Alerta Guarda ruta-->
     <string name="titulo_alerta_guardado">Saved route</string>

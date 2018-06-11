@@ -33,13 +33,13 @@
     <string name="alerta_guardar">Vols guardar la ruta?</string>
 
     <!--Guardar ruta -->
-    <string name="nombre_ruta">Nom Ruta</string>
-    <string name="distancia_ruta">Distancia</string>
-    <string name="tiempo_ruta">Temps</string>
+    <string name="nombre_ruta">Nom Ruta:</string>
+    <string name="distancia_ruta">Distancia:</string>
+    <string name="tiempo_ruta">Temps:</string>
     <string name="fecha">Data: </string>
-    <string name="valoracion_ruta">Valoracio</string>
-    <string name="meteorologia_ruta">Meteorologia</string>
-    <string name="comentario_ruta">Comentari</string>
+    <string name="valoracion_ruta">Valoracio:</string>
+    <string name="meteorologia_ruta">Meteorologia:</string>
+    <string name="comentario_ruta">Comentari:</string>
     <!--Alerta Guarda ruta-->
     <string name="titulo_alerta_guardado">Ruta guardada</string>
     <string name="alerta_guardado">Ruta guardada correctament.</string>

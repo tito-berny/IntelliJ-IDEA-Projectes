@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/principal_menu"
     tools:context=".GuardarRutaActivity">
 
     <LinearLayout
@@ -14,9 +15,10 @@
         <fragment
             android:id="@+id/mRuta"
             android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="250dp"
             android:layout_gravity="center"
+            android:layout_margin="10dp"
             tools:layout="@layout/activity_maps" />
 
         <LinearLayout
@@ -28,8 +30,10 @@
                 android:id="@+id/textView"
                 android:layout_width="270dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:text="@string/nombre_ruta" />
+                android:text="@string/nombre_ruta"
+                android:textColor="@android:color/background_light" />
 
             <EditText
                 android:id="@+id/etNombreRuta"
@@ -37,7 +41,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textColor="@android:color/background_light" />
 
         </LinearLayout>
 
@@ -50,15 +55,18 @@
                 android:id="@+id/textView6"
                 android:layout_width="270dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:text="@string/fecha" />
+                android:text="@string/fecha"
+                android:textColor="@android:color/background_light" />
 
             <TextView
                 android:id="@+id/tvTiempo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="left" />
+                android:gravity="left"
+                android:textColor="@android:color/background_light" />
 
         </LinearLayout>
 
@@ -78,9 +86,11 @@
                 android:id="@+id/textView2"
                 android:layout_width="135dp"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="@string/valoracion_ruta" />
+                android:text="@string/valoracion_ruta"
+                android:textColor="@android:color/background_light" />
 
             <RatingBar
                 android:id="@+id/ratingBar2"
@@ -100,35 +110,41 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/textView1"
                 android:layout_width="53dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:text="@string/meteorologia_ruta" />
+                android:text="@string/meteorologia_ruta"
+                android:textColor="@android:color/background_light" />
 
             <CheckBox
                 android:id="@+id/cbSol"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_weight="1"
+                android:background="@drawable/sol"
                 android:checked="true" />
 
             <CheckBox
                 android:id="@+id/cbNuves"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@drawable/solnubes" />
 
             <CheckBox
                 android:id="@+id/cbLlubia"
-                android:layout_width="1dp"
+                android:layout_width="0dp"
                 android:layout_height="30dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@drawable/llubia" />
 
         </LinearLayout>
 
@@ -143,22 +159,29 @@
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:text="@string/comentario_ruta" />
+                android:text="@string/comentario_ruta"
+                android:textColor="@android:color/background_light" />
 
             <EditText
                 android:id="@+id/etComentario"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="80dp"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textMultiLine" />
+                android:inputType="textMultiLine"
+                android:textColor="@android:color/background_light" />
 
             <Button
                 android:id="@+id/bGuardar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/guardar_ruta" />
+                android:alpha="0.7"
+                android:background="@drawable/boton"
+                android:text="@string/guardar_ruta"
+                android:textColor="@color/blanco" />
 
         </LinearLayout>
 

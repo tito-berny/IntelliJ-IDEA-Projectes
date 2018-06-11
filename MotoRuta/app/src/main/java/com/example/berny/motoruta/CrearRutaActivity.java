@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -21,6 +22,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,14 +57,11 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
     //Tamaño de lineas Lat|Lng/n a cada vez que e guarda en el fichero tmp
     private final int tamaño_lineas_a_guardar = 1;
 
-    //Opciones para mantener pantalla encendida siempre
-    protected PowerManager.WakeLock wakelock;
-
     //Botones
     private Button inicia, finaliza;
 
     //Todo Sonido Botones
-    //private MediaPlayer mpInicia;
+    private MediaPlayer mpInicia, mpApaga;
 
     //TextView
     private TextView tiempo;
@@ -88,16 +87,12 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
         //Inicializamos Array Ruta
         latlog_general =  new ArrayList<String>();
 
-        //Evitar que la pantalla se apague
-        final PowerManager pm=(PowerManager)getSystemService(Context.POWER_SERVICE);
-        this.wakelock=pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "etiqueta");
-        wakelock.acquire();
-
         //Boton guardar sin pulsar
         guardar = false;
 
         //TODO Iniciamos sonido
-        //mpInicia = MediaPlayer.create(this,R.raw.cbrarranca);
+        mpInicia = MediaPlayer.create(this,R.raw.cbrarranca);
+        mpApaga = MediaPlayer.create(this,R.raw.cbrapaga);
 
         //Inicia TextView Tiempo
         tiempo = (TextView) findViewById(R.id.tvTiempo);
@@ -120,9 +115,8 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
 
             return;
         }
-        //Llama al escuchador del gps
+        //Llama al escuchador del gps, podemos indicar minimo de tiempo y distancia para cada escucha
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
-
 
 
         //-----------------     BOTONES            -------------------------------------------------
@@ -131,17 +125,17 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
         finaliza = (Button) findViewById(R.id.bFinalizarRuta);
 
 
-        //Escuchador de clicks en botone, inicia la ruta
+        //Escuchador de clicks en boton, inicia la ruta
         inicia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //TODO Sonido boton
-                //mpInicia.start();
-
                 //Primera activacion comienza ruta, mientras e boton finaliza ruta muestra
                 //Toast pidiendo al usuario que pulse inicia ruta
                 empezado = true;
+
+                //Evitar que la pantalla se apague
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
                 //Controlamos si el boton ya se a pulsado o no
                 //Empieza ruta
@@ -149,15 +143,16 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
 
                     //Intenta lanzar el hilo del cronometro si no esta lanzado ya
                     try {
-
                        // new Cronometro().execute().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
                     }catch (Exception e){
 
                     }
 
                     //TODO poner pausa cronometro
                     //cronometro.pause();
+
+                    //TODO Sonido boton
+                    mpInicia.start();
 
                     //Ponemos boton en no pulsado
                     guardar = true;
@@ -171,6 +166,9 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
 
                     //PAUSA en ruta
                 }else {
+
+                    //TODO Sonido boton
+                    mpApaga.start();
 
                     //Cambia texto boton a Reanudar ruta
                     inicia.setText(R.string.reanudar_ruta);
@@ -187,7 +185,6 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
 
                 }
 
-
             }
         });
 
@@ -196,6 +193,9 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
         finaliza.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //TODO Sonido boton
+                mpApaga.start();
 
                 //Si aun no se a pulsado en empezar ruta
                 //Indicamos al usuario que comience una ruta, Asi no se guardara una ruta vacia
@@ -247,18 +247,17 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
     protected void onDestroy(){
         super.onDestroy();
 
-        this.wakelock.release();
     }
 
     //Usamos onResume, y onSaveInstanceState, para que, si minimizamos la aplicacion, la pantalla se apague normalmente,
     // de lo contrario, no se apagará la pantalla aunque no tengamos a nuestra aplicación en primer plano.
     protected void onResume(){
         super.onResume();
-        wakelock.acquire();
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
     public void onSaveInstanceState(Bundle icicle) {
         super.onSaveInstanceState(icicle);
-        this.wakelock.release();
+
     }
 
 
@@ -271,39 +270,6 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
         mMap.setBuildingsEnabled(true);
 
         mMap.moveCamera(CameraUpdateFactory.zoomTo(1));
-
-        //TODO permisos No detectados
-        // Aquí, esta actividad es la actividad actual
-        /*if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // ¿Deberíamos mostrar una explicación?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-                // Mostrar una expansión al usuario * asincrónicamente * - no bloquear
-                 // este hilo esperando la respuesta del usuario! Después del usuario
-                // ve la explicación, intente nuevamente para solicitar el permiso.
-                    mMap.setMyLocationEnabled(true);
-
-                    //Poner boton Localizacion
-                    mMap.getUiSettings().setMyLocationButtonEnabled(true);
-
-            } else {
-
-                //No se necesita explicación, podemos solicitar el permiso.
-
-
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        permissionCheck);
-
-                //MY_PERMISSIONS_REQUEST_READ_CONTACTS es un
-                // constante int definida por la aplicación. El método de devolución de llamada obtiene el
-                // resultado de la solicitud.
-            }
-        }*/
 
         //COMPRUEVA LOS PERMISOS DEL USUARIO PARA PONER LA LOCALIZACION
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -338,6 +304,7 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
 
     /**
      * Clase listener de cordenadas GPS
+     * Guarda la ruta en un fichero temporal
      */
     private class MyLocationListener implements LocationListener {
 
@@ -399,23 +366,8 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
                     i++;
                 }
 
-                /*
-                Toast.makeText(
-                        getBaseContext(),
-                        "Locatio changed: Lat: " + loc.getLatitude() + " Lng: "
-                                + loc.getLongitude(), Toast.LENGTH_SHORT).show();
-                String longitude = "Longitude: " + loc.getLongitude();
-                Log.v(TAG, longitude);
-                String latitude = "Latitude: " + loc.getLatitude();
-                Log.v(TAG, latitude);
-
-                */
-
                 //Si es pulsado el boton guardar comienza a dibujar la ruta en el mapa
-                //Creamos instancia del hilo
-
                 try {
-
                     //Ejecutamos el hilo que pinta la ruta en el mapa pasandole la Array
                     new PintarRuta().execute(latlog_general).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 }catch (Exception e){
@@ -454,14 +406,12 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
 
         @Override
         public void onProviderEnabled(String provider) {
-            System.out.println("GPS ACTIVADO");
 
         }
 
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
 
-            System.out.println("GPS CAMBIO");
         }
 
         public ArrayList getRuta() {

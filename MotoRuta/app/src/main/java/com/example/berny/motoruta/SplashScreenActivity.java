@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Window;
 
@@ -21,6 +22,9 @@ public class SplashScreenActivity extends Activity {
 
     //Conexion con la BBDD
     public ConexionSQLiteHelper con;
+
+    //Todo Sonido Botones
+    private MediaPlayer mpInicia;
 
     //Variable para comprovar si existe alguna ruta guardada
     //Si no en BuscarRuta al no encontrar ninguna explotaria
@@ -36,6 +40,10 @@ public class SplashScreenActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.splash_screen);
+
+        //TODO Iniciamos sonido
+        mpInicia = MediaPlayer.create(this,R.raw.inicio);
+        mpInicia.start();
 
         //INICIAMOS LA CONEXION LA BBDD Creara las tablas si es la 1 vez que se ejecuta
         con = new ConexionSQLiteHelper(this, Utilidades.DATABASE_NAME,null, Utilidades.DATABASE_VERSION);

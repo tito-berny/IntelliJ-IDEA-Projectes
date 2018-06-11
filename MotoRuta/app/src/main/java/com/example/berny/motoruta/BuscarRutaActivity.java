@@ -1,21 +1,14 @@
 package com.example.berny.motoruta;
 
-import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.graphics.Point;
-import android.location.LocationManager;
 import android.os.AsyncTask;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -24,16 +17,9 @@ import com.example.berny.motoruta.Utilidades.Utilidades;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.io.BufferedReader;
@@ -62,7 +48,10 @@ public class BuscarRutaActivity extends FragmentActivity implements OnMapReadyCa
     private RatingBar ratingBar;
 
     //Varable TextField
-    private TextView nombre, meteo, fecha;
+    private TextView nombre, fecha, comentario;
+
+    //Variable ImageView
+    private ImageView meteo;
 
     //Variables BBDD
     private String nombre_bd;
@@ -71,6 +60,7 @@ public class BuscarRutaActivity extends FragmentActivity implements OnMapReadyCa
     private String meteo_bd;
     private String valoracion_bd;
     private String path_bd;
+    private String comentario_bd;
 
     //Variable Path almacenamiento ruta
     private File path;
@@ -93,7 +83,8 @@ public class BuscarRutaActivity extends FragmentActivity implements OnMapReadyCa
         ratingBar = (RatingBar) findViewById(R.id.ratingBar2);
         fecha = (TextView) findViewById(R.id.tvFecha);
         nombre = (TextView) findViewById(R.id.tvNombre);
-
+        comentario = (TextView) findViewById(R.id.tfTextoComentario);
+        meteo = (ImageView) findViewById(R.id.ivMeteo);
 
 
         //-----------------     BOTONES            -------------------------------------------------
@@ -169,12 +160,37 @@ public class BuscarRutaActivity extends FragmentActivity implements OnMapReadyCa
 
         }
 
+        Cursor cur = db.rawQuery(" SELECT comentario FROM tbl_comentario WHERE ruta_id=? ", args);
+
+        //Nos aseguramos de que existe al menos un registro
+        if (cur.moveToFirst()) {
+            //Recorremos el cursor hasta que no haya más registros
+            do {
+                comentario_bd = cur.getString(0);
+
+            } while (c.moveToNext());
+
+        }
+
         //--------------    CARGA CAMPOS ---------------------------------------------------
 
         //Rellenamos los elemento con los datos recojidos de la BBDD
-        fecha.setText(fecha_bd);
         nombre.setText(nombre_bd);
         ratingBar.setRating(Float.parseFloat(valoracion_bd));
+        fecha.setText(fecha_bd);
+        comentario.setText(comentario_bd);
+
+        int numMeteo = Integer.parseInt(meteo_bd);
+         //Selecciona imagen en Meteorologia
+        if (numMeteo == 1){
+            meteo.setImageResource(R.drawable.sol);
+        }
+        if (numMeteo == 2){
+            meteo.setImageResource(R.drawable.solnubes);
+        }
+        if (numMeteo == 3){
+            meteo.setImageResource(R.drawable.llubia);
+        }
 
         //File Path
         File ruta_path = new File(getFilesDir(), path_bd + ".txt");

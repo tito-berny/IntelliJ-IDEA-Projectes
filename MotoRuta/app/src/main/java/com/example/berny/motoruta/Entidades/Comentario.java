@@ -5,13 +5,13 @@ import java.io.Serializable;
 public class Comentario implements Serializable{
 
     private int id;
-    private int ruta_id;
+    private Ruta ruta_id;
     private String comentario;
 
     public Comentario(int id) {
     }
 
-    public Comentario(int id, int ruta_id, String comentario) {
+    public Comentario(int id, Ruta ruta_id, String comentario) {
         this.id = id;
         this.ruta_id = ruta_id;
         this.comentario = comentario;
@@ -25,11 +25,11 @@ public class Comentario implements Serializable{
         this.id = id;
     }
 
-    public int getRuta_id() {
+    public Ruta getRuta_id() {
         return ruta_id;
     }
 
-    public void setRuta_id(int ruta_id) {
+    public void setRuta_id(Ruta ruta_id) {
         this.ruta_id = ruta_id;
     }
 
