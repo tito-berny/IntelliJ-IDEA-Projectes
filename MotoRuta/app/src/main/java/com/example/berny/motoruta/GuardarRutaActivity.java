@@ -86,13 +86,12 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
         //Array para ruta
         latlng = new ArrayList<String>();
 
-        //Recojemos parametros de la activity anterior
+        //Recojemos parametros de la activity anterior (CrearRutaActivity)
         Bundle parametros = this.getIntent().getExtras();
         if(parametros !=null){
             String tiempo = parametros.getString("tiempo");
             //tfTiempo.setText(tiempo);
             latlng = parametros.getStringArrayList("LatLng");
-
         }
 
         //Obtenemos la fecha del sistema
@@ -156,14 +155,13 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
         //-----------------     BOTONES            -------------------------------------------------
 
 
-        //Escuchador de clicks en botones lanza vista buscar ruta
+        //Escuchador de clicks en botone guarda la ruta
         guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 //Commprovamos si el campo nombre esta vacio si lo esta lanza alerta
                 if (nombre_ruta.getText().toString().length() > 0 ) {
-
 
                     //Recuperamos el texto del Edit Text Nombre
                     String nombre = nombre_ruta.getText().toString();
@@ -174,19 +172,19 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
                     //Encapsulamos en un Float el valor de las estrellas
                     Float estrellas = ratingBar.getRating();
 
-                    //Comprovamos CheckBox
+                    //Comprovamos CheckBox meteorologia
                     if (sol.isChecked()) meteo = 1;
                     if (nuves.isChecked()) meteo = 2;
                     if (llubia.isChecked()) meteo = 3;
 
-                    //Path con el nombre de la ruta mas fecha y hora
+                    //Path, que sera el nombre de la ruta mas fecha y hora
                     String hora = Calendar.getInstance().getTime().toString();
                     String path_to_ruta = nombre + hora;
                     System.out.println(path_to_ruta);
 
                     //----------    INSERT TABLA RUTA       ----------------------------------------
 
-                    //guarda en la BBDD
+                    //Escribe en la BBDD
                     SQLiteDatabase db = con.getWritableDatabase();
 
                     //Si la conexion para grabar esta preparada
@@ -197,7 +195,7 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
 
                     //Insert into tbl_ruta
                     String insert = "INSERT INTO tbl_ruta (nombre, fecha, tiempo, meteorologia, valoracion, path)" +
-                            " VALUES ('" + nombre + "','" + fecha + "','" + "fecha" + "','" + meteo + "','" + estrellas + "','" + path_to_ruta + "');";
+                            " VALUES ('" + nombre + "','" + fecha + "','" + 1 + "','" + meteo + "','" + estrellas + "','" + path_to_ruta + "');";
 
                     db.execSQL(insert);
 
@@ -255,7 +253,7 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
                                     public void onClick(DialogInterface dialog, int id) {
 
                                         // Abre las opciones de la localizazcion
-                                        Intent myIntent = new Intent(GuardarRutaActivity.this, MainActivity.class);
+                                        Intent myIntent = new Intent(GuardarRutaActivity.this, SplashScreenActivity.class);
                                         startActivity(myIntent);
                                     }
 

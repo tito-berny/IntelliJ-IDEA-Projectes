@@ -7,12 +7,13 @@
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the 'MyLocation' functionality. 
     -->
+    <!-- Permite que la app utilice sistemas de localizacion Wifi, gps y cobertura-->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-
+    <!-- Permite que la app utilice datos-->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Permite que la app pueda mantener la pantalla encendida sin bloquearse-->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
-    <!-- uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" / -->
-    <!-- uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" / -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

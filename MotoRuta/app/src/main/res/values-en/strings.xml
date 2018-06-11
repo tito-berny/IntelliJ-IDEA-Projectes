@@ -7,6 +7,7 @@
     <!--Menu principal -->
     <string name="buscar_ruta">Search Route</string>
     <string name="crear_ruta">Create Route</string>
+    <string name="Toast_ninguna_ruta">Try Create a Route</string>
 
     <!--Buscar Ruta -->
     <string name="boton_siguiente_ruta">Next</string>
@@ -20,6 +21,7 @@
     <string name="pausa">Pause</string>
     <string name="Toast_comienza_guardado_ruta">Start Route</string>
     <string name="Toast_pausa_guardado_ruta">Route Pausa</string>
+    <string name="Toast_NO_iniciado">Try Start a Route</string>
     <string name="tiempo_total">Total Time :</string>
 
 
@@ -34,7 +36,7 @@
     <string name="nombre_ruta">Name Route</string>
     <string name="distancia_ruta">Distance</string>
     <string name="tiempo_ruta">Time</string>
-    <string name="fecha">Date</string>
+    <string name="fecha">Date: </string>
     <string name="valoracion_ruta">Assessment</string>
     <string name="comentario_ruta">Commentary</string>
     <string name="guardar_ruta">Save</string>
@@ -43,8 +45,8 @@
     <string name="alerta_guardado">Route saved correctly.</string>
     <string name="titulo_alerta_NO_guardado">ERROR in saved</string>
     <string name="alerta_NO_guardado">The Route can not be stored. Try again.</string>
-    <string name="titulo_alerta_nombre_obligatorio">Nombre obligatorio</string>
-    <string name="alerta_nombre_obligatorio">Necesita poner un nombre a la Ruta</string>
+    <string name="titulo_alerta_nombre_obligatorio">Mandatory name</string>
+    <string name="alerta_nombre_obligatorio">You need to name the Route</string>
 
 
 

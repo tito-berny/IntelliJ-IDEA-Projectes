@@ -52,7 +52,7 @@ public class BuscarRutaActivity extends FragmentActivity implements OnMapReadyCa
     //Array de ruta
     private ArrayList<String> latlng;
 
-    //Variable id ruta, la primera ruta en cargar sera a 1
+    //Variable id ruta, la primera ruta en cargar sera la numero 1
     private int id_ruta= 1;
 
     //Variable botones

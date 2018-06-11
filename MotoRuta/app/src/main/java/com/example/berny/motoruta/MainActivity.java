@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.berny.motoruta.DataBase.ConexionSQLiteHelper;
 import com.example.berny.motoruta.Utilidades.Utilidades;
@@ -16,6 +18,10 @@ public class MainActivity extends Activity {
     public ConexionSQLiteHelper con;
 
     private Button buscarRuta, crearRuta;
+
+    //Controla si hay alguna ruta guardada en la tabla tbl_ruta de la BBDD
+    boolean alguna_ruta_guardada;
+
     //TOdo audio
     //private MediaPlayer mpInicia1;
 
@@ -24,6 +30,14 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Recibe datos de Splash (si hay alguna ruta guardada
+        Bundle parametros = this.getIntent().getExtras();
+        if(parametros !=null){
+            //tfTiempo.setText(tiempo);
+            alguna_ruta_guardada = parametros.getBoolean("ruta_guardada");
+
+        }
 
         //------------------------BASE DATOS -------------------------------------------------------
 
@@ -55,15 +69,23 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                Intent buscar = new Intent(MainActivity.this, BuscarRutaActivity.class);
+                if (alguna_ruta_guardada) {
 
-                //buscar.putExtra("conexion", (Parcelable) con);
+                    //Lanzamos BuscarRutaActivity
+                    Intent buscar = new Intent(MainActivity.this, BuscarRutaActivity.class);
+                    //Iniciamos actividad
+                    startActivity(buscar);
 
-                startActivity(buscar);
+                    //TODO sonido
+                    //mpInicia1.start();
 
-                //TODO sonido
-                //mpInicia1.start();
+                 //Avisamos al usuario que cree una nueva ruta ya que no hay ninguna guardada para mostrar
+                }else {
 
+                    Toast toast = Toast.makeText(getBaseContext(), R.string.Toast_NO_iniciado, Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }
             }
         });
 

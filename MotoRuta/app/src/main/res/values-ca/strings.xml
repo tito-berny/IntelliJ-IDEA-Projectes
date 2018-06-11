@@ -7,12 +7,12 @@
     <!--Menu principal -->
     <string name="buscar_ruta">Buscar Ruta</string>
     <string name="crear_ruta">Crear Ruta</string>
+    <string name="Toast_ninguna_ruta">Prova a Crear una Ruta</string>
 
     <!--Buscar Ruta -->
     <string name="boton_siguiente_ruta">Següent</string>
     <string name="boton_anterior_ruta">Anterior</string>
     <string name="ir_ruta">Anar a la Ruta</string>
-
     <string name="guardar_ruta">Guardar</string>
 
     <!--Crear ruta -->
@@ -22,6 +22,7 @@
     <string name="pausa">Pausa</string>
     <string name="Toast_comienza_guardado_ruta">Ruta Iniciada</string>
     <string name="Toast_pausa_guardado_ruta">Ruta en Pausa</string>
+    <string name="Toast_NO_iniciado">Prova a Començar una Ruta</string>
     <string name="tiempo_total">Temps Total :</string>
 
 
@@ -29,13 +30,13 @@
     <string name="alerta_GPS_desactivado_titulo">GPS Desactivat</string>
     <string name="alerta_GPS_desactivado">Moto Ruta necessita que s\'activi el GPS</string>
     <string name="alerta_guardar_titulo">Guardar</string>
-    <string name="alerta_guardar">De debò vol guardar la ruta?</string>
+    <string name="alerta_guardar">Vols guardar la ruta?</string>
 
     <!--Guardar ruta -->
     <string name="nombre_ruta">Nom Ruta</string>
     <string name="distancia_ruta">Distancia</string>
     <string name="tiempo_ruta">Temps</string>
-    <string name="fecha">Data</string>
+    <string name="fecha">Data: </string>
     <string name="valoracion_ruta">Valoracio</string>
     <string name="meteorologia_ruta">Meteorologia</string>
     <string name="comentario_ruta">Comentari</string>

@@ -5,22 +5,23 @@
     <!--Menu principal -->
     <string name="buscar_ruta">Buscar Ruta</string>
     <string name="crear_ruta">Crear Ruta</string>
+    <string name="Toast_ninguna_ruta">Prueba a Crear una Ruta</string>
 
     <!--Buscar Ruta -->
     <string name="boton_siguiente_ruta">Siguiente</string>
     <string name="boton_anterior_ruta">Anterior</string>
     <string name="ir_ruta">Ir a la Ruta</string>
-
-    <string name="iniciar_ruta">Iniciar Ruta</string>
-    <string name="finalizar_ruta">Finalizar Ruta</string>
     <string name="guardar_ruta">Guardar</string>
 
 
     <!--Crear ruta -->
+    <string name="iniciar_ruta">Iniciar Ruta</string>
+    <string name="finalizar_ruta">Finalizar Ruta</string>
     <string name="reanudar_ruta">Reanudar</string>
     <string name="pausa">Pausa</string>
     <string name="Toast_comienza_guardado_ruta">Ruta Iniciada</string>
     <string name="Toast_pausa_guardado_ruta">Ruta en Pausa</string>
+    <string name="Toast_NO_iniciado">Prueba a Iniciar una Ruta</string>
     <string name="tiempo_total">Tiempo Total :</string>
 
 
@@ -28,7 +29,7 @@
     <string name="alerta_GPS_desactivado_titulo">GPS Desactivado</string>
     <string name="alerta_GPS_desactivado">Moto Ruta necesita que se active el GPS</string>
     <string name="alerta_guardar_titulo">Guardar</string>
-    <string name="alerta_guardar">¿De veras quiere guardar la ruta?</string>
+    <string name="alerta_guardar">¿Quieres guardar la ruta?</string>
 
 
 
@@ -36,7 +37,7 @@
     <string name="nombre_ruta">Nombre Ruta</string>
     <string name="distancia_ruta">Distancia</string>
     <string name="tiempo_ruta">Tiempo</string>
-    <string name="fecha">Fecha</string>
+    <string name="fecha">Fecha: </string>
     <string name="valoracion_ruta">Valoración</string>
     <string name="meteorologia_ruta">Meteorologia</string>
     <string name="comentario_ruta">Comentario</string>
@@ -45,8 +46,8 @@
     <string name="alerta_guardado">Ruta guardada correctamente.</string>
     <string name="titulo_alerta_NO_guardado">ERROR en guardado</string>
     <string name="alerta_NO_guardado">La Ruta no puede ser almacenada. Intente de nuevo.</string>
-    <string name="titulo_alerta_nombre_obligatorio">Mandatory name</string>
-    <string name="alerta_nombre_obligatorio">You need to name the Route</string>
+    <string name="titulo_alerta_nombre_obligatorio">Nombre obligatorio</string>
+    <string name="alerta_nombre_obligatorio">Necesita poner un nombre a la Ruta</string>
 
 
 

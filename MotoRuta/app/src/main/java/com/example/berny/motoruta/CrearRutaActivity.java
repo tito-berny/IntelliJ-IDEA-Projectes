@@ -12,6 +12,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 
@@ -54,6 +55,9 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
     //Tamaño de lineas Lat|Lng/n a cada vez que e guarda en el fichero tmp
     private final int tamaño_lineas_a_guardar = 1;
 
+    //Opciones para mantener pantalla encendida siempre
+    protected PowerManager.WakeLock wakelock;
+
     //Botones
     private Button inicia, finaliza;
 
@@ -65,6 +69,9 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
 
     //Estado del boton iniciar ruta
     private boolean guardar;
+
+    //Control primer inicio de ruta
+    private boolean empezado = false;
 
     // Declaro Location Manager
     protected LocationManager locationManager;
@@ -80,6 +87,11 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
 
         //Inicializamos Array Ruta
         latlog_general =  new ArrayList<String>();
+
+        //Evitar que la pantalla se apague
+        final PowerManager pm=(PowerManager)getSystemService(Context.POWER_SERVICE);
+        this.wakelock=pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "etiqueta");
+        wakelock.acquire();
 
         //Boton guardar sin pulsar
         guardar = false;
@@ -127,8 +139,9 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
                 //TODO Sonido boton
                 //mpInicia.start();
 
-                //Activar boton finalizar ruta
-                finaliza.setEnabled(true);
+                //Primera activacion comienza ruta, mientras e boton finaliza ruta muestra
+                //Toast pidiendo al usuario que pulse inicia ruta
+                empezado = true;
 
                 //Controlamos si el boton ya se a pulsado o no
                 //Empieza ruta
@@ -184,40 +197,68 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
             @Override
             public void onClick(View v) {
 
-                //Mostramos alerta si deberas quiere el usuario finalizar la ruta
-                AlertDialog.Builder builder = new AlertDialog.Builder(CrearRutaActivity.this);
+                //Si aun no se a pulsado en empezar ruta
+                //Indicamos al usuario que comience una ruta, Asi no se guardara una ruta vacia
+                if (!empezado) {
+                    Toast toast = Toast.makeText(getBaseContext(), R.string.Toast_NO_iniciado, Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                } else {
 
-                builder.setMessage(R.string.alerta_guardar).setTitle(R.string.alerta_guardar_titulo)
-                        //Usamos recursos de android para texto cancelar
-                        //Si cancela regresa
-                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
 
-                            }
-                        })
-                        //Usamos recursos de android para texto cancelar
-                        //Si hacepta lanza guardar ruta
-                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // Pasamos parametros a la nueva activity
-                                // Array de ruta, texto en tiempo.
-                                Intent guardar = new Intent(CrearRutaActivity.this, GuardarRutaActivity.class);
-                                guardar.putExtra("LatLng", latlog_general);
-                                guardar.putExtra("tiempo", tiempo.getText().toString());
-                                startActivity(guardar);
-                            }
+                    //Mostramos alerta si deberas quiere el usuario finalizar la ruta
+                    AlertDialog.Builder builder = new AlertDialog.Builder(CrearRutaActivity.this);
 
-                        });
+                    builder.setMessage(R.string.alerta_guardar).setTitle(R.string.alerta_guardar_titulo)
+                            //Usamos recursos de android para texto cancelar
+                            //Si cancela regresa
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                                }
+                            })
+                            //Usamos recursos de android para texto cancelar
+                            //Si hacepta lanza guardar ruta
+                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // Pasamos parametros a la nueva activity
+                                    // Array de ruta, texto en tiempo.
+                                    Intent guardar = new Intent(CrearRutaActivity.this, GuardarRutaActivity.class);
+                                    guardar.putExtra("LatLng", latlog_general);
+                                    guardar.putExtra("tiempo", tiempo.getText().toString());
+                                    startActivity(guardar);
+                                }
 
+                            });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+                }
             }
         });
 
         //..........................................................................................
 
+    }
+
+    //Hacen que la pantalla siga encendida hasta que la actividad termine.
+    protected void onDestroy(){
+        super.onDestroy();
+
+        this.wakelock.release();
+    }
+
+    //Usamos onResume, y onSaveInstanceState, para que, si minimizamos la aplicacion, la pantalla se apague normalmente,
+    // de lo contrario, no se apagará la pantalla aunque no tengamos a nuestra aplicación en primer plano.
+    protected void onResume(){
+        super.onResume();
+        wakelock.acquire();
+    }
+    public void onSaveInstanceState(Bundle icicle) {
+        super.onSaveInstanceState(icicle);
+        this.wakelock.release();
     }
 
 
@@ -292,9 +333,7 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
             dialog.show();
         }
 
-
     }
-
 
 
     /**
@@ -314,14 +353,14 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
 
         @Override
         public void onLocationChanged(Location loc) {
-            
+
             //Si se a presionado el boton guardar comienza el guardado de la ruta
             //y tambien el dibujado de la ruta en el mapa
             if (guardar) {
 
                 //Creamos el nuevo punto LatLng y enfocamos la camara en la nueva ubicacion
                 LatLng latLng = new LatLng(loc.getLatitude(), loc.getLongitude());
-                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 13);
                 mMap.animateCamera(cameraUpdate);
 
                 //Guardamos la lat y lng en el Array Global
@@ -332,7 +371,7 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
                 latlog_guardar.add(loc.getLatitude() + "|" + loc.getLongitude() + "\n");
 
                 //Guardamos en un fichero temporal las nuevas lat lng cada vez que se llene
-                //Podemos determinar cada cuantos cambio se guarda en el fichero (i = 1000)
+                //Podemos determinar cada cuantos cambio se guarda en el fichero en la variable global
                 if (i==tamaño_lineas_a_guardar) {
                     for (String aLista : latlog_guardar) {
 

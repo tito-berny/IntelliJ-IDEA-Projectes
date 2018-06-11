@@ -73,7 +73,6 @@
             android:alpha="0.7"
             android:background="@drawable/boton"
             android:editable="false"
-            android:enabled="false"
             android:fadeScrollbars="false"
             android:text="@string/finalizar_ruta"
             android:textColor="@color/blanco" />
