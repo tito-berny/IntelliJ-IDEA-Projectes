@@ -1,24 +1,18 @@
 package com.example.berny.motoruta;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.provider.Settings;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -30,8 +24,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.io.File;
@@ -48,6 +40,7 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
 
     //Mapa
     private GoogleMap mMap;
+
     //Variables elementos
     private RatingBar ratingBar;
     private Button guardar;
@@ -57,8 +50,10 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
 
     //Variable control meteorologia por defecto es 1 =Sol
     private int meteo=1;
+
     //Variable para recojer la id de la ruta
     private String id_ruta;
+
     //Array de ruta
     private ArrayList<String> latlng;
 
@@ -89,6 +84,7 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
         //Recojemos parametros de la activity anterior (CrearRutaActivity)
         Bundle parametros = this.getIntent().getExtras();
         if(parametros !=null){
+            //Se deja preparada la variable para futuro poner tiempo de ruta
             String tiempo = parametros.getString("tiempo");
             //tfTiempo.setText(tiempo);
             latlng = parametros.getStringArrayList("LatLng");
@@ -97,7 +93,7 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
         //Obtenemos la fecha del sistema
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         Date date = new Date();
-
+        //Asignamos fecha a variable
         final String fecha = dateFormat.format(date);
 
         //Ponemos fecha en su campo
@@ -110,7 +106,7 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
+                // controla si hay otro checkbox clicado
                 if(nuves.isChecked()) {
                     nuves.setChecked(false);
                 }
@@ -125,7 +121,7 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
+                //controla si hay otro checkbox clicado
                 if(sol.isChecked()) {
                     sol.setChecked(false);
                 }
@@ -140,7 +136,7 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
+                // controla si hay otro checkbox clicado
                 if(sol.isChecked()) {
                     sol.setChecked(false);
                 }
@@ -204,7 +200,9 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
 
                     //-----------    INSERT TABLA COMENTARIO     -----------------------------------
 
+                    //Escribe en la BBDD
                     SQLiteDatabase db1 = con.getReadableDatabase();
+
                     //------  SELECT TBL_RUTA  -----------------
                     //Para conseguir el ID de la ruta para el comentario
                     //Pasamos argumento path_to_ruta ya que sera unico para esta ruta
@@ -241,9 +239,10 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
                     File ruta_tmp = new File(getFilesDir(), "ruta_tmp.txt");
                     //Fila destino
                     File nuevaCarpeta = new File(getFilesDir(), path_to_ruta + ".txt");
-
+                    //Boolean nos indica si el cambio de nombre a sido ejecutado
                     boolean mover = ruta_tmp.renameTo(nuevaCarpeta);
-
+                    //Si es correcto avisamos al usuario y lanzamos la APP de nuevo (Splash)
+                    //Es hay donde comprueva si hay rutas almacenadas y controlo boton Buscar Ruta
                     if (mover) {
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(GuardarRutaActivity.this);
@@ -252,7 +251,7 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
                                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
 
-                                        // Abre las opciones de la localizazcion
+                                        // Lanza vista Splash
                                         Intent myIntent = new Intent(GuardarRutaActivity.this, SplashScreenActivity.class);
                                         startActivity(myIntent);
                                     }
@@ -264,13 +263,18 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
 
                     } else {
 
-                        //Avisamos ususrio que no se ha podido guardar la ruta
+                        //Avisamos ususrio que no se ha podido guardar la ruta por no poder
+                        //cambiar el nombre al archivo al no encotrarlo
                         AlertDialog.Builder builder = new AlertDialog.Builder(GuardarRutaActivity.this);
 
                         builder.setMessage(R.string.alerta_NO_guardado).setTitle(R.string.titulo_alerta_NO_guardado)
                                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
 
+                                        //Lanza de nuevo CrearRuta para que el usuario almacene alguna ruta
+                                        //en el archivo temporal
+                                        Intent myIntent = new Intent(GuardarRutaActivity.this, CrearRutaActivity.class);
+                                        startActivity(myIntent);
                                     }
                                 });
 
@@ -376,7 +380,6 @@ public class GuardarRutaActivity extends FragmentActivity implements OnMapReadyC
             else {
 
             }
-
 
         }
 

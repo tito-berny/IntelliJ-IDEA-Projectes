@@ -23,7 +23,7 @@ public class SplashScreenActivity extends Activity {
     //Conexion con la BBDD
     public ConexionSQLiteHelper con;
 
-    //Todo Sonido Botones
+    //Sonido Inicio
     private MediaPlayer mpInicia;
 
     //Variable para comprovar si existe alguna ruta guardada
@@ -41,7 +41,7 @@ public class SplashScreenActivity extends Activity {
 
         setContentView(R.layout.splash_screen);
 
-        //TODO Iniciamos sonido
+        // Iniciamos sonido
         mpInicia = MediaPlayer.create(this,R.raw.inicio);
         mpInicia.start();
 

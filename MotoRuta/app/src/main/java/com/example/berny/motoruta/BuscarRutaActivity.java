@@ -20,6 +20,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.io.BufferedReader;
@@ -61,9 +62,6 @@ public class BuscarRutaActivity extends FragmentActivity implements OnMapReadyCa
     private String valoracion_bd;
     private String path_bd;
     private String comentario_bd;
-
-    //Variable Path almacenamiento ruta
-    private File path;
 
 
     @Override
@@ -108,7 +106,6 @@ public class BuscarRutaActivity extends FragmentActivity implements OnMapReadyCa
                     CargarRuta(id_ruta);
                 }
 
-
             }
         });
 
@@ -121,7 +118,7 @@ public class BuscarRutaActivity extends FragmentActivity implements OnMapReadyCa
                 anterior.setEnabled(true);
                 //Avanzamos en id tabla BBDD
                 id_ruta++;
-                //CArgamos la nueva ruta
+                //Cargamos la nueva ruta
                 CargarRuta(id_ruta);
 
             }
@@ -131,6 +128,12 @@ public class BuscarRutaActivity extends FragmentActivity implements OnMapReadyCa
 
     }
 
+    /**
+     * Clase que se encarga de cargar la ruta de la BBDD.
+     * Recoge los valores de la ruta, los inserta los campos correspondientes de la vista.
+     * Carga la ruta obtenida de paht y la pinta en el mapa.
+     * @param id_ruta Recibe el id de la ruta a cargar en la BBDD.
+     */
     private void CargarRuta(int id_ruta) {
 
         //-----------------     CONSULTA TABLA BBDD ------------------------------------------------
@@ -147,7 +150,6 @@ public class BuscarRutaActivity extends FragmentActivity implements OnMapReadyCa
         //Nos aseguramos de que existe al menos un registro
         if (c.moveToFirst()) {
             //Recorremos el cursor hasta que no haya más registros
-
             do {
                 nombre_bd = c.getString(0);
                 fecha_bd = c.getString(1);
@@ -159,15 +161,15 @@ public class BuscarRutaActivity extends FragmentActivity implements OnMapReadyCa
             } while (c.moveToNext());
 
         }
-
+        //Creamos cursor para consulta tabla tbl_comntario
         Cursor cur = db.rawQuery(" SELECT comentario FROM tbl_comentario WHERE ruta_id=? ", args);
 
         //Nos aseguramos de que existe al menos un registro
         if (cur.moveToFirst()) {
             //Recorremos el cursor hasta que no haya más registros
             do {
+                //Asignamos a variable el valor obtenido
                 comentario_bd = cur.getString(0);
-
             } while (c.moveToNext());
 
         }
@@ -180,8 +182,9 @@ public class BuscarRutaActivity extends FragmentActivity implements OnMapReadyCa
         fecha.setText(fecha_bd);
         comentario.setText(comentario_bd);
 
+        //Pasamos de String a integer el valor obtenido
         int numMeteo = Integer.parseInt(meteo_bd);
-         //Selecciona imagen en Meteorologia
+         //Selecciona imagen en Meteorologia segun valor BBDD
         if (numMeteo == 1){
             meteo.setImageResource(R.drawable.sol);
         }
@@ -195,7 +198,7 @@ public class BuscarRutaActivity extends FragmentActivity implements OnMapReadyCa
         //File Path
         File ruta_path = new File(getFilesDir(), path_bd + ".txt");
 
-        //Encapsula la ruta dels fichero como ruta
+        //Encapsula en el Array la ruta del fichero con el nombre path de la BBDD
         latlng = leerFichero(ruta_path);
 
         //Creamoss un nuevo hilo encargado de pintar la ruta en el mapa
@@ -233,7 +236,11 @@ public class BuscarRutaActivity extends FragmentActivity implements OnMapReadyCa
         @Override
         protected void onPostExecute(ArrayList<String> result) {
 
+            //Limpiamos la ruta anterior de mapa
             mMap.clear();
+
+            //Controlamos el inicio de la ruta para colocar el marcador
+            boolean inicio_ruta = true;
 
             ArrayList<LatLng> points;
             PolylineOptions lineOptions = null;
@@ -263,6 +270,13 @@ public class BuscarRutaActivity extends FragmentActivity implements OnMapReadyCa
                 //Añadimos el nuevo punto
                 points.add(position);
 
+                //Ponemos marcador en el mapa al inicio de la ruta con el nombre de esta
+                if(inicio_ruta){
+                    mMap.addMarker(new MarkerOptions().position(position).title(nombre_bd));
+                    //Controlamos que solo haya un inicio
+                    inicio_ruta= false;
+                }
+
             }
 
             // Añade todos los puntos a la ruta con LineOptions
@@ -287,7 +301,7 @@ public class BuscarRutaActivity extends FragmentActivity implements OnMapReadyCa
     /**
      * Leemos el fichero linea a linea
      * @return Un ArrayList con una linea del fichero en cada posicion.
-     * @param ruta_path
+     * @param ruta_path Recibe la ruta del archivo a cargar.
      */
     private static ArrayList<String> leerFichero(File ruta_path) {
 
@@ -314,10 +328,7 @@ public class BuscarRutaActivity extends FragmentActivity implements OnMapReadyCa
         }
         //Capturamos la exepcion e informamos al usuario
         catch(Exception e){
-            System.out.println("");
-            System.out.println("L'arxiu no s'ha trobat. " +
-                    " Introdueix nous parametres.");
-            System.out.println("");
+
         }finally{
             // En el finally cerramos el fichero, para asegurarnos
             // que se cierra tanto si va bien como si salta

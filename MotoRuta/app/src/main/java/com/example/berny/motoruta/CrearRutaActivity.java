@@ -13,10 +13,8 @@ import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.PowerManager;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
-
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -44,8 +42,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-import static android.content.ContentValues.TAG;
-
 public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCallback {
 
     //Variable mapa
@@ -60,7 +56,7 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
     //Botones
     private Button inicia, finaliza;
 
-    //Todo Sonido Botones
+    //Sonido Botones
     private MediaPlayer mpInicia, mpApaga;
 
     //TextView
@@ -85,22 +81,22 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
         mapFragment.getMapAsync(this);
 
         //Inicializamos Array Ruta
-        latlog_general =  new ArrayList<String>();
+        latlog_general = new ArrayList<String>();
 
         //Boton guardar sin pulsar
         guardar = false;
 
-        //TODO Iniciamos sonido
-        mpInicia = MediaPlayer.create(this,R.raw.cbrarranca);
-        mpApaga = MediaPlayer.create(this,R.raw.cbrapaga);
+        //Asignamos sonido
+        mpInicia = MediaPlayer.create(this, R.raw.cbrarranca);
+        mpApaga = MediaPlayer.create(this, R.raw.cbrapaga);
 
         //Inicia TextView Tiempo
         tiempo = (TextView) findViewById(R.id.tvTiempo);
 
-        //Obtenemos la fecha del sistema
+        //Obtenemos la fecha del sistema con patron
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         Date date = new Date();
-
+        //Asignamos la fecha a la Variable
         final String fecha = dateFormat.format(date);
 
         //Ponemos fecha en su campo
@@ -139,19 +135,16 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
 
                 //Controlamos si el boton ya se a pulsado o no
                 //Empieza ruta
-                if (!guardar){
+                if (!guardar) {
 
                     //Intenta lanzar el hilo del cronometro si no esta lanzado ya
                     try {
-                       // new Cronometro().execute().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                    }catch (Exception e){
+                        // new Cronometro().execute().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    } catch (Exception e) {
 
                     }
 
-                    //TODO poner pausa cronometro
-                    //cronometro.pause();
-
-                    //TODO Sonido boton
+                    //Sonido boton
                     mpInicia.start();
 
                     //Ponemos boton en no pulsado
@@ -160,14 +153,14 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
                     inicia.setText(R.string.pausa);
 
                     //Avisamos al usuario que comenzo a guardarse la ruta mediante un Toast
-                    Toast aviso = Toast.makeText(getBaseContext(), R.string.Toast_comienza_guardado_ruta , Toast.LENGTH_SHORT);
-                    aviso.setGravity(Gravity.CENTER, 0,0);
+                    Toast aviso = Toast.makeText(getBaseContext(), R.string.Toast_comienza_guardado_ruta, Toast.LENGTH_SHORT);
+                    aviso.setGravity(Gravity.CENTER, 0, 0);
                     aviso.show();
 
                     //PAUSA en ruta
-                }else {
+                } else {
 
-                    //TODO Sonido boton
+                    //Sonido boton
                     mpApaga.start();
 
                     //Cambia texto boton a Reanudar ruta
@@ -175,11 +168,8 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
                     //Ponemos el boton en pulsado
                     guardar = false;
 
-                    //TODO Pausar el cronometro
-                    //cronometro.resume();
-
                     //Avisamos al usuario que el guardado esta en pause mediante un Toast
-                    Toast toast = Toast.makeText(getBaseContext(), R.string.Toast_pausa_guardado_ruta , Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getBaseContext(), R.string.Toast_pausa_guardado_ruta, Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
 
@@ -194,7 +184,7 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
             @Override
             public void onClick(View v) {
 
-                //TODO Sonido boton
+                //Sonido boton
                 mpApaga.start();
 
                 //Si aun no se a pulsado en empezar ruta
@@ -204,7 +194,6 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 } else {
-
 
                     //Mostramos alerta si deberas quiere el usuario finalizar la ruta
                     AlertDialog.Builder builder = new AlertDialog.Builder(CrearRutaActivity.this);
@@ -226,6 +215,7 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
                                     // Array de ruta, texto en tiempo.
                                     Intent guardar = new Intent(CrearRutaActivity.this, GuardarRutaActivity.class);
                                     guardar.putExtra("LatLng", latlog_general);
+                                    //Se deja preparada variable para futuro poner tiempo de la ruta
                                     guardar.putExtra("tiempo", tiempo.getText().toString());
                                     startActivity(guardar);
                                 }
@@ -243,18 +233,18 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
 
     }
 
-    //Hacen que la pantalla siga encendida hasta que la actividad termine.
-    protected void onDestroy(){
+    protected void onDestroy() {
         super.onDestroy();
 
     }
 
-    //Usamos onResume, y onSaveInstanceState, para que, si minimizamos la aplicacion, la pantalla se apague normalmente,
-    // de lo contrario, no se apagará la pantalla aunque no tengamos a nuestra aplicación en primer plano.
-    protected void onResume(){
+    // Mientras la APP se encuentre en este estado no se apagará la pantalla
+    // si pierde el foco o se pone en pausa pierde el estado y recupera el bloqueo de pantalla
+    protected void onResume() {
         super.onResume();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
+
     public void onSaveInstanceState(Bundle icicle) {
         super.onSaveInstanceState(icicle);
 
@@ -264,11 +254,9 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-
+        //Variable mapa
         mMap = googleMap;
-
-        mMap.setBuildingsEnabled(true);
-
+        //Zoom camara
         mMap.moveCamera(CameraUpdateFactory.zoomTo(1));
 
         //COMPRUEVA LOS PERMISOS DEL USUARIO PARA PONER LA LOCALIZACION
@@ -280,13 +268,12 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
             //Mostrar ubicacion
             mMap.setMyLocationEnabled(true);
 
-
         } else {
             // Mostrar razonamiento y solicitar permiso.
             AlertDialog.Builder builder = new AlertDialog.Builder(CrearRutaActivity.this);
 
             builder.setMessage(R.string.alerta_GPS_desactivado).setTitle(R.string.alerta_GPS_desactivado_titulo)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // Abre las opciones de la localizazcion
                             Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
@@ -303,18 +290,23 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
 
 
     /**
-     * Clase listener de cordenadas GPS
-     * Guarda la ruta en un fichero temporal
+     * Clase listener de cordenadas GPS.
+     * Guarda la ruta en un fichero temporal, se puede seleccionar numero de registros
+     * a guardar en cada inserción.
+     * Actualiza ruta en el mapa usando metodo PintarRuta() y centra ubicación.
      */
     private class MyLocationListener implements LocationListener {
 
-
+        //Variable Array String para guardar ruta en fichero
+        //Es reseteada al hacer el inciso en el fichero
+        //Por eso no se utiliza Array Global
         private ArrayList<String> latlog_guardar = new ArrayList<String>();
-
-
+        //Contador lineas a insertar en fichero
         int i = 1;
 
+        //File con ruta destino
         File internalStorageDir = getFilesDir();
+        //Obtiene directorio interno de la APP
         File ruta = new File(internalStorageDir, "ruta_tmp.txt");
         FileOutputStream fos = null;
 
@@ -327,11 +319,11 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
 
                 //Creamos el nuevo punto LatLng y enfocamos la camara en la nueva ubicacion
                 LatLng latLng = new LatLng(loc.getLatitude(), loc.getLongitude());
-                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 13);
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
                 mMap.animateCamera(cameraUpdate);
 
                 //Guardamos la lat y lng en el Array Global
-                latlog_general.add( loc.getLatitude() + "|" + loc.getLongitude() + "\n");
+                latlog_general.add(loc.getLatitude() + "|" + loc.getLongitude() + "\n");
 
                 //Guardamos en Array para guardar en fichero
                 //Esta Array se borra llegada la medida deseada de guardado
@@ -339,7 +331,7 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
 
                 //Guardamos en un fichero temporal las nuevas lat lng cada vez que se llene
                 //Podemos determinar cada cuantos cambio se guarda en el fichero en la variable global
-                if (i==tamaño_lineas_a_guardar) {
+                if (i == tamaño_lineas_a_guardar) {
                     for (String aLista : latlog_guardar) {
 
                         // Create file output stream
@@ -359,9 +351,9 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
                     //Limpimos Array al guardarla ya en fichero
                     latlog_guardar.clear();
                     //Reiniciamos el contador
-                    i=1;
+                    i = 1;
 
-                }else {
+                } else {
                     //Añadimos 1 al contador para llegar al maximo y empezar el guardado en fichero
                     i++;
                 }
@@ -370,7 +362,7 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
                 try {
                     //Ejecutamos el hilo que pinta la ruta en el mapa pasandole la Array
                     new PintarRuta().execute(latlog_general).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                }catch (Exception e){
+                } catch (Exception e) {
 
                 }
 
@@ -381,8 +373,6 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
 
         @Override
         public void onProviderDisabled(String provider) {
-            System.out.println("GPS DESACTIVADO");
-
 
             //Avisamos al usuario que el GPS esta desactivado mediate una alerta
             //Al hacer click en OK abre las opciones de localizacion
@@ -390,15 +380,15 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
             AlertDialog.Builder builder = new AlertDialog.Builder(CrearRutaActivity.this);
 
             builder.setMessage(R.string.alerta_GPS_desactivado).setTitle(R.string.alerta_GPS_desactivado_titulo)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
 
-                                    // Abre las opciones de la localizazcion
-                                    Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                                    startActivity(myIntent);
-                                }
+                            // Abre las opciones de la localizazcion
+                            Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                            startActivity(myIntent);
+                        }
 
-                            });
+                    });
 
             AlertDialog dialog = builder.create();
             dialog.show();
@@ -420,10 +410,10 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
     }
 
     /**
-     * Clase para dibujar la ruta en el mapa con un hilo
-     * Recibe un Array de String con Lng y Lng
+     * Clase para dibujar la ruta en el mapa extends AsynTask.
+     * Recibe un Array de String con la ruta en Lng y Lng.
      */
-    class PintarRuta extends AsyncTask < ArrayList<String> , Void ,  ArrayList<String> > {
+    class PintarRuta extends AsyncTask<ArrayList<String>, Void, ArrayList<String>> {
 
 
         public PintarRuta() {
@@ -443,12 +433,11 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
             ArrayList<LatLng> points;
             PolylineOptions lineOptions = null;
 
-
             points = new ArrayList<>();
             lineOptions = new PolylineOptions();
 
             // Por cada String del Array recoje Lat y Lng
-            for (String aLista : result){
+            for (String aLista : result) {
 
                 //Separamos
                 //Esta almacenado separado por | en el string
@@ -464,116 +453,30 @@ public class CrearRutaActivity extends FragmentActivity implements OnMapReadyCal
                 //Añadimos el nuevo punto
                 points.add(position);
 
-                }
+            }
 
-                // Añade todos los puntos a la ruta con LineOptions
-                lineOptions.addAll(points);
-                //Define tamaño de la linea
-                lineOptions.width(10);
-                //Define el color de la linea
-                lineOptions.color(Color.BLUE);
+            // Añade todos los puntos a la ruta con LineOptions
+            lineOptions.addAll(points);
+            //Define tamaño de la linea
+            lineOptions.width(10);
+            //Define el color de la linea
+            lineOptions.color(Color.BLUE);
 
-
-                Log.d("onPostExecute","onPostExecute lineoptions decoded");
+            Log.d("onPostExecute", "onPostExecute lineoptions decoded");
 
             // Añade la linea en el mapa si no es nula
-            if(lineOptions != null) {
+            if (lineOptions != null) {
                 mMap.addPolyline(lineOptions);
-            }
-            else {
-                Log.d("onPostExecute","without Polylines drawn");
+            } else {
+                Log.d("onPostExecute", "without Polylines drawn");
 
             }
-
 
         }
 
     }
 
-    /**
-     * Clase para cronometrar el tiempo de ruta
-     * Actualiza el TextField tfTiempo
-     */
-    class Cronometro extends AsyncTask < Void, String , Void > {
-
-        boolean isPaused = true;
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-
-
-            int minutos;
-            int segundos;
-            int horas;
-
-            String total;
-
-            //Si el hilo es cancelado detiene el bucle y por tanto el contador
-            while(!isCancelled()) {
-
-                while(isPaused){
-
-
-                    //Contador de Horas Minutos Segundos
-                    for (horas = 0; horas < 100; horas++) {
-
-                        for (minutos = 0; minutos < 60; minutos++) {
-
-                            for (segundos = 0; segundos < 60; segundos++) {
-
-                                //Genera un String con hh:mm:ss
-                                total = (horas + " h: " + minutos + " m: " + segundos + " s");
-                                esperaSegundo();
-                                publishProgress(total);
-                            }
-                        }
-                    }
-                }
-            }
-            return null;
-        }
-
-        @Override
-        protected void onProgressUpdate(String... values) {
-
-            //Actualiza el TextField con el String generado
-            tiempo.setText(values[0]);
-
-        }
-
-        private void esperaSegundo() {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        private void sleep(long sleepDuration)
-        {
-            try
-            {
-                Thread.sleep(sleepDuration);
-            }
-            catch(InterruptedException e)
-            {
-                e.printStackTrace();
-            }
-        }
-
-        public void pause()
-        {
-            this.isPaused = true;
-        }
-
-        public void resume()
-        {
-            this.isPaused = false;
-        }
-    }
-
-
-    }
+}
 
 
 
